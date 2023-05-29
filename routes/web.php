@@ -28,7 +28,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'get-projects'])->group(function () {
     // route for the dashboard
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');

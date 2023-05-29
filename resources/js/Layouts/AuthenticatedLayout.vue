@@ -5,6 +5,7 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import ResponsiveNavCollapsible from '@/Components/ResponsiveNavCollapsible.vue';
 import { Link } from '@inertiajs/vue3';
 
 
@@ -64,14 +65,16 @@ const slimNavigation = ref(isMobile());
                                     'transition-all': true
                                 }">Dashboard</span>
                             </ResponsiveNavLink>
-                            <ResponsiveNavLink :href="route('projects')" :active="route().current('projects')" class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 1024 1024" :class="{'mr-2': !slimNavigation, 'transition-all': true}"><path fill="currentColor" d="M280 752h80c4.4 0 8-3.6 8-8V280c0-4.4-3.6-8-8-8h-80c-4.4 0-8 3.6-8 8v464c0 4.4 3.6 8 8 8zm192-280h80c4.4 0 8-3.6 8-8V280c0-4.4-3.6-8-8-8h-80c-4.4 0-8 3.6-8 8v184c0 4.4 3.6 8 8 8zm192 72h80c4.4 0 8-3.6 8-8V280c0-4.4-3.6-8-8-8h-80c-4.4 0-8 3.6-8 8v256c0 4.4 3.6 8 8 8zm216-432H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zm-40 728H184V184h656v656z"/></svg>
-                                <span :class="{
-                                    'ml-2': !slimNavigation,
-                                    'hidden': slimNavigation,
-                                    'transition-all': true
-                                }">Projects</span>
-                            </ResponsiveNavLink>
+                            <ResponsiveNavCollapsible :projects='$page.props.projects' class="" :slimNavigation="slimNavigation" :isMobile="isMobile()">
+                                <template #trigger>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 1024 1024" :class="{'mr-2': !slimNavigation, 'transition-all': true}"><path fill="currentColor" d="M280 752h80c4.4 0 8-3.6 8-8V280c0-4.4-3.6-8-8-8h-80c-4.4 0-8 3.6-8 8v464c0 4.4 3.6 8 8 8zm192-280h80c4.4 0 8-3.6 8-8V280c0-4.4-3.6-8-8-8h-80c-4.4 0-8 3.6-8 8v184c0 4.4 3.6 8 8 8zm192 72h80c4.4 0 8-3.6 8-8V280c0-4.4-3.6-8-8-8h-80c-4.4 0-8 3.6-8 8v256c0 4.4 3.6 8 8 8zm216-432H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zm-40 728H184V184h656v656z"/></svg>
+                                    <span :class="{
+                                        'ml-2': !slimNavigation,
+                                        'hidden': slimNavigation,
+                                        'transition-all': true
+                                    }">Projects</span>
+                                </template>
+                            </ResponsiveNavCollapsible>
                             <ResponsiveNavLink :href="route('tasks')" :active="route().current('tasks')" class="flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" :class="{'mr-2': !slimNavigation, 'transition-all': true}"><path fill="currentColor" d="M22 5.18L10.59 16.6l-4.24-4.24l1.41-1.41l2.83 2.83l10-10L22 5.18zm-2.21 5.04c.13.57.21 1.17.21 1.78c0 4.42-3.58 8-8 8s-8-3.58-8-8s3.58-8 8-8c1.58 0 3.04.46 4.28 1.25l1.44-1.44A9.9 9.9 0 0 0 12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10c0-1.19-.22-2.33-.6-3.39l-1.61 1.61z"/></svg>
                                 <span :class="{
