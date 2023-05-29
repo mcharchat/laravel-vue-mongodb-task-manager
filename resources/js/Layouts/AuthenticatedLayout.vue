@@ -7,7 +7,6 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 
-const slimNavigation = ref(false);
 
 //function that generates a random color for the user avatar, based on the name
 function stringToColour(str) {
@@ -22,14 +21,26 @@ function stringToColour(str) {
     }
     return colour;
 }
+
+//function that verify if screen is mobile
+function isMobile() {
+    return window.innerWidth < 768;
+}
+// ref  if slim navigation is active
+const slimNavigation = ref(isMobile());
 </script>
 
 <template>
     <div>
-        <span class="w-12 ml-64 w-64 ml-12 hidden"></span>
         <div class="flex h-full">
-            <!-- Menu Lateral -->
-            <div :class="'transition-all bg-white dark:bg-gray-800 h-screen fixed ' + (slimNavigation ? 'w-12' : 'w-64')">
+            <!-- Side Menu -->
+            <div :class="{
+                'transition-all bg-white dark:bg-gray-800 h-screen fixed': true,
+                'w-0 -left-64': slimNavigation && isMobile(),
+                'w-12': slimNavigation && !isMobile(),
+                'z-20': !slimNavigation && isMobile(),
+                'w-64': !slimNavigation
+            }">
                 <div class="flex flex-col justify-between h-screen shadow">
                     <div>
                         <!-- Logo -->
@@ -78,8 +89,21 @@ function stringToColour(str) {
                             <div class="relative">
                                 <Dropdown align="bla" width="48">
                                     <template #trigger>
-                                        <div class="cursor-pointer inline-block rounded-full h-8 w-8 mb-4 text-white flex items-center justify-center text-xl font-bold" :style="{ backgroundColor: stringToColour($page.props.auth.user.name) }">
-                                            {{ $page.props.auth.user.name.charAt(0) }}
+                                        <div class="cursor-pointer flex flex-row items-center justify-center space-x-4 p-2 border-t-2">
+                                            <div class="inline-block rounded-full h-8 w-8 text-white flex items-center justify-center text-xl font-bold" :style="{ backgroundColor: stringToColour($page.props.auth.user.name) }">
+                                                {{ $page.props.auth.user.name.charAt(0) }}
+                                            </div>
+                                            <div :class="{
+                                                'flex flex-col space-y-0.5 transition-all': true,
+                                                'hidden': slimNavigation
+                                            }">
+                                                <span class="text-base font-medium text-gray-600">
+                                                    {{ $page.props.auth.user.name }}
+                                                </span>
+                                                <span class="text-sm font-light text-gray-500">
+                                                    {{ $page.props.auth.user.email }}
+                                                </span>
+                                            </div>
                                         </div>
                                     </template>
 
@@ -98,9 +122,19 @@ function stringToColour(str) {
                     </div>
                 </div> 
             </div>
-        
-            <!-- Conteúdo Principal -->
-            <div :class="'transition-all flex-1 bg-gray-100 dark:bg-gray-900 h-screen overflow-auto ' + (slimNavigation ? 'ml-12' : 'ml-64')">
+            <!-- Overlay -->
+            <div :class="{
+                'transition-all fixed inset-0 bg-black': true,
+                'opacity-25 z-10': !slimNavigation && isMobile(),
+                'opacity-0 z-0': slimNavigation && isMobile(),
+                'hidden': !isMobile()
+             }" @click="slimNavigation = !slimNavigation"></div>
+            <!-- Main Content -->
+            <div :class="{
+                'transition-all flex-1 bg-gray-100 dark:bg-gray-900 h-screen overflow-auto': true,
+                'ml-12': slimNavigation && !isMobile(),
+                'ml-64': !slimNavigation && !isMobile(),
+            }">
             <!-- Page Heading -->
                 <header class="bg-white dark:bg-gray-800 shadow flex place-items-center" v-if="$slots.header">                    
                     <button
