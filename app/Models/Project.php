@@ -8,6 +8,12 @@ use Jenssegers\Mongodb\Eloquent\Model;
 class Project extends Model
 {
     use HasFactory;
+    // set the fillable fields for the model
+    protected $fillable = [
+        'name',
+        'description',
+        'user_id',
+    ];
     // every project has many tasks
     public function tasks()
     {

@@ -54,6 +54,8 @@ class ProjectController extends Controller
     {
         //validate the incoming request using our StoreProjectRequest
         $validated = $request->validated();
+        // set the user_id to the current user id
+        $validated['user_id'] = auth()->id();
         // create a new project with the validated data
         Project::create($validated);
         // return a redirect to the projects index
