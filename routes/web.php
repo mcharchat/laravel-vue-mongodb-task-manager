@@ -18,15 +18,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    // return the welcome view
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::redirect('/', '/login');
 
 Route::middleware(['auth', 'verified', 'get-projects'])->group(function () {
     // route for the dashboard
