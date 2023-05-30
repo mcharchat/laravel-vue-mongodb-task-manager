@@ -2,6 +2,8 @@
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import Dropdown from '@/Components/Dropdown.vue';
+import DropdownLink from '@/Components/DropdownLink.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Link } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
@@ -74,7 +76,18 @@ const filteredProjects = computed(() => {
                         <h3 class="text-xl font-bold" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }" v-tooltip="project.name">{{ project.name }}</h3>
                         <div class="flex items-center justify-between">
                             <div class="">
-                                <Link :href="route('projects.edit', project._id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Details</Link>
+                                <div class="relative">
+                                    <Dropdown align="bla" width="48">
+                                        <template #trigger>
+                                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Actions</button>
+                                        </template>
+                                        <template #content>
+                                            <DropdownLink :href="route('projects.show', project._id)"> Show </DropdownLink>
+                                            <DropdownLink :href="route('projects.edit', project._id)"> Edit </DropdownLink>
+                                            <DropdownLink :href="route('projects.destroy', project._id)" method="delete" as="button" class="text-left"> Delete </DropdownLink>
+                                        </template>
+                                    </Dropdown>
+                                </div>
                             </div>
                             <div class="inline-block rounded-full h-8 w-8 text-white flex items-center justify-center text-md font-bold" :style="{backgroundColor: stringToColour(project.user.name)}" v-tooltip="project.user.name">
                                 {{ project.user.name.charAt(0) }}
@@ -116,7 +129,18 @@ const filteredProjects = computed(() => {
                             <h3 class="text-xl font-bold" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }" v-tooltip="project.name">{{ project.name }}</h3>
                                 <div class="flex items-center justify-between">
                                 <div class="">
-                                    <Link :href="route('projects.edit', project._id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Details</Link>
+                                    <div class="relative">
+                                        <Dropdown align="bla" width="48">
+                                            <template #trigger>
+                                                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Actions</button>
+                                            </template>
+                                            <template #content>
+                                                <DropdownLink :href="route('projects.show', project._id)"> Show </DropdownLink>
+                                                <DropdownLink v-if="project.user._id == $page.props.auth.user._id" :href="route('projects.edit', project._id)"> Edit </DropdownLink>
+                                                <DropdownLink v-if="project.user._id == $page.props.auth.user._id" :href="route('projects.destroy', project._id)" method="delete" as="button" class="text-left"> Delete </DropdownLink>
+                                            </template>
+                                        </Dropdown>
+                                    </div>
                                 </div>
                                 <div class="inline-block rounded-full h-8 w-8 text-white flex items-center justify-center text-md font-bold" :style="{ backgroundColor: stringToColour(project.user.name) }" v-tooltip="project.user.name">
                                     {{ project.user.name.charAt(0) }}
