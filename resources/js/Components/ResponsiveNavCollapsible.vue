@@ -73,6 +73,21 @@ function stringToColour(str) {
                             </div>
                         </ResponsiveNavLink>
                     </li>
+                    <li>
+                        <ResponsiveNavLink :href="route('projects')" :active="route().current('projects')" class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 48 48" :class="{
+                                'transition-all': true,
+                                'mr-2': !slimNavigation,
+                                '-mr-4 -ml-3': slimNavigation,
+                            }"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M42 24H6m24-12l12 12l-12 12"/></svg>
+                            <span :class="{
+                                'hidden': slimNavigation,
+                                'transition-all': true
+                            }"
+                            :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }"
+                            >All the projects</span>
+                        </ResponsiveNavLink>
+                    </li>
                 </ul>
             </div>
         </transition>

@@ -43,9 +43,13 @@ const slimNavigation = ref(isMobile());
                 'w-64': !slimNavigation
             }">
                 <div class="flex flex-col justify-between h-screen shadow">
-                    <div>
+                    <div class="grow custom-scroll"
+                        :style="{
+                            'overflow-y': 'overlay',
+                        }"
+                    >
                         <!-- Logo -->
-                        <div class="flex items-center justify-center h-16">
+                        <div class="flex items-center justify-center h-16 sticky top-0 bg-white dark:bg-gray-800 z-10">
 
                             <!-- Hamburger -->
                             <Link :href="route('dashboard')" class="flex flex-grow justify-center">
@@ -65,7 +69,7 @@ const slimNavigation = ref(isMobile());
                                     'transition-all': true
                                 }">Dashboard</span>
                             </ResponsiveNavLink>
-                            <ResponsiveNavCollapsible :projects='$page.props.projects' class="" :slimNavigation="slimNavigation" :isMobile="isMobile()">
+                            <ResponsiveNavCollapsible :projects='$page.props.topProjects' class="" :slimNavigation="slimNavigation" :isMobile="isMobile()">
                                 <template #trigger>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 1024 1024" :class="{'mr-2': !slimNavigation, 'transition-all': true}"><path fill="currentColor" d="M280 752h80c4.4 0 8-3.6 8-8V280c0-4.4-3.6-8-8-8h-80c-4.4 0-8 3.6-8 8v464c0 4.4 3.6 8 8 8zm192-280h80c4.4 0 8-3.6 8-8V280c0-4.4-3.6-8-8-8h-80c-4.4 0-8 3.6-8 8v184c0 4.4 3.6 8 8 8zm192 72h80c4.4 0 8-3.6 8-8V280c0-4.4-3.6-8-8-8h-80c-4.4 0-8 3.6-8 8v256c0 4.4 3.6 8 8 8zm216-432H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zm-40 728H184V184h656v656z"/></svg>
                                     <span :class="{
@@ -134,7 +138,7 @@ const slimNavigation = ref(isMobile());
              }" @click="slimNavigation = !slimNavigation"></div>
             <!-- Main Content -->
             <div :class="{
-                'transition-all flex-1 bg-gray-100 dark:bg-gray-900 h-screen overflow-auto': true,
+                'transition-all flex-1 bg-gray-100 dark:bg-gray-900 h-screen overflow-y-auto': true,
                 'ml-12': slimNavigation && !isMobile(),
                 'ml-64': !slimNavigation && !isMobile(),
             }">
@@ -168,3 +172,24 @@ const slimNavigation = ref(isMobile());
         </div>
     </div>
 </template>
+
+<style scoped>
+
+.custom-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 8px;
+}
+
+.custom-scroll:hover::-webkit-scrollbar-thumb {
+    background-color: #90909090; 
+}
+
+</style>
