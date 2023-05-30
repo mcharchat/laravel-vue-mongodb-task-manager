@@ -1,4 +1,5 @@
 <script setup>
+// view for editing projects details
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import ProjectsTable from './Partials/ProjectsTable.vue';
 import { Head } from '@inertiajs/vue3';
