@@ -133,7 +133,7 @@ const slimNavigation = ref(isMobile());
             <div :class="{
                 'transition-all fixed inset-0 bg-black': true,
                 'opacity-25 z-10': !slimNavigation && isMobile(),
-                'opacity-0 z-0': slimNavigation && isMobile(),
+                'opacity-0 -z-10': slimNavigation && isMobile(),
                 'hidden': !isMobile()
              }" @click="slimNavigation = !slimNavigation"></div>
             <!-- Main Content -->

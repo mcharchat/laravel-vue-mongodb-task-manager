@@ -63,9 +63,7 @@ Route::middleware(['auth', 'verified', 'get-projects'])->group(function () {
     Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
     // route for deleting a task
     Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
-});
 
-Route::middleware('auth')->group(function () {
     // route for showing the profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     // route for updating the profile
