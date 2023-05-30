@@ -45,15 +45,15 @@ function stringToColour(str) {
                     />
                 </div>
             </header>
-            <div class="flex flex-wrap gap-8">
+            <div class="flex flex-wrap gap-4">
                 <div v-for="project in myProjects" :key="project._id">
-                    <div class="flex flex-col bg-white rounded-lg shadow p-4 justify-around" :style="{'aspectRatio': '1/1' , 'width': '170px'}">
+                    <div class="flex flex-col bg-white rounded-lg shadow p-4 justify-around" :style="{'aspectRatio': '1/1' , 'width': '155px'}">
                         <h3 class="text-xl font-bold" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }" v-tooltip="project.name">{{ project.name }}</h3>
                         <div class="flex items-center justify-between">
                             <div class="">
                                 <Link :href="route('projects.edit', project._id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Details</Link>
                             </div>
-                            <div class="inline-block rounded-full h-10 w-10 text-white flex items-center justify-center text-xl font-bold" :style="{backgroundColor: stringToColour(project.user.name)}" v-tooltip="project.user.name">
+                            <div class="inline-block rounded-full h-8 w-8 text-white flex items-center justify-center text-md font-bold" :style="{backgroundColor: stringToColour(project.user.name)}" v-tooltip="project.user.name">
                                 {{ project.user.name.charAt(0) }}
                             </div>
                         </div>
@@ -75,15 +75,15 @@ function stringToColour(str) {
                     />
                 </div>
             </header>
-            <div class="flex flex-wrap gap-8">
+            <div class="flex flex-wrap gap-4">
                 <div v-for="project in projects" :key="project._id">
-                    <div class="flex flex-col bg-white rounded-lg shadow p-4 justify-around" :style="{'aspectRatio': '1/1' , 'width': '170px'}">
+                    <div class="flex flex-col bg-white rounded-lg shadow p-4 justify-around" :style="{'aspectRatio': '1/1' , 'width': '155px'}">
                             <h3 class="text-xl font-bold" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }" v-tooltip="project.name">{{ project.name }}</h3>
                                 <div class="flex items-center justify-between">
                                 <div class="">
                                     <Link :href="route('projects.edit', project._id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Details</Link>
                                 </div>
-                                <div class="inline-block rounded-full h-10 w-10 text-white flex items-center justify-center text-xl font-bold" :style="{ backgroundColor: stringToColour(project.user.name) }" v-tooltip="project.user.name">
+                                <div class="inline-block rounded-full h-8 w-8 text-white flex items-center justify-center text-md font-bold" :style="{ backgroundColor: stringToColour(project.user.name) }" v-tooltip="project.user.name">
                                     {{ project.user.name.charAt(0) }}
                                 </div>
                             </div>
