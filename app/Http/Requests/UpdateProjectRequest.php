@@ -13,6 +13,10 @@ class UpdateProjectRequest extends FormRequest
      */
     public function authorize()
     {
+        // only the user that created the project can update it
+        if ($this->user()->id === $this->project->user_id) {
+            return true;
+        }
         return false;
     }
 
@@ -24,7 +28,8 @@ class UpdateProjectRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|min:3|max:255',
+            'description' => 'required|min:3|max:500',
         ];
     }
 }

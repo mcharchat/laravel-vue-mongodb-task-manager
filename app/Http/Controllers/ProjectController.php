@@ -101,6 +101,8 @@ class ProjectController extends Controller
     {
         // validate the incoming request using our UpdateProjectRequest
         $validated = $request->validated();
+        // set the user_id to the current user id
+        $validated['user_id'] = auth()->id();
         // update the project with the validated data
         $project->update($validated);
         // return a redirect to the projects index

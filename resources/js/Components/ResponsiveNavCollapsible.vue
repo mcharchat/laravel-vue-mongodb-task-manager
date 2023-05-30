@@ -53,7 +53,7 @@ function stringToColour(str) {
                 <ul>
                     <li v-for="(project, index) in props.projects" :key="index">
                         <!-- Aqui você pode personalizar a aparência dos projects como desejado -->
-                        <ResponsiveNavLink :href="route('projects.edit', project._id)" :active="route().current('projects.edit', project._id)" class="flex items-center">
+                        <ResponsiveNavLink :href="route('projects.show', project._id)" :active="route().current('projects.show', project._id)" class="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 15 15" :class="{
                                  'transition-all': true,
                                   'mr-2': !slimNavigation,
