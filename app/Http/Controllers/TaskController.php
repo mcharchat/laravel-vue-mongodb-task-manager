@@ -52,7 +52,7 @@ class TaskController extends Controller
         // create a new task with the validated data
         Task::create($validated);
         // return a redirect to the tasks index
-        return redirect()->route('tasks.index');
+        return redirect()->route('tasks');
     }
 
     /**
@@ -97,7 +97,7 @@ class TaskController extends Controller
         // update the task with the validated data
         $task->update($validated);
         // return a redirect to the tasks index
-        return redirect()->route('tasks.index');
+        return redirect()->route('tasks');
     }
 
     /**
@@ -111,6 +111,6 @@ class TaskController extends Controller
         // delete the task
         $task->delete();
         // return a redirect to the tasks index
-        return redirect()->route('tasks.index');
+        return redirect()->route('tasks');
     }
 }
