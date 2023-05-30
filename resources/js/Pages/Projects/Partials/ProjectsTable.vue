@@ -27,6 +27,29 @@ function stringToColour(str) {
     return colour;
 }
 
+// general function that returns the filtered projects, based on the search input
+function filterProjects(projects, search) {
+    if (search === '') {
+        return projects;
+    }
+    return projects.filter((project) => {
+        return project.name.toLowerCase().includes(search.toLowerCase()) 
+        || project.user.name.toLowerCase().includes(search.toLowerCase())
+        || project.description.toLowerCase().includes(search.toLowerCase());
+    });
+}
+
+// function that filters the projects based on the search input, using filterProjects function
+const filteredMyProjects = computed(() => {
+    return filterProjects(props.myProjects, searchMyProjects.value);
+});
+
+// function that filters the projects based on the search input, using filterProjects function
+const filteredProjects = computed(() => {
+    return filterProjects(props.projects, searchAllProjects.value);
+});
+
+
 
 </script>
 
@@ -46,7 +69,7 @@ function stringToColour(str) {
                 </div>
             </header>
             <div class="flex flex-wrap gap-4">
-                <div v-for="project in myProjects" :key="project._id">
+                <div v-for="project in filteredMyProjects" :key="project._id">
                     <div class="flex flex-col bg-white rounded-lg shadow p-4 justify-around" :style="{'aspectRatio': '1/1' , 'width': '155px'}">
                         <h3 class="text-xl font-bold" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }" v-tooltip="project.name">{{ project.name }}</h3>
                         <div class="flex items-center justify-between">
@@ -59,6 +82,18 @@ function stringToColour(str) {
                         </div>
                     </div>
                 </div>
+                <div v-if="filteredMyProjects.length != 0">
+                    <Link :href="route('projects.create')" class="text-blue-500 hover:text-blue-700 font-bold">
+                        <div class="flex flex-col rounded-lg shadow p-4 justify-around border-dashed border-2 border-blue-500 hover:border-blue-700" :style="{ 'aspectRatio': '1/1', 'width': '155px' }">
+                            <div class="flex items-center justify-center">
+                                <div class="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 28 28"><path fill="currentColor" d="M24 13h-9V4a1 1 0 1 0-2 0v9H4a1 1 0 1 0 0 2h9v9a1 1 0 1 0 2 0v-9h9a1 1 0 1 0 0-2Z"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </Link>
+                </div>
+                <h3 v-if="filteredMyProjects.length == 0" class="text-xl font-bold grow text-center">No matching projects, <Link :href="route('projects.create')" class="text-blue-500 hover:text-blue-700 ">create one</Link>!</h3>
             </div>
         </section>
         <section>
@@ -76,7 +111,7 @@ function stringToColour(str) {
                 </div>
             </header>
             <div class="flex flex-wrap gap-4">
-                <div v-for="project in projects" :key="project._id">
+                <div v-for="project in filteredProjects" :key="project._id">
                     <div class="flex flex-col bg-white rounded-lg shadow p-4 justify-around" :style="{'aspectRatio': '1/1' , 'width': '155px'}">
                             <h3 class="text-xl font-bold" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }" v-tooltip="project.name">{{ project.name }}</h3>
                                 <div class="flex items-center justify-between">
@@ -89,6 +124,7 @@ function stringToColour(str) {
                             </div>
                     </div>
                 </div>
+                <h3 v-if="filteredProjects.length == 0" class="text-xl font-bold grow text-center">No matching projects</h3>
             </div>
         </section>
 </template>
