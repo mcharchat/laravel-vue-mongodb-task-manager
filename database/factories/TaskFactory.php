@@ -17,10 +17,19 @@ class TaskFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->sentence,
-            'completed' => false,
             'user_id' => \App\Models\User::factory(),
+            'title' => $this->faker->sentence,
+            'description' => $this->faker->paragraph,
+            'progress' => $this->faker->numberBetween(0, 100),
+            'completed' => false,
+            'priority' => 'none',
+            'status' => 'incomplete',
+            'category' => 'uncategorized',
+            'color' => 'gray-400',
+            'icon' => 'fluent:question-24-filled',
+            'public' => $this->faker->boolean,
             'project_id' => \App\Models\Project::factory(),
+            'assigned_to' => \App\Models\User::factory(),
         ];
     }
 }
