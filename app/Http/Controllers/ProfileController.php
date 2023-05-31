@@ -60,4 +60,29 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    /**
+     * Update the starred projects array for the current user at the database.
+     */
+    public function updateStarredProjects(Request $request)
+    {
+        $request->validate([
+            'starredProjects' => ['array'],
+            'starredProjects.*' => ['exists:projects,_id'],
+        ]);
+
+        $request->user()->update([
+            'starred_projects' => $request->starredProjects,
+        ]);
+
+        $user = $request->user();
+
+        $user->starred_projects = $request->starredProjects;
+
+        $user->save();
+        
+
+        return Redirect::route('projects', [], 303);
+    }
+
 }

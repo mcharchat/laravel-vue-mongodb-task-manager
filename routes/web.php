@@ -61,6 +61,8 @@ Route::middleware(['auth', 'verified', 'get-projects'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // route for deleting the profile
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // route for updating the starred projects
+    Route::put('/profile/starred-projects', [ProfileController::class, 'updateStarredProjects'])->name('profile.starred-projects.update');
 });
 
 require __DIR__ . '/auth.php';

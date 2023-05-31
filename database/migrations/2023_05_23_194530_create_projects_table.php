@@ -18,7 +18,6 @@ return new class extends Migration
             $table->timestamps();
             $table->string('title');
             $table->text('description');
-            // the user that created the project
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
         });
     }

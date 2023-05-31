@@ -20,10 +20,13 @@ class GetProjects
      */
     public function handle(Request $request, Closure $next)
     {
-        // get all projects, ordered by updatedate, limit by 5 and eager load the tasks and user
-        $topProjects = Project::orderBy('updated_at', 'desc')
-            ->limit(5)
-            ->with('user')->get();
+        // get the user starred projects array
+        $starredProjects = $request->user()->starred_projects;
+        // get those projects from the database
+        $topProjects = Project::whereIn('_id', $starredProjects)
+            ->orderBy('updated_at', 'desc')
+            ->with('user')
+            ->get();
         
         // share the projects with the view in Inertia
         Inertia::share([
