@@ -20,11 +20,45 @@ class TaskController extends Controller
      */
     public function index(Request $request) : Response
     {
-        // get all tasks for the current user
-        $myTasks = Task::where('user_id', auth()->id())->get();
+        // get tasks for the current user that don't have aproject_id
+        $myTasks = Task::where('user_id', auth()->id())
+            ->whereNull('project_id')
+            ->get();
+        // get tasks for the current user that have a project_id, eager load the project and group them by project
+        $myProjectTasks = Task::where('user_id', auth()->id())
+            ->whereNotNull('project_id')
+            ->with('project')
+            ->get()
+            ->groupBy('project_id');
+        // get the assigned tasks for the current user that don't have aproject_id
+        $assignedTasks = Task::where('assigned_to', auth()->id())
+            ->whereNull('project_id')
+            ->get();
+        // get the assigned tasks for the current user that have a project_id, eager load the project and group them by project
+        $assignedProjectTasks = Task::where('assigned_to', auth()->id())
+            ->whereNotNull('project_id')
+            ->with('project')
+            ->get()
+            ->groupBy('project_id');
+        // get team tasks for the current user that don't have aproject_id, team is an array of user_ids, so this user_id must be inside this array
+        $teamTasks = Task::where('team', 'LIKE', '%"' . auth()->id() . '"%')
+            ->whereNull('project_id')
+            ->get();
+        // get team tasks for the current user that have a project_id, eager load the project and group them by project, team is an array of user_ids, so this user_id must be inside this array
+        $teamProjectTasks = Task::where('team', 'LIKE', '%"' . auth()->id() . '"%')
+            ->whereNotNull('project_id')
+            ->with('project')
+            ->get()
+            ->groupBy('project_id');
+        
         // return the tasks view with the tasks
         return Inertia::render('Tasks/Index', [
             'myTasks' => $myTasks,
+            'myProjectTasks' => $myProjectTasks,
+            'assignedTasks' => $assignedTasks,
+            'assignedProjectTasks' => $assignedProjectTasks,
+            'teamTasks' => $teamTasks,
+            'teamProjectTasks' => $teamProjectTasks,
         ]);
     }
 
