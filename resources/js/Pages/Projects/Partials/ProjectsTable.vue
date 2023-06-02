@@ -8,6 +8,7 @@ import TextInput from '@/Components/TextInput.vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import axios from 'axios';
+import eventBus from '@/Utils/eventBus';
 import { stringToColour } from '@/Utils/globalFunctions';
 
 const props = defineProps({
@@ -30,6 +31,13 @@ function filterProjects(projects, search) {
     });
 }
 
+// filter the projects based on an array of _ids 
+function filterProjectsById(projects, ids) {
+    return projects.filter((project) => {
+        return ids.includes(project._id);
+    });
+}
+
 // function that filters the projects based on the search input, using filterProjects function
 const filteredMyProjects = computed(() => {
     return filterProjects(props.myProjects, searchMyProjects.value);
@@ -40,9 +48,14 @@ const filteredProjects = computed(() => {
     return filterProjects(props.projects, searchAllProjects.value);
 });
 
+// function that uses the filterProjectsById function to filter the projects based on the starred_projects array
+const topProjects = computed(() => {
+    return filterProjectsById(props.projects, user.starred_projects);
+});
+
 // function that marks a project for a user as starred or not and send to the backend
 function toggleStarred(project) {
-    const starredProjects = user.starred_projects || [];
+    const starredProjects = (user.starred_projects == undefined ? new Array : user.starred_projects);
     // if starred_projects contains project id, remove the project from the array, otherwise add it
     if (starredProjects.includes(project._id)) {
         starredProjects.splice(starredProjects.indexOf(project._id), 1);
@@ -51,6 +64,13 @@ function toggleStarred(project) {
     }
     axios.put(route('profile.starred-projects.update'), {
         starredProjects        
+    }).then((response) => {
+        if (response.status == 200) {
+            user.starred_projects = starredProjects;
+        }
+        eventBus.$emit('topProjectsUpdate', topProjects);
+    }).catch((error) => {
+        console.log("🚀 ~ file: ProjectsTable.vue:71 ~ toggleStarred ~ error", error)
     });
 }
 

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -7,6 +7,7 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import ProjectNavCollapsible from '@/Components/ProjectNavCollapsible.vue';
 import { Link, usePage } from '@inertiajs/vue3';
+import eventBus from '@/Utils/eventBus';
 import { stringToColour } from '@/Utils/globalFunctions';
 
 //function that verify if screen is mobile
@@ -15,6 +16,15 @@ function isMobile() {
 }
 // ref  if slim navigation is active
 const slimNavigation = ref(isMobile());
+
+onMounted(() => {
+    eventBus.$on('topProjectsUpdate', (content) => {
+        topProjects.value = content.value;
+    });
+});
+const $page = usePage();
+const topProjects = ref($page.props.topProjects);
+
 </script>
 
 <template>
