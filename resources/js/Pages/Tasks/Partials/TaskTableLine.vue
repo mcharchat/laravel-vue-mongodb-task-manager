@@ -8,7 +8,6 @@
             :icon="checkbox ? 'mdi:checkbox-marked' : 'mdi:checkbox-blank-outline'" 
             :class="{
                 'transition-all cursor-pointer mx-1': true,
-                'text-green-500': checkbox,
             }"
             @click="toggleCheckbox" 
         />
@@ -19,14 +18,14 @@
             borderRight: '2px solid white',
         }"
     >
-        <div class="flex w-[190px] items-center">
+        <div class="flex items-center">
             <div class="w-[4px] h-[36px]" :style="{
                 backgroundColor: projectColor,
             }"></div>
-            <div class="px-3 py-2 w-[172px]" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap'}" v-tooltip="props.item.title">
+            <Icon class="m-3" :icon="publicc ? 'material-symbols:lock-open-right-outline' : 'material-symbols:lock-outline'" v-tooltip="publicc ? 'Public' : 'Private'"/>
+            <div class="pr-3 py-2" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap'}" v-tooltip="props.item.title">
                 {{ props.item.title }}
             </div>
-            <Icon class="mr-4" :icon="publicc ? 'material-symbols:lock-open-right-outline' : 'material-symbols:lock-outline'" v-tooltip="publicc ? 'Public' : 'Private'"/>
         </div>
     </td>
     <td class=" text-sm font-medium text-gray-900 dark:text-gray-100 p-0"
@@ -107,6 +106,48 @@
             />
         </div>
     </td>
+    <td class=" text-sm font-medium text-gray-900 dark:text-gray-100 p-0 min-w-[120px]"
+        :style="{
+            borderBottom: '2px solid white',
+            borderRight: '2px solid white',
+        }"
+    >
+        <div v-show="props.item.team" class="flex justify-center gap-2 px-2">
+                <div v-for="user_id in props.item.team" :key="user_id" class="inline-block rounded-full h-[24px] w-[24px] text-white flex items-center justify-center text-sm font-bold" :style="{ backgroundColor: stringToColour(users[user_id]?.name) }" v-tooltip="users[user_id]?.name">
+                    {{ users[user_id]?.name.charAt(0) }}
+                </div>
+        </div>
+    </td>
+    <td class=" text-sm font-medium text-gray-900 dark:text-gray-100 p-0 min-w-[120px]"
+        :style="{
+            borderBottom: '2px solid white',
+            borderRight: '2px solid white',
+        }"
+    >
+        <div v-show="props.item.labels" class="flex justify-center gap-2 px-2">
+                <div v-for="(label, index) in props.item.labels" :key="index" 
+                    class="inline-block rounded-full h-[24px] text-white flex items-center justify-center text-xs font-bold px-3 py-1" 
+                    :class="`bg-${label.color}-400`"
+                    v-tooltip="label.name"
+                >
+                    <span>
+                        {{ label.name }}
+                    </span>
+                </div>
+        </div>
+    </td>
+    <td class=" text-sm font-medium text-gray-900 dark:text-gray-100 p-0"
+        :style="{
+            borderBottom: '2px solid white',
+            borderRight: '2px solid white',
+            color: projectTextColor,
+        }"
+    >
+        <div class="flex justify-center gap-4 px-4">
+            <Icon icon="mdi:close" class="cursor-pointer" style="filter: invert(1)" v-tooltip="'Delete'"></Icon>
+            <Icon icon="mdi:dots-vertical" class="cursor-pointer" style="filter: invert(1)" v-tooltip="'More Options'"></Icon>
+        </div>
+    </td>
 </template>
 
 <script setup>
@@ -176,5 +217,4 @@ const PriorityDictionary = {
         'icon': 'mdi:chevron-triple-up',
     },
 };
-
 </script>

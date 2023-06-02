@@ -60,6 +60,8 @@ const toggleCollapse = () => {
                         <th v-if="!collapsed" class="px-1 text-base font-medium">% Completed</th>
                         <th v-if="!collapsed" class="px-1 text-base font-medium">Priority</th>
                         <th v-if="!collapsed" class="px-1 text-base font-medium">Team</th>
+                        <th v-if="!collapsed" class="px-1 text-base font-medium">Labels</th>
+                        <th v-if="!collapsed" class="px-1 text-base font-medium">Actions</th>
                     </tr>
                 </transition>
             </thead>

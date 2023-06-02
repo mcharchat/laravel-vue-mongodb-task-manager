@@ -8,8 +8,8 @@ import ProjectTask from './Partials/ProjectTask.vue';
 const myTasks = usePage().props.myTasks;
 const myProjectTasks = usePage().props.myProjectTasks;
 const assignedTasks = usePage().props.assignedTasks;
-const teamTasks = usePage().props.teamTasks;
 const assignedProjectTasks = usePage().props.assignedProjectTasks;
+const teamTasks = usePage().props.teamTasks;
 const teamProjectTasks = usePage().props.teamProjectTasks;
 
 const activeTab = ref('myTasks');
@@ -62,23 +62,45 @@ const activeTab = ref('myTasks');
                 <div class="p-4">
                     <div v-if="activeTab === 'myTasks'">
                         <h2 class="text-lg font-semibold mb-2">Free Tasks</h2>
-                        <div v-for="task in myTasks" :key="task._id" class="p-2">
-                            <span>task {{ task._id + ': ' + task.title }}</span>
+                        <div class="flex flex-col gap-2">
+                            <div class="p-2">
+                                <ProjectTask :project="myTasks"/>
+                            </div>
                         </div>
                         <h2 class="text-lg font-semibold mb-2">Project Tasks</h2>
                         <div class="flex flex-col gap-2">
-                            <div v-for="(project, project_id) in myProjectTasks" :key="project_id" lass="p-2">
+                            <div v-for="(project, project_id) in myProjectTasks" :key="project_id" class="p-2">
                                 <ProjectTask :project="project"/>
                             </div>
                         </div>
                     </div>
                     <div v-else-if="activeTab === 'assignedTasks'">
-                        <h2 class="text-lg font-semibold mb-2">Assigned Tasks</h2>
-
-
+                        <h2 class="text-lg font-semibold mb-2">Free Tasks</h2>
+                        <div class="flex flex-col gap-2">
+                            <div class="p-2">
+                                <ProjectTask :project="assignedTasks"/>
+                            </div>
+                        </div>
+                        <h2 class="text-lg font-semibold mb-2">Project Tasks</h2>
+                        <div class="flex flex-col gap-2">
+                            <div v-for="(project, project_id) in assignedProjectTasks" :key="project_id" class="p-2">
+                                <ProjectTask :project="project"/>
+                            </div>
+                        </div>
                     </div>
                     <div v-else-if="activeTab === 'teamTasks'">
-                        <h2 class="text-lg font-semibold mb-2">Team Tasks</h2>
+                        <h2 class="text-lg font-semibold mb-2">Free Tasks</h2>
+                        <div class="flex flex-col gap-2">
+                            <div class="p-2">
+                                <ProjectTask :project="teamTasks"/>
+                            </div>
+                        </div>
+                        <h2 class="text-lg font-semibold mb-2">Project Tasks</h2>
+                        <div class="flex flex-col gap-2">
+                            <div v-for="(project, project_id) in teamProjectTasks" :key="project_id" class="p-2">
+                                <ProjectTask :project="project"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
