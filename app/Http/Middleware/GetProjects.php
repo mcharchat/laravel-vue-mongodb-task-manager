@@ -22,11 +22,15 @@ class GetProjects
     {
         // get the user starred projects array
         $starredProjects = $request->user()->starred_projects;
-        // get those projects from the database
+        if (!$starredProjects) {
+            $topProjects = [];
+        } else {
+            // get those projects from the database
         $topProjects = Project::whereIn('_id', $starredProjects)
             ->orderBy('updated_at', 'desc')
             ->with('user')
             ->get();
+        }
         
         // share the projects with the view in Inertia
         Inertia::share([
