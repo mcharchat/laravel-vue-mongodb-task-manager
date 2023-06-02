@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -22,34 +23,39 @@ class TaskController extends Controller
     {
         // get tasks for the current user that don't have aproject_id
         $myTasks = Task::where('user_id', auth()->id())
+            ->with('user')
             ->whereNull('project_id')
             ->get();
         // get tasks for the current user that have a project_id, eager load the project and group them by project
         $myProjectTasks = Task::where('user_id', auth()->id())
             ->whereNotNull('project_id')
-            ->with('project')
+            ->with('project', 'user')
             ->get()
             ->groupBy('project_id');
         // get the assigned tasks for the current user that don't have aproject_id
         $assignedTasks = Task::where('assigned_to', auth()->id())
             ->whereNull('project_id')
+            ->with('user')
             ->get();
         // get the assigned tasks for the current user that have a project_id, eager load the project and group them by project
         $assignedProjectTasks = Task::where('assigned_to', auth()->id())
             ->whereNotNull('project_id')
-            ->with('project')
+            ->with('project', 'user')
             ->get()
             ->groupBy('project_id');
         // get team tasks for the current user that don't have aproject_id, team is an array of user_ids, so this user_id must be inside this array
         $teamTasks = Task::where('team', 'LIKE', '%"' . auth()->id() . '"%')
             ->whereNull('project_id')
+            ->with('user')
             ->get();
         // get team tasks for the current user that have a project_id, eager load the project and group them by project, team is an array of user_ids, so this user_id must be inside this array
         $teamProjectTasks = Task::where('team', 'LIKE', '%"' . auth()->id() . '"%')
             ->whereNotNull('project_id')
-            ->with('project')
+            ->with('project', 'user')
             ->get()
             ->groupBy('project_id');
+        // get all the users details grouped by _id
+        $users = User::all()->keyBy('_id');
         
         // return the tasks view with the tasks
         return Inertia::render('Tasks/Index', [
@@ -59,6 +65,7 @@ class TaskController extends Controller
             'assignedProjectTasks' => $assignedProjectTasks,
             'teamTasks' => $teamTasks,
             'teamProjectTasks' => $teamProjectTasks,
+            'users' => $users,
         ]);
     }
 
