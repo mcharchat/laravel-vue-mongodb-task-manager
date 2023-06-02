@@ -29,8 +29,8 @@ return new class extends Migration
             $table->string('category')->default('Uncategorized');
             $table->boolean('public')->default(false);//used
             $table->foreignId('assigned_to')->nullable()->constrained('users')->onDelete('cascade');//used
-            $table->json('team')->nullable();
-            $table->json('labels')->nullable();
+            $table->json('team')->nullable();//used
+            $table->json('labels')->nullable();//used
             $table->timestamp('completed_at')->nullable();
             $table->timestamp('reminder_date')->nullable();
             $table->integer('working_days')->nullable();
@@ -38,7 +38,7 @@ return new class extends Migration
             $table->integer('actual_effort')->nullable();
             $table->integer('effort_difference')->nullable();
             $table->integer('cost')->nullable();
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->json('checklist')->nullable();
         });
     }
