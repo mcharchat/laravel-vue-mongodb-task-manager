@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import ProjectTask from './Partials/ProjectTask.vue';
 
 const myTasks = usePage().props.myTasks;
 const myProjectTasks = usePage().props.myProjectTasks;
@@ -60,14 +61,14 @@ const activeTab = ref('myTasks');
                 </div>
                 <div class="p-4">
                     <div v-if="activeTab === 'myTasks'">
-                        <h2 class="text-lg font-semibold mb-2">My Tasks</h2>
+                        <h2 class="text-lg font-semibold mb-2">Free Tasks</h2>
                         <div v-for="task in myTasks" :key="task._id" class="p-2">
                             <span>task {{ task._id + ': ' + task.title }}</span>
                         </div>
-                        <div v-for="(project, project_id) in myProjectTasks" :key="project_id" lass="p-2">
-                            <span>project {{ project_id + ': ' + project[0].project?.name }}</span>
-                            <div v-for="task in project" :key="task._id" class="p-2">
-                                <span>task {{ task._id + ': ' + task.title }}</span>
+                        <h2 class="text-lg font-semibold mb-2">Project Tasks</h2>
+                        <div class="flex flex-col gap-2">
+                            <div v-for="(project, project_id) in myProjectTasks" :key="project_id" lass="p-2">
+                                <ProjectTask :project="project"/>
                             </div>
                         </div>
                     </div>
@@ -78,8 +79,6 @@ const activeTab = ref('myTasks');
                     </div>
                     <div v-else-if="activeTab === 'teamTasks'">
                         <h2 class="text-lg font-semibold mb-2">Team Tasks</h2>
-
-                    
                     </div>
                 </div>
             </div>
