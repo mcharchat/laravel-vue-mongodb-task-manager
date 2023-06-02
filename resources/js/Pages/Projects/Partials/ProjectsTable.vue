@@ -8,6 +8,7 @@ import TextInput from '@/Components/TextInput.vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import axios from 'axios';
+import { stringToColour } from '@/Utils/globalFunctions';
 
 const props = defineProps({
     myProjects: Object,
@@ -16,20 +17,6 @@ const props = defineProps({
 const searchMyProjects = ref('');
 const searchAllProjects = ref('');
 const user = usePage().props.auth.user;
-
-//function that generates a random color for the user avatar, based on the name
-function stringToColour(str) {
-    var hash = 0;
-    for (var i = 0; i < str.length; i++) {
-       hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    var colour = '#';
-    for (var i = 0; i < 3; i++) {
-       var value = (hash >> (i * 8)) & 0xFF;
-       colour += ('00' + value.toString(16)).substr(-2);
-    }
-    return colour;
-}
 
 // general function that returns the filtered projects, based on the search input
 function filterProjects(projects, search) {

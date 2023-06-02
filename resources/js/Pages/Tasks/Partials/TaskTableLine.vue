@@ -115,6 +115,7 @@ import { ref } from 'vue';
 import Timeline from '@/Components/Timeline.vue';
 import PercCompleted from '@/Components/PercCompleted.vue';
 import { usePage } from '@inertiajs/vue3';
+import { stringToColour } from '@/Utils/globalFunctions';
 
 const props = defineProps({
     item: {

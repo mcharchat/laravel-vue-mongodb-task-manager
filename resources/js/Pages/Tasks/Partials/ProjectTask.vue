@@ -3,6 +3,7 @@
 import { ref } from 'vue';
 import { Icon } from '@iconify/vue';
 import TaskTableLine from './TaskTableLine.vue';
+import { stringToColour } from '@/Utils/globalFunctions';
 
 const props = defineProps({
     project: {
@@ -22,21 +23,6 @@ const projectTextColor = projectColor + 'e6';
 const toggleCollapse = () => {
     collapsed.value = !collapsed.value;
 };
-
-
-//function that generates a random color for the user avatar, based on the name
-function stringToColour(str) {
-    var hash = 0;
-    for (var i = 0; i < str.length; i++) {
-        hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    var colour = '#';
-    for (var i = 0; i < 3; i++) {
-        var value = (hash >> (i * 8)) & 0xFF;
-        colour += ('00' + value.toString(16)).substr(-2);
-    }
-    return colour;
-}
 
 </script>
 

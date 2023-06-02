@@ -5,23 +5,7 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import ResponsiveNavCollapsible from '@/Components/ResponsiveNavCollapsible.vue';
-import { Link } from '@inertiajs/vue3';
-
-
-//function that generates a random color for the user avatar, based on the name
-function stringToColour(str) {
-    var hash = 0;
-    for (var i = 0; i < str.length; i++) {
-        hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    var colour = '#';
-    for (var i = 0; i < 3; i++) {
-        var value = (hash >> (i * 8)) & 0xFF;
-        colour += ('00' + value.toString(16)).substr(-2);
-    }
-    return colour;
-}
+import { stringToColour } from '@/Utils/globalFunctions';
 
 //function that verify if screen is mobile
 function isMobile() {
