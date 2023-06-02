@@ -44,12 +44,12 @@ class TaskController extends Controller
             ->get()
             ->groupBy('project_id');
         // get team tasks for the current user that don't have aproject_id, team is an array of user_ids, so this user_id must be inside this array
-        $teamTasks = Task::where('team', 'LIKE', '%"' . auth()->id() . '"%')
+        $teamTasks = Task::where('team', 'LIKE', '%' . auth()->id() . '%')
             ->whereNull('project_id')
             ->with('user')
             ->get();
         // get team tasks for the current user that have a project_id, eager load the project and group them by project, team is an array of user_ids, so this user_id must be inside this array
-        $teamProjectTasks = Task::where('team', 'LIKE', '%"' . auth()->id() . '"%')
+        $teamProjectTasks = Task::where('team', 'LIKE', '%' . auth()->id() . '%')
             ->whereNotNull('project_id')
             ->with('project', 'user')
             ->get()
