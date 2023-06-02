@@ -22,6 +22,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->json('starred_projects')->nullable();
+            $table->json('starred_users')->nullable();
         });
     }
 

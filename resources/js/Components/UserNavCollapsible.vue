@@ -3,13 +3,13 @@ import { ref } from 'vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { stringToColour } from '@/Utils/globalFunctions';
 
-const props = defineProps(['projects', 'slimNavigation', 'isMobile']);
+const props = defineProps(['users', 'slimNavigation', 'isMobile']);
 
-const isActive = ref(localStorage.getItem('navProjectsCollapse') === 'true');
+const isActive = ref(localStorage.getItem('navUsersCollapse') === 'true');
 
 const toggleCollapse = () => {
     isActive.value = !isActive.value;
-    localStorage.setItem('navProjectsCollapse', isActive.value);
+    localStorage.setItem('navUsersCollapse', isActive.value);
 };
 </script>
 
@@ -39,31 +39,20 @@ const toggleCollapse = () => {
         >
             <div v-if="isActive" class="pl-3 pr-4">
                 <ul>
-                    <li v-for="(project, index) in props.projects" :key="index">
-                        <ResponsiveNavLink :href="route('projects.show', project._id)" :active="route().current('projects.show', project._id)" class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 15 15" :class="{
-                                 'transition-all': true,
-                                  'mr-2': !slimNavigation,
-                                 '-mx-4': slimNavigation,
-                            }"><path :fill="stringToColour(project.name)" d="M9.875 7.5a2.375 2.375 0 1 1-4.75 0a2.375 2.375 0 0 1 4.75 0Z"/></svg>
-                            <span :class="{
-                                'hidden': slimNavigation,
-                                'transition-all': true
-                            }"
-                            :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }"
-                            >{{ project.name.length > 20 ? project.name.slice(0, 20) + '...': project.name }}</span>
-                            <div class="flex grow justify-end">
+                    <li>
+                        <div class="flex grow flex-wrap gap-4 px-4 pb-4">
+                            <a v-for="(user, index) in props.users" :key="index" :href="route('users.show', user._id)" :active="route().current('users.show', user._id)" class="flex items-center">
                                 <div :class="{'inline-block rounded-md h-5 w-5 text-white flex items-center justify-center text-xs font-bold': true,
                                     'hidden': slimNavigation,
                                     'transition-all': true
-                                }" :style="{ backgroundColor: stringToColour(project.user.name) }">
-                                    {{ project.user.name.charAt(0) }}
+                                }" :style="{ backgroundColor: stringToColour(user.name) }" v-tooltip="user.name">
+                                    {{ user.name.charAt(0) }}
                                 </div>
-                            </div>
-                        </ResponsiveNavLink>
+                            </a>
+                        </div>
                     </li>
                     <li>
-                        <ResponsiveNavLink :href="route('projects')" :active="route().current('projects')" class="flex items-center">
+                        <ResponsiveNavLink :href="route('users')" :active="route().current('users')" class="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 48 48" :class="{
                                 'transition-all': true,
                                 'mr-2': !slimNavigation,
@@ -74,7 +63,7 @@ const toggleCollapse = () => {
                                 'transition-all': true
                             }"
                             :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }"
-                            >All the projects</span>
+                            >All the users</span>
                         </ResponsiveNavLink>
                     </li>
                 </ul>

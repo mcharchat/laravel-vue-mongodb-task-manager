@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -19,7 +20,7 @@ use Inertia\Inertia;
 
 Route::redirect('/', '/login');
 
-Route::middleware(['auth', 'verified', 'get-projects'])->group(function () {
+Route::middleware(['auth', 'verified', 'get-top-projects-users'])->group(function () {
     // route for the dashboard
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
@@ -55,6 +56,11 @@ Route::middleware(['auth', 'verified', 'get-projects'])->group(function () {
     // route for deleting a task
     Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 
+    // route for listing users
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+    // route for showing a user
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+
     // route for showing the profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     // route for updating the profile
@@ -63,6 +69,8 @@ Route::middleware(['auth', 'verified', 'get-projects'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // route for updating the starred projects
     Route::put('/profile/starred-projects', [ProfileController::class, 'updateStarredProjects'])->name('profile.starred-projects.update');
+    // route for updating the starred users
+    Route::put('/profile/starred-users', [ProfileController::class, 'updateStarredUsers'])->name('profile.starred-users.update');
 });
 
 require __DIR__ . '/auth.php';

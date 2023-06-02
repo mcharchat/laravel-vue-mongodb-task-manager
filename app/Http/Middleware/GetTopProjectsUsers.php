@@ -4,12 +4,13 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use App\Models\User;
 // import the Project model
 use App\Models\Project;
 use Inertia\Inertia;
 
 
-class GetProjects
+class GetTopProjectsUsers
 {
     /**
      * Handle an incoming request.
@@ -31,10 +32,21 @@ class GetProjects
             ->with('user')
             ->get();
         }
+        // get the user starred users array
+        $starredUsers = $request->user()->starred_users;
+        if (!$starredUsers) {
+            $topUsers = [];
+        } else {
+            // get those users from the database
+            $topUsers = User::whereIn('_id', $starredUsers)
+                ->orderBy('updated_at', 'desc')
+                ->get();
+        }
         
         // share the projects with the view in Inertia
         Inertia::share([
             'topProjects' => $topProjects,
+            'topUsers' => $topUsers,
         ]);
         return $next($request);
     }
