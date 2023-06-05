@@ -40,7 +40,7 @@ const toggleCollapse = () => {
             <div v-if="isActive" class="pl-3 pr-4">
                 <ul>
                     <li v-for="(project, index) in props.projects" :key="index">
-                        <ResponsiveNavLink :href="route('projects.show', project._id)" :active="route().current('projects.show', project._id)" class="flex items-center">
+                        <ResponsiveNavLink :href="route('projects.show', project._id)" :active="route().current('projects.show', project._id)" class="flex items-center" v-tooltip="'Project ' + project.name">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 15 15" :class="{
                                  'transition-all': true,
                                   'mr-2': !slimNavigation,
@@ -63,7 +63,7 @@ const toggleCollapse = () => {
                         </ResponsiveNavLink>
                     </li>
                     <li>
-                        <ResponsiveNavLink :href="route('projects')" :active="route().current('projects')" class="flex items-center">
+                        <ResponsiveNavLink :href="route('projects')" :active="route().current('projects')" class="flex items-center" v-tooltip="'All the projects'">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 48 48" :class="{
                                 'transition-all': true,
                                 'mr-2': !slimNavigation,
