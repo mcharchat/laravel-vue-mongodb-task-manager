@@ -15,7 +15,7 @@ const project = ref(props.project);
 
 
 const collapsed = ref(false);
-const projectName = (project.value[0]['project'] != null ? project.value[0]['project']?.name : 'default');
+const projectName = (project.value[0]?.project != null ? project.value[0]?.project?.name : 'default');
 const projectColor = stringToColour(projectName);
 const projectBackgroundColor = projectColor + '1a';
 const projectTextColor = projectColor + 'e6';
@@ -51,7 +51,7 @@ const toggleCollapse = () => {
                         <th class="text-start px-1 text-lg"
                             :style="{ color: projectTextColor }"
                         >
-                            {{ project[0].project?.name }}
+                            {{ project[0]?.project?.name }}
                         </th>
                         <th v-if="!collapsed" class="px-1 text-base font-medium">Owner</th>
                         <th v-if="!collapsed" class="px-1 text-base font-medium">Assingee</th>

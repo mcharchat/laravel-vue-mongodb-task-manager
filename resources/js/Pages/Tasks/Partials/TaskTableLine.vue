@@ -98,9 +98,9 @@
     >
         <div class="flex w-[120px] justify-center">
             <Icon 
-                :icon="PriorityDictionary[props.item.priority].icon" 
+                :icon="PriorityDictionary[props.item.priority]?.icon" 
                 class="mx-1"
-                :class="PriorityDictionary[props.item.priority].color"
+                :class="PriorityDictionary[props.item.priority]?.color"
                 @click="toggleCheckbox" 
                 
             />
