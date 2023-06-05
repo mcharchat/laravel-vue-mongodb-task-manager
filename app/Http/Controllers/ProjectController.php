@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Http\RedirectResponse;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -70,9 +71,21 @@ class ProjectController extends Controller
      */
     public function show(Project $project): Response
     {
+        // load the tasks and user for the project, with this logic: if the task is public, load for everyone, if not, load only for the current user if he is either the owner of the project or the task is assigned to him, or he is one of the team members
+        $project->load(['tasks' => function ($query) {
+            $query->where(function ($query) {
+                $query->where('public', true)
+                ->orWhere('user_id', auth()->id())
+                ->orWhere('assigned_to', auth()->id())
+                ->orWhere('team', 'LIKE', '%' . auth()->id() . '%');
+            });
+        }, 'tasks.user']);
+        // get all the users details grouped by _id
+        $users = User::all()->keyBy('_id');
         // return the projects show view with the project
         return Inertia::render('Projects/Show', [
             'project' => $project,
+            'users' => $users,
         ]);
     }
 
