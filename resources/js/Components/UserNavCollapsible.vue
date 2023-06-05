@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import NavAvatarLink from '@/Components/NavAvatarLink.vue';
 import { stringToColour } from '@/Utils/globalFunctions';
 
 const props = defineProps(['users', 'slimNavigation', 'isMobile']);
@@ -37,22 +38,38 @@ const toggleCollapse = () => {
                 leave-from-class="transform opacity-100 scale-100"
                 leave-to-class="transform opacity-0 scale-95"
         >
-            <div v-if="isActive" class="pl-3 pr-4">
+            <div v-if="isActive" :class="{
+                'transition-all': true,
+                'pl-3 pr-4': !slimNavigation,
+                'px-3': slimNavigation,
+            }">
                 <ul>
                     <li>
-                        <div class="flex grow flex-wrap gap-4 px-4 pb-4">
-                            <a v-for="(user, index) in props.users" :key="index" :href="route('users.show', user._id)" :active="route().current('users.show', user._id)" class="flex items-center">
-                                <div :class="{'inline-block rounded-md h-5 w-5 text-white flex items-center justify-center text-xs font-bold': true,
-                                    'hidden': slimNavigation,
-                                    'transition-all': true
-                                }" :style="{ backgroundColor: stringToColour(user.name) }" v-tooltip="user.name">
-                                    {{ user.name.charAt(0) }}
+                        <div class="flex grow flex-wrap py-4"
+                            :class="{
+                                'transition-all': true,
+                                'px-4 gap-4': !slimNavigation,
+                                'justify-center gap-8': slimNavigation,
+                            }"
+                        >
+                            <NavAvatarLink v-for="(user, index) in props.users" :key="index" :href="route('users.show', user._id)" :active="route().current('users.show', user._id)" v-tooltip="'User '+ user.name">
+                                <div :class="{
+                                    'transition-all inline-block text-white flex items-center justify-center text-xs font-bold rounded-full': true,
+                                    'h-[6.33px] w-[6.33px]': slimNavigation,
+                                    'h-6 w-6': !slimNavigation
+                                }" :style="{ backgroundColor: stringToColour(user.name) }">
+                                    <span :class="{ 
+                                        'transition-all': true,
+                                        'hidden': slimNavigation
+                                    }">
+                                        {{ user.name.charAt(0) }}
+                                    </span>
                                 </div>
-                            </a>
+                            </NavAvatarLink>
                         </div>
                     </li>
                     <li>
-                        <ResponsiveNavLink :href="route('users')" :active="route().current('users')" class="flex items-center">
+                        <ResponsiveNavLink :href="route('users')" :active="route().current('users')" class="flex items-center" v-tooltip="'All the users'">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 48 48" :class="{
                                 'transition-all': true,
                                 'mr-2': !slimNavigation,
