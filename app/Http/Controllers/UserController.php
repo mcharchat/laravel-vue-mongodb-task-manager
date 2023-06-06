@@ -18,9 +18,10 @@ class UserController extends Controller
      */
     public function index(Request $request): Response
     {
-        // get all users and eager load the tasks and user
-        $users = User::all()
-            ->load(['tasks']);
+        // get all users that are not the current user and eager load the tasks
+        $users = User::where('_id', '!=', auth()->id())
+            ->with('tasks')
+            ->get();
         // return the users view with the users
         return Inertia::render('Users/Index', [
             'users' => $users,
