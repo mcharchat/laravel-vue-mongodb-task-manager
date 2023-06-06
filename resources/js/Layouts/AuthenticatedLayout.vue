@@ -30,6 +30,8 @@ const $page = usePage();
 const topProjects = ref($page.props.topProjects);
 const topUsers = ref($page.props.topUsers);
 
+const whiteRoutes = ['tasks', 'projects.show', 'users.show']
+
 </script>
 
 <template>
@@ -149,7 +151,9 @@ const topUsers = ref($page.props.topUsers);
              }" @click="slimNavigation = !slimNavigation"></div>
             <!-- Main Content -->
             <div :class="{
-                'transition-all flex-1 bg-gray-100 dark:bg-gray-900 h-screen overflow-y-auto': true,
+                'transition-all flex-1 h-screen overflow-y-auto': true,
+                'bg-gray-100 dark:bg-gray-900': !whiteRoutes.includes(route().current()),
+                'bg-white dark:bg-gray-800': whiteRoutes.includes(route().current()),
                 'ml-12': slimNavigation && !isMobile(),
                 'ml-64': !slimNavigation && !isMobile(),
             }">
