@@ -79,7 +79,7 @@ class ProjectController extends Controller
                 ->orWhere('assigned_to', auth()->id())
                 ->orWhere('team', 'LIKE', '%' . auth()->id() . '%');
             });
-        }, 'tasks.user']);
+        }, 'tasks.user', 'tasks.project']);
         // get all the users details grouped by _id
         $users = User::all()->keyBy('_id');
         // return the projects show view with the project
