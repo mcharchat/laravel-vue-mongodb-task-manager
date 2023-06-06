@@ -37,7 +37,7 @@ const activeTab = ref('myTasks');
                     }"
                     @click="activeTab = 'myTasks'"
                 >
-                    My Tasks
+                    User's Tasks
                 </div>
                 <div
                     :class="{
