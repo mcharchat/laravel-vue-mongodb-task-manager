@@ -53,15 +53,15 @@ const toggleCollapse = () => {
                         >
                             {{ project[0]?.project?.name }}
                         </th>
-                        <th v-if="!collapsed" class="px-1 text-base font-medium">Owner</th>
-                        <th v-if="!collapsed" class="px-1 text-base font-medium">Assingee</th>
-                        <th v-if="!collapsed" class="px-1 text-base font-medium">Status</th>
-                        <th v-if="!collapsed" class="px-1 text-base font-medium">Timeline</th>
-                        <th v-if="!collapsed" class="px-1 text-base font-medium">% Completed</th>
-                        <th v-if="!collapsed" class="px-1 text-base font-medium">Priority</th>
-                        <th v-if="!collapsed" class="px-1 text-base font-medium">Team</th>
-                        <th v-if="!collapsed" class="px-1 text-base font-medium">Labels</th>
-                        <th v-if="!collapsed" class="px-1 text-base font-medium">Actions</th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">Owner</th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">Assingee</th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">Status</th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">Timeline</th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">% Completed</th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">Priority</th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">Team</th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">Labels</th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">Actions</th>
                     </tr>
                 </transition>
             </thead>
@@ -95,6 +95,27 @@ const toggleCollapse = () => {
                             </div>
                         </td> 
                     </tr>
+                </tbody>
+                <tbody v-else>
+                    <tr>
+                        <td></td>
+                        <td colspan="100%" class=" text-sm font-medium text-gray-900 dark:text-gray-100 p-0"
+                            :style="{
+                                borderBottom: '2px solid white',
+                                borderRight: '2px solid white',
+                            }"
+                        >
+                            <div class="flex">
+                                <div class="w-[4px]" :style="{
+                                    backgroundColor: projectBackgroundColor,
+                                }"></div>
+                                <div class="cursor-pointer px-3 py-2 grow" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }">
+                                    + Add
+                                </div>
+                            </div>
+                        </td> 
+                    </tr>
+
                 </tbody>
             </transition>
         </table>
