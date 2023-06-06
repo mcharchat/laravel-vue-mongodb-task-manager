@@ -27,7 +27,7 @@ const toggleCollapse = () => {
 </script>
 
 <template>
-    <div class="mb-1 overflow-x-auto">
+    <div class="mb-1 overflow-x-auto custom-scroll">
         <table class="">
             <thead>
                 
@@ -100,3 +100,22 @@ const toggleCollapse = () => {
         </table>
     </div>
 </template>
+
+<style scoped>
+.custom-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 8px;
+}
+
+.custom-scroll:hover::-webkit-scrollbar-thumb {
+    background-color: #90909090;
+}
+</style>
