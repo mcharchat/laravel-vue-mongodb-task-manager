@@ -3,8 +3,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { Icon } from '@iconify/vue';
 import ProjectTask from '../Tasks/Partials/ProjectTask.vue';
+import eventBus from '@/Utils/eventBus';
+import DropdownLink from '@/Components/DropdownLink.vue';
+import Dropdown from '@/Components/Dropdown.vue';
 
 const user = usePage().props.user;
 
@@ -16,6 +20,27 @@ const teamTasks = usePage().props.teamTasks;
 const teamProjectTasks = usePage().props.teamProjectTasks;
 
 const activeTab = ref('myTasks');
+
+const selectedTasks = ref(JSON.parse(localStorage.getItem('selectedTasks')));
+const allTasks = [...myTasks, ...assignedTasks, ...teamTasks, ...Object.values(myProjectTasks), ...Object.values(assignedProjectTasks), ...Object.values(teamProjectTasks)].flat().filter((task, index, self) => index === self.findIndex((t) => t._id === task._id));
+
+function displayMenuFunc() {
+    return selectedTasks?.value.some((task) => allTasks.some((t) => t._id === task));
+};
+
+function selectedTasksInThisPage() {
+    return selectedTasks?.value.filter((task) => allTasks.some((t) => t._id === task));
+};
+
+const displayMenu = ref(displayMenuFunc());
+
+onMounted(() => {
+    eventBus.$on('taskCheckbox', (content) => {
+        selectedTasks.value = JSON.parse(localStorage.getItem('selectedTasks'))
+        displayMenu.value = displayMenuFunc();
+    });
+});
+
 </script>
 
 <template>
@@ -60,6 +85,31 @@ const activeTab = ref('myTasks');
                     @click="activeTab = 'teamTasks'"
                 >
                     Team Tasks
+                </div>
+                <div
+                    class="grow grid justify-end items-center"
+                >
+
+                    <div class="relative">
+                        <Dropdown align="taskContext" width="48">
+                            <template #trigger>
+                                <div class="px-4"
+                                    :class="{
+                                        'text-gray-600 dark:text-gray-300 transition duration-150 ease-in-out': true,
+                                        'opacity-0': !displayMenu,
+                                        'opacity-100': displayMenu,
+                                    }"
+                                >
+                                    <Icon icon="mdi:dots-vertical" class="cursor-pointer" v-tooltip="'More Options'"></Icon>
+                                </div>
+                            </template>
+
+                            <template #content>
+                                <DropdownLink href="#"> Profile </DropdownLink>
+                                <DropdownLink href="#"> Log Out </DropdownLink>
+                            </template>
+                        </Dropdown>
+                    </div>
                 </div>
             </div>
             <div class="p-4">

@@ -157,6 +157,7 @@ import Timeline from '@/Components/Timeline.vue';
 import PercCompleted from '@/Components/PercCompleted.vue';
 import { usePage } from '@inertiajs/vue3';
 import { stringToColour } from '@/Utils/globalFunctions';
+import eventBus from '@/Utils/eventBus';
 
 const props = defineProps({
     item: {
@@ -174,13 +175,24 @@ const props = defineProps({
 });
 
 const users = usePage().props.users;
-
-const checkbox = ref(false);
+// get value from localStorage item named selectedTasks, and check if current task is in it
+const checkbox = ref(JSON.parse(localStorage.getItem('selectedTasks'))?.includes(props.item._id));
 
 const publicc = ref(props.item.public);
 
 const toggleCheckbox = () => {
     checkbox.value = !checkbox.value;
+    // add _id to localStorage item named selectedTasks
+    if (checkbox.value) {
+        let selectedTasks = JSON.parse(localStorage.getItem('selectedTasks')) || [];
+        selectedTasks.push(props.item._id);
+        localStorage.setItem('selectedTasks', JSON.stringify(selectedTasks));
+    } else {
+        let selectedTasks = JSON.parse(localStorage.getItem('selectedTasks')) || [];
+        selectedTasks = selectedTasks.filter((task) => task !== props.item._id);
+        localStorage.setItem('selectedTasks', JSON.stringify(selectedTasks));
+    }
+    eventBus.$emit('taskCheckbox', props.item._id);
 };
 
 const statusColorDictionary = {
