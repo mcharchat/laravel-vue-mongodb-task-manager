@@ -3,9 +3,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import ProjectTask from '../Tasks/Partials/ProjectTask.vue';
 
 const project = usePage().props.project;
+
+const activeTab = ref('projectTasks');
 </script>
 
 <template>
@@ -15,11 +18,31 @@ const project = usePage().props.project;
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Project {{ project.name }}</h2>
         </template>
-
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <ProjectTask :project="project.tasks"/>
+        
+        <div class="bg-white dark:bg-gray-800 overflow-hidden">
+            <div class="flex bg-gray-50 dark:bg-gray-950">
+                <div
+                    :class="{
+                        'cursor-pointer text-base font-medium p-2 text-center text-gray-600 border-b-2 border-indigo-400 dark:border-indigo-600 text-indigo-800 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/50 focus:outline-none focus:text-indigo-800 dark:focus:text-indigo-200 focus:bg-indigo-100 dark:focus:bg-indigo-900 focus:border-indigo-700 dark:focus:border-indigo-300 transition duration-150 ease-in-out':
+                            activeTab === 'projectTasks',
+                        'cursor-pointer text-base font-medium p-2 text-center text-gray-600 border-b-2 border-gray-50 dark:border-gray-950':
+                            activeTab !== 'projectTasks'
+                    }"
+                    @click="activeTab = 'projectTasks'"
+                >
+                    Project Tasks
+                </div>
+            </div>
+            <div class="p-4">
+                <div v-if="activeTab === 'projectTasks'">
+                    <h2 class="text-lg font-semibold mb-2">Tasks</h2>
+                    <div class="flex flex-col gap-2">
+                        <div class="p-2">
+                            <ProjectTask :project="project.tasks"/>
+                        </div>
+                    </div>
+                </div>
+                <div v-else-if="activeTab === 'other'">
                 </div>
             </div>
         </div>
