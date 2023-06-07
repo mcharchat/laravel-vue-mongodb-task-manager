@@ -16,9 +16,9 @@ The Laravel Vue MongoDB Task Manager is a web application designed to help you e
 - **Project Organization**: Group tasks into projects for better organization and management.
 - **Collaboration**: Collaborate with team members by assigning tasks and adding comments.
 - **User Authentication**: Secure user authentication and authorization to protect your data.
-- **Real-time Updates**: Experience real-time updates using web sockets to ensure everyone stays up to date with the latest changes.
-- **Filtering and Sorting**: Quickly find tasks using advanced filtering and sorting options.
-- **Reminders**: Set reminders for important tasks to stay on top of your schedule.
+- **Real-time Updates**: Experience real-time updates using web sockets (Pusher) to ensure everyone stays up to date with the latest changes.
+- **Searching and Sorting**: Quickly find tasks using advanced searching and sorting options.
+- **Reminders**: Set reminders for important tasks to stay on top of your schedule, and reive e-mails.
 - **Responsive Design**: Access and manage your tasks from any device, whether it's a desktop computer, tablet, or smartphone.
 
 ## Installation
@@ -61,5 +61,5 @@ For any inquiries or questions, you can reach out to me on [LinkedIn](https://ww
 
 ## Acknowledgments
 
-Special thanks to the Laravel, Vue.js, and MongoDB communities for their fantastic tools and resources that made this project possible.
+Special thanks to the Laravel, Vue.js, Pusher and MongoDB communities for their fantastic tools and resources that made this project possible.
 
