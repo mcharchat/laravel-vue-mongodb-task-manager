@@ -83,8 +83,8 @@
             borderRight: '2px solid white',
         }"
     >
-        <div class="flex w-[120px]">
-            <div class="w-[120px] " >
+        <div class="flex w-[140px]">
+            <div class="w-[140px] " >
                 <PercCompleted v-show="props.item.progress !== undefined" :progress="props.item.progress" :projectColor="projectColor"/>
             </div>
         </div>
@@ -196,11 +196,11 @@ const toggleCheckbox = () => {
 };
 
 const statusColorDictionary = {
+    'Cancelled': 'bg-gray-400',
     'Not Started': 'bg-red-400',
     'In Progress': 'bg-yellow-400',
-    'Completed': 'bg-green-400',
     'On Hold': 'bg-blue-400',
-    'Cancelled': 'bg-gray-400',
+    'Completed': 'bg-green-400',
 };
 
 const PriorityDictionary = {

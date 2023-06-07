@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { Icon } from '@iconify/vue';
 import TaskTableLine from './TaskTableLine.vue';
 import { stringToColour } from '@/Utils/globalFunctions';
+import { usePage } from '@inertiajs/vue3';
 
 const props = defineProps({
     project: {
@@ -22,6 +23,82 @@ const projectTextColor = projectColor + 'e6';
 
 const toggleCollapse = () => {
     collapsed.value = !collapsed.value;
+};
+
+const ordedBy = ref();
+const orderDirection = ref();
+
+const users = usePage().props.users;
+
+const statusDictionary = {
+    'Cancelled': 0,
+    'Not Started': 1,
+    'In Progress': 2,
+    'On Hold': 3,
+    'Completed': 4,
+};
+
+const priorityDictionary = {
+    'None': 0,
+    'Lowest': 1,
+    'Low': 2,
+    'Medium': 3,
+    'High': 4,
+    'Highest': 5,
+};
+
+const orderBy = (field) => {
+    const fields = field.split('.');
+    if (ordedBy.value === field) {
+        orderDirection.value = orderDirection.value === 'asc' ? 'desc' : 'asc';
+    } else {
+        ordedBy.value = field;
+        orderDirection.value = 'asc';
+    }
+    switch (field) {
+        case 'assigned_to':
+            project.value.sort((a, b) => {
+                if (orderDirection.value === 'asc') {
+                    return users[a[field]]?.name > users[b[field]]?.name ? 1 : -1;
+                }
+                return users[a[field]]?.name < users[b[field]]?.name ? 1 : -1;
+            });
+            break;
+        case 'status':
+            project.value.sort((a, b) => {
+                if (orderDirection.value === 'asc') {
+                    return statusDictionary[a[field]] > statusDictionary[b[field]] ? 1 : -1;
+                }
+                return statusDictionary[a[field]] < statusDictionary[b[field]] ? 1 : -1;
+            });
+            break;
+        case 'priority':
+            project.value.sort((a, b) => {
+                if (orderDirection.value === 'asc') {
+                    return priorityDictionary[a[field]] > priorityDictionary[b[field]] ? 1 : -1;
+                }
+                return priorityDictionary[a[field]] < priorityDictionary[b[field]] ? 1 : -1;
+            });
+            break;
+        case 'start_date':
+            project.value.sort((a, b) => {
+                const dateA = a[field]?.$date?.$numberLong ? new Date(parseInt(a[field]?.$date.$numberLong)) : new Date(9999999999999);
+                const dateB = b[field]?.$date?.$numberLong ? new Date(parseInt(b[field]?.$date.$numberLong)) : new Date(9999999999999);
+                if (orderDirection.value === 'asc') {
+                    return dateA > dateB ? 1 : -1;
+                }
+                return dateA < dateB ? 1 : -1;
+            });
+            break;
+        default:
+            project.value.sort((a, b) => {
+                if (orderDirection.value === 'asc') {
+                    return fields.reduce((acc, cur) => acc[cur], a) > fields.reduce((acc, cur) => acc[cur], b) ? 1 : -1;
+                }
+                return fields.reduce((acc, cur) => acc[cur], a) < fields.reduce((acc, cur) => acc[cur], b) ? 1 : -1;
+            });
+            break;
+    }
 };
 
 </script>
@@ -48,20 +125,127 @@ const toggleCollapse = () => {
                             :style="{ color: projectTextColor }"
                             @click="toggleCollapse"/>
                         </th>
-                        <th class="text-start px-1 text-lg"
+                        <th class="text-start px-1 text-lg flex items-center cursor-pointer"
                             :style="{ color: projectTextColor }"
+                             @click="orderBy('title')"
                         >
-                            {{ project[0]?.project?.name }}
+                            <span>
+                                {{ project[0]?.project?.name }}
+                            </span>
+                            <Icon icon="iconamoon:arrow-up-2-bold" :class="{
+                                'transition-all mx-1': true,
+                                'transform rotate-180': orderDirection === 'asc',
+                                'opacity-0': ordedBy !== 'title',
+                                'opacity-100': ordedBy === 'title',
+                            }"/>
                         </th>
-                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">Owner</th>
-                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">Assingee</th>
-                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">Status</th>
-                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">Timeline</th>
-                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">% Completed</th>
-                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">Priority</th>
-                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">Team</th>
-                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">Labels</th>
-                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">Actions</th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium" @click="orderBy('user.name')">
+                            <div class="flex items-center justify-center cursor-pointer">
+                                <span>
+                                    Owner
+                                </span>
+                                <Icon icon="iconamoon:arrow-up-2-bold" :class="{
+                                    'transition-all mx-1': true,
+                                    'transform rotate-180': orderDirection === 'asc',
+                                    'opacity-0': ordedBy !== 'user.name',
+                                    'opacity-100': ordedBy === 'user.name',
+                                }"/>
+                            </div>
+                        </th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium" @click="orderBy('assigned_to')">
+                            <div class="flex items-center justify-center cursor-pointer">
+                                <span>
+                                    Assingee
+                                </span>
+                                <Icon icon="iconamoon:arrow-up-2-bold" :class="{
+                                    'transition-all mx-1': true,
+                                    'transform rotate-180': orderDirection === 'asc',
+                                    'opacity-0': ordedBy !== 'assigned_to',
+                                    'opacity-100': ordedBy === 'assigned_to',
+                                }"/>
+                            </div>
+                        </th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium" @click="orderBy('status')">
+                            <div class="flex items-center justify-center cursor-pointer">
+                                <span>
+                                    Status
+                                </span>
+                                <Icon icon="iconamoon:arrow-up-2-bold" :class="{
+                                    'transition-all mx-1': true,
+                                    'transform rotate-180': orderDirection === 'asc',
+                                    'opacity-0': ordedBy !== 'status',
+                                    'opacity-100': ordedBy === 'status',
+                                }"/>
+                            </div>
+                        </th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium" @click="orderBy('start_date')">
+                            <div class="flex items-center justify-center cursor-pointer">
+                                <span>
+                                    Timeline
+                                </span>
+                                <Icon icon="iconamoon:arrow-up-2-bold" :class="{
+                                    'transition-all mx-1': true,
+                                    'transform rotate-180': orderDirection === 'asc',
+                                    'opacity-0': ordedBy !== 'start_date',
+                                    'opacity-100': ordedBy === 'start_date',
+                                }"/>
+                            </div>
+                        </th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium" @click="orderBy('progress')">
+                            <div class="flex items-center justify-center cursor-pointer">
+                                <span>
+                                    % Completed
+                                </span>
+                                <Icon icon="iconamoon:arrow-up-2-bold" :class="{
+                                    'transition-all mx-1': true,
+                                    'transform rotate-180': orderDirection === 'asc',
+                                    'opacity-0': ordedBy !== 'progress',
+                                    'opacity-100': ordedBy === 'progress',
+                                }"/>
+                            </div>
+                        </th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium" @click="orderBy('priority')">
+                            <div class="flex items-center justify-center cursor-pointer">
+                                <span>
+                                    Priority
+                                </span>
+                                <Icon icon="iconamoon:arrow-up-2-bold" :class="{
+                                    'transition-all mx-1': true,
+                                    'transform rotate-180': orderDirection === 'asc',
+                                    'opacity-0': ordedBy !== 'priority',
+                                    'opacity-100': ordedBy === 'priority',
+                                }"/>
+                            </div>
+                        </th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium" @click="orderBy('team')">
+                            <div class="flex items-center justify-center cursor-pointer">
+                                <span>
+                                    Team
+                                </span>
+                                <Icon icon="iconamoon:arrow-up-2-bold" :class="{
+                                    'transition-all mx-1': true,
+                                    'transform rotate-180': orderDirection === 'asc',
+                                    'opacity-0': ordedBy !== 'team',
+                                    'opacity-100': ordedBy === 'team',
+                                }"/>
+                            </div>
+                        </th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium" @click="orderBy('labels')">
+                            <div class="flex items-center justify-center cursor-pointer">
+                                <span>
+                                    Labels
+                                </span>
+                                <Icon icon="iconamoon:arrow-up-2-bold" :class="{
+                                    'transition-all mx-1': true,
+                                    'transform rotate-180': orderDirection === 'asc',
+                                    'opacity-0': ordedBy !== 'labels',
+                                    'opacity-100': ordedBy === 'labels',
+                                }"/>
+                            </div>
+                        </th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">
+                            Actions
+                        </th>
                     </tr>
                 </transition>
             </thead>
