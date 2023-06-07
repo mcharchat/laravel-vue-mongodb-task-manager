@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -60,6 +61,9 @@ Route::middleware(['auth', 'verified', 'get-top-projects-users'])->group(functio
     Route::get('/users', [UserController::class, 'index'])->name('users');
     // route for showing a user
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+
+    // route for showing search results
+    Route::get('/search', [SearchController::class, 'show'])->name('search.show');
 
     // route for showing the profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
