@@ -89,19 +89,19 @@ onMounted(() => {
             <div class="p-4">
                 <div v-if="activeTab === 'searchedTerm'">
                     <h2 class="text-lg font-semibold mb-2">Users</h2>
-                    <div class="flex flex-wrap gap-4 mb-2">
+                    <div class="flex flex-wrap gap-6 mb-2">
                         <h3 v-if="searchedUsers.length == 0" class="text-md font-bold grow text-center">No matching users.</h3>
                         <div v-for="user in searchedUsers" :key="user._id" v-tooltip="user.name">
-                            <Link class="inline-block rounded-full text-white flex items-center justify-center text-lg font-bold cursor-pointer" :style="{ 'aspectRatio': '1/1', 'width': '32px', 'backgroundColor': stringToColour(user.name) }" :href="route('users.show', user._id)">
+                            <Link class="inline-block border-4 rounded-full border-white text-white flex items-center justify-center text-lg font-bold cursor-pointer  dark:text-gray-800 hover:text-gray-100 dark:hover:text-gray-600 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out" :style="{ 'aspectRatio': '1/1', 'width': '48px', 'backgroundColor': stringToColour(user.name) }" :href="route('users.show', user._id)">
                                 {{ user.name.charAt(0) }}
                             </Link>
                         </div>
                     </div>
                     <h2 class="text-lg font-semibold mb-2">Projects</h2>
-                    <div class="flex flex-wrap gap-4 mb-2">
-                        <h3 v-if="searchedProjects.length == 0" class="text-md font-bold grow text-center">No matching projects, <Link :href="route('projects.create')" class="text-blue-500 hover:text-blue-700 ">create one</Link>!</h3>
+                        <div class="flex flex-wrap gap-6 mb-2">
+                            <h3 v-if="searchedProjects.length == 0" class="text-md font-bold grow text-center">No matching projects, <Link :href="route('projects.create')" class="text-blue-500 hover:text-blue-700 ">create one</Link>!</h3>
                         <div v-for="project in searchedProjects" :key="project._id" v-tooltip="project.name">
-                            <Link class="inline-block rounded-full text-white flex items-center justify-center text-lg font-bold cursor-pointer" :style="{ 'aspectRatio': '1/1', 'width': '32px', 'backgroundColor': stringToColour(project.name) }" :href="route('projects.show', project._id)">
+                            <Link class="inline-block border-4 rounded-full border-white text-white flex items-center justify-center text-lg font-bold cursor-pointer  dark:text-gray-800 hover:text-gray-100 dark:hover:text-gray-600 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out" :style="{ 'aspectRatio': '1/1', 'width': '48px', 'backgroundColor': stringToColour(project.name) }" :href="route('projects.show', project._id)">
                                 {{ project.name.charAt(0) }}
                             </Link>
                         </div>
