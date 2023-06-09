@@ -16,7 +16,7 @@ class SearchController extends Controller
      * Display the specified resource.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function show(Request $request): Response
     {

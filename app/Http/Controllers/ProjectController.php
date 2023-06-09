@@ -16,7 +16,7 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index(Request $request): Response
     {
@@ -37,7 +37,7 @@ class ProjectController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function create(): Response
     {
@@ -49,7 +49,7 @@ class ProjectController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreProjectRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreProjectRequest $request): RedirectResponse
     {
@@ -67,7 +67,7 @@ class ProjectController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function show(Project $project): Response
     {
@@ -93,7 +93,7 @@ class ProjectController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function edit(Project $project): Response
     {
@@ -108,7 +108,7 @@ class ProjectController extends Controller
      *
      * @param  \App\Http\Requests\UpdateProjectRequest  $request
      * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateProjectRequest $request, Project $project): RedirectResponse
     {
@@ -126,7 +126,7 @@ class ProjectController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Project $project): RedirectResponse
     {
