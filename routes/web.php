@@ -59,8 +59,12 @@ Route::middleware(['auth', 'verified', 'get-top-projects-users'])->group(functio
 
     // route for listing users
     Route::get('/users', [UserController::class, 'index'])->name('users');
+    // route for creating a user
+    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
     // route for showing a user
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+    // route for storing a user
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
 
     // route for showing search results
     Route::get('/search', [SearchController::class, 'show'])->name('search.show');

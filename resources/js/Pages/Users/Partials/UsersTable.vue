@@ -110,7 +110,7 @@ function toggleStarred(user) {
                         </div>
                     </div>
                 </div>
-                <h3 v-if="filteredUsers.length == 0" class="text-xl font-bold grow text-center">No matching users</h3>
+                <h3 v-if="filteredUsers.length == 0" class="text-xl font-bold grow text-center">No matching users, <Link :href="route('users.create')" class="text-blue-500 hover:text-blue-700 ">invite one</Link> to your squad!</h3>
             </div>
         </section>
 </template>

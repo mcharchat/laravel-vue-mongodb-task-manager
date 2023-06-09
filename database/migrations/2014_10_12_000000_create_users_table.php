@@ -23,6 +23,7 @@ return new class extends Migration
             $table->timestamps();
             $table->json('starred_projects')->nullable();
             $table->json('starred_users')->nullable();
+            $table->uuid('squad_id')->nullable();            
         });
     }
 

@@ -112,4 +112,39 @@ class UserController extends Controller
             'users' => $users,
         ]);
     }
+
+    /**
+     * Create the specified resource.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Inertia\Response
+     */
+    public function create(User $user): Response
+    {
+        // create a new user
+        return Inertia::render('Users/Create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(User $user): RedirectResponse
+    {
+        // stores a new user based on the request at the same squad_id as the current user
+        $newUser = User::create([
+            'name' => request('name'),
+            'email' => request('email'),
+            'password' => bcrypt(Str::uuid()),
+            'starred_projects' => [],
+            'starred_tasks' => [],
+            'squad_id' => auth()->user()->squad_id,
+        ]);
+        // fires the registered event
+        event(new Registered($newUser));
+        // return back to the previous page
+        return redirect()->route('users')->with('success', 'User created.');
+    }
 }
