@@ -44,7 +44,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'starred_projects' => [],
             'starred_users' => [],
-            'squad_id' => Str::uuid(),
+            'squad_id' => Str::uuid()->toString(),
         ]);
 
         event(new Registered($user));
