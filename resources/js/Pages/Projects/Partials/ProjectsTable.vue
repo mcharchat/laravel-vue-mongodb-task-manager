@@ -125,7 +125,7 @@ function toggleStarred(project) {
                         </div>
                     </div>
                 </div>
-                <div v-if="filteredMyProjects.length != 0">
+                <div v-if="filteredMyProjects.length != 0" v-tooltip="'Add a project'">
                     <Link :href="route('projects.create')" class="text-blue-500 hover:text-blue-700 font-bold">
                         <div class="flex flex-col rounded-lg shadow p-4 justify-around border-dashed border-2 border-blue-500 hover:border-blue-700" :style="{ 'aspectRatio': '1/1', 'width': '155px' }">
                             <div class="flex items-center justify-center">
