@@ -35,7 +35,6 @@ class TaskFactory extends Factory
             'status' => $this->faker->randomElement($statusArray),
             'category' => 'Uncategorized',
             'public' => $this->faker->boolean,
-            // team is an array of user ids, that may have 0 or more elements
             'team' => $this->faker->randomElements($userIds, $this->faker->numberBetween(0, 10)),
             'project_id' => $this->faker->randomElement($projectIds),
             'assigned_to' => $this->faker->randomElement($userIds),

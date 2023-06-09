@@ -22,40 +22,47 @@ class TaskController extends Controller
     public function index(Request $request) : Response
     {
         // get tasks for the current user that don't have aproject_id
-        $myTasks = Task::where('user_id', auth()->id())
-            ->with('user')
+        $myTasks = Task::where('squad_id', auth()->user()->squad_id)
+            ->where('user_id', auth()->id())
             ->whereNull('project_id')
+            ->with('user')
             ->get();
         // get tasks for the current user that have a project_id, eager load the project and group them by project
-        $myProjectTasks = Task::where('user_id', auth()->id())
+        $myProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
+            ->where('user_id', auth()->id())
             ->whereNotNull('project_id')
             ->with('project', 'user')
             ->get()
             ->groupBy('project_id');
         // get the assigned tasks for the current user that don't have aproject_id
-        $assignedTasks = Task::where('assigned_to', auth()->id())
+        $assignedTasks = Task::where('squad_id', auth()->user()->squad_id)
+            ->where('assigned_to', auth()->id())
             ->whereNull('project_id')
             ->with('user')
             ->get();
         // get the assigned tasks for the current user that have a project_id, eager load the project and group them by project
-        $assignedProjectTasks = Task::where('assigned_to', auth()->id())
+        $assignedProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
+            ->where('assigned_to', auth()->id())
             ->whereNotNull('project_id')
             ->with('project', 'user')
             ->get()
             ->groupBy('project_id');
         // get team tasks for the current user that don't have aproject_id, team is an array of user_ids, so this user_id must be inside this array
-        $teamTasks = Task::where('team', 'LIKE', '%' . auth()->id() . '%')
+        $teamTasks = Task::where('squad_id', auth()->user()->squad_id)
+            ->where('team', 'LIKE', '%' . auth()->id() . '%')
             ->whereNull('project_id')
             ->with('user')
             ->get();
         // get team tasks for the current user that have a project_id, eager load the project and group them by project, team is an array of user_ids, so this user_id must be inside this array
-        $teamProjectTasks = Task::where('team', 'LIKE', '%' . auth()->id() . '%')
+        $teamProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
+            ->where('team', 'LIKE', '%' . auth()->id() . '%')
             ->whereNotNull('project_id')
             ->with('project', 'user')
             ->get()
             ->groupBy('project_id');
         // get all the users details grouped by _id
-        $users = User::all()->keyBy('_id');
+        $users = User::where('squad_id', auth()->user()->squad_id)
+            ->get()->keyBy('_id');
         
         // return the tasks view with the tasks
         return Inertia::render('Tasks/Index', [

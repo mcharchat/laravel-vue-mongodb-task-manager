@@ -21,12 +21,14 @@ class ProjectController extends Controller
     public function index(Request $request): Response
     {
         // get all projects for the current user and eager load the tasks and user
-        $myProjects = Project::where('user_id', auth()->id())
+        $myProjects = Project::where('squad_id', auth()->user()->squad_id)
+            ->where('user_id', auth()->id())
             ->with(['tasks', 'user'])
             ->get();
         // get all projects and eager load the tasks and user
-        $projects = Project::all()
-            ->load(['tasks', 'user']);
+        $projects = Project::where('squad_id', auth()->user()->squad_id)
+            ->with(['tasks', 'user'])
+            ->get();
         // return the projects view with the projects
         return Inertia::render('Projects/Index', [
             'myProjects' => $myProjects,
@@ -81,7 +83,9 @@ class ProjectController extends Controller
             });
         }, 'tasks.user', 'tasks.project']);
         // get all the users details grouped by _id
-        $users = User::all()->keyBy('_id');
+        $users = User::where('squad_id', auth()->user()->squad_id)
+            ->get()
+            ->keyBy('_id');
         // return the projects show view with the project
         return Inertia::render('Projects/Show', [
             'project' => $project,
