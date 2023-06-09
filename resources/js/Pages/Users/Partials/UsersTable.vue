@@ -110,6 +110,17 @@ function toggleStarred(user) {
                         </div>
                     </div>
                 </div>
+                <div v-if="filteredUsers.length != 0" v-tooltip="'Invite an user'">
+                    <Link :href="route('users.create')" class="text-blue-500 hover:text-blue-700 font-bold">
+                        <div class="flex flex-col rounded-lg shadow p-4 justify-around border-dashed border-2 border-blue-500 hover:border-blue-700" :style="{ 'aspectRatio': '1/1', 'width': '155px' }">
+                            <div class="flex items-center justify-center">
+                                <div class="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 28 28"><path fill="currentColor" d="M24 13h-9V4a1 1 0 1 0-2 0v9H4a1 1 0 1 0 0 2h9v9a1 1 0 1 0 2 0v-9h9a1 1 0 1 0 0-2Z"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </Link>
+                </div>
                 <h3 v-if="filteredUsers.length == 0" class="text-xl font-bold grow text-center">No matching users, <Link :href="route('users.create')" class="text-blue-500 hover:text-blue-700 ">invite one</Link> to your squad!</h3>
             </div>
         </section>
