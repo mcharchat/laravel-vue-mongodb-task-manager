@@ -25,7 +25,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'starred_projects' => [],
             'starred_users' => [],
-            'squad_id' => fake()->uuid(),
+            'squad_id' => 'd5ade74a-06d1-11ee-be56-0242ac120002',
         ];
     }
 

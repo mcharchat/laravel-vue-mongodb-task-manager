@@ -19,6 +19,7 @@ class TaskFactory extends Factory
         return [
             'user_id' => \App\Models\User::factory(),
             'title' => $this->faker->sentence,
+            'squad_id' => 'd5ade74a-06d1-11ee-be56-0242ac120002',
             'description' => $this->faker->paragraph,
             'progress' => $this->faker->numberBetween(0, 100),
             'completed' => false,

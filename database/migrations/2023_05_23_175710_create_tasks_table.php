@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();//used
-            $table->timestamps();//used
+            $table->timestamps(); //used
+            $table->uuid('squad_id')->nullable();     
             $table->foreignId('user_id')->constrained()->onDelete('cascade');//used
             $table->string('title');//used
             $table->foreignId('project_id')->nullable()->constrained()->onDelete('cascade');//used
