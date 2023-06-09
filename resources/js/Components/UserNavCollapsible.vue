@@ -50,6 +50,7 @@ const toggleCollapse = () => {
                                 'transition-all': true,
                                 'px-4 gap-4': !slimNavigation,
                                 'justify-center gap-8': slimNavigation,
+                                'hidden': props.users.length === 0
                             }"
                         >
                             <NavAvatarLink v-for="(user, index) in props.users" :key="index" :href="route('users.show', user._id)" :active="route().current('users.show', user._id)" v-tooltip="'User '+ user.name">
