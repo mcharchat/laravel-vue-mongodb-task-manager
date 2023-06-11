@@ -59,6 +59,8 @@ class ProjectController extends Controller
         $validated = $request->validated();
         // set the user_id to the current user id
         $validated['user_id'] = auth()->id();
+        // add the squad_id to the validated data
+        $validated['squad_id'] = auth()->user()->squad_id;
         // create a new project with the validated data
         Project::create($validated);
         // return a redirect to the projects index

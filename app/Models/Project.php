@@ -13,6 +13,7 @@ class Project extends Model
         'name',
         'description',
         'user_id',
+        'squad_id',
     ];
     // every project has many tasks
     public function tasks()
