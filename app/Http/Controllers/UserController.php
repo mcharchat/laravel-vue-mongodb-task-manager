@@ -44,7 +44,7 @@ class UserController extends Controller
         // 2. the task has to be owned by the current user
         // 3. the task has to be assigned to a team that the current user is a member of
         // get tasks for the selected user that don't have a project_id
-        $myTasks = Task::where('squad_id', auth()->user()->squad_id)
+        $usersTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('user_id', $user->_id)
             ->whereNull('project_id')
             ->where(function ($query) use ($user) {
@@ -54,7 +54,7 @@ class UserController extends Controller
             ->with('user')
             ->get();
         // get tasks for the selected user that have a project_id, eager load the project and group them by project
-        $myProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
+        $usersProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('user_id', $user->_id)
             ->whereNotNull('project_id')
             ->where(function ($query) use($user){
@@ -106,6 +106,9 @@ class UserController extends Controller
             ->with('project', 'user')
             ->get()
             ->groupBy('project_id');
+
+        // get user's projects
+        $projects = $user->projects()->get();
         // get all the users details grouped by _id
         $users = User::where('squad_id', auth()->user()->squad_id)
             ->get()->keyBy('_id');        
@@ -113,13 +116,14 @@ class UserController extends Controller
         // return the users show view with the user
         return Inertia::render('Users/Show', [
             'user' => $user,
-            'myTasks' => $myTasks,
-            'myProjectTasks' => $myProjectTasks,
+            'usersTasks' => $usersTasks,
+            'usersProjectTasks' => $usersProjectTasks,
             'assignedTasks' => $assignedTasks,
             'assignedProjectTasks' => $assignedProjectTasks,
             'teamTasks' => $teamTasks,
             'teamProjectTasks' => $teamProjectTasks,
             'users' => $users,
+            'projects' => $projects,
         ]);
     }
 
