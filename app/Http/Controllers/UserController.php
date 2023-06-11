@@ -47,9 +47,9 @@ class UserController extends Controller
         $myTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('user_id', $user->_id)
             ->whereNull('project_id')
-            ->where(function ($query) {
-                $query->where('assigned_to', auth()->id())
-                    ->orWhere('team', 'LIKE', '%' . auth()->id() . '%');
+            ->where(function ($query) use ($user) {
+                $query->where('assigned_to', $user->_id)
+                    ->orWhere('team', 'LIKE', '%' . $user->_id . '%');
             })
             ->with('user')
             ->get();
@@ -57,9 +57,9 @@ class UserController extends Controller
         $myProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('user_id', $user->_id)
             ->whereNotNull('project_id')
-            ->where(function ($query) {
-                $query->where('assigned_to', auth()->id())
-                    ->orWhere('team', 'LIKE', '%' . auth()->id() . '%');
+            ->where(function ($query) use($user){
+                $query->where('assigned_to', $user->_id)
+                    ->orWhere('team', 'LIKE', '%' . $user->_id . '%');
             })
             ->with('project', 'user')
             ->get()
@@ -68,9 +68,9 @@ class UserController extends Controller
         $assignedTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('assigned_to', $user->_id)
             ->whereNull('project_id')
-            ->where(function ($query) {
-                $query->where('user_id', auth()->id())
-                    ->orWhere('team', 'LIKE', '%' . auth()->id() . '%');
+            ->where(function ($query) use ($user){
+                $query->where('user_id', $user->_id)
+                    ->orWhere('team', 'LIKE', '%' . $user->_id . '%');
             })
             ->with('user')
             ->get();
@@ -78,30 +78,30 @@ class UserController extends Controller
         $assignedProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('assigned_to', $user->_id)
             ->whereNotNull('project_id')
-            ->where(function ($query) {
-                $query->where('user_id', auth()->id())
-                    ->orWhere('team', 'LIKE', '%' . auth()->id() . '%');
+            ->where(function ($query) use ($user){
+                $query->where('user_id', $user->_id)
+                    ->orWhere('team', 'LIKE', '%' . $user->_id . '%');
             })
             ->with('project', 'user')
             ->get()
             ->groupBy('project_id');
         // get team tasks for the selected user that don't have aproject_id, team is an array of user_ids, so this user_id must be inside this array
         $teamTasks = Task::where('squad_id', auth()->user()->squad_id)
-            ->where('team', 'LIKE', '%' . auth()->id() . '%')
+            ->where('team', 'LIKE', '%' . $user->_id . '%')
             ->whereNull('project_id')
-            ->where(function ($query) {
-                $query->where('user_id', auth()->id())
-                    ->orWhere('assigned_to', auth()->id());
+            ->where(function ($query) use ($user){
+                $query->where('user_id', $user->_id)
+                    ->orWhere('assigned_to', $user->_id);
             })
             ->with('user')
             ->get();
         // get team tasks for the selected user that have a project_id, eager load the project and group them by project, team is an array of user_ids, so this user_id must be inside this array
         $teamProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
-            ->where('team', 'LIKE', '%' . auth()->id() . '%')
+            ->where('team', 'LIKE', '%' . $user->_id . '%')
             ->whereNotNull('project_id')
-            ->where(function ($query) {
-                $query->where('user_id', auth()->id())
-                    ->orWhere('assigned_to', auth()->id());
+            ->where(function ($query) use ($user){
+                $query->where('user_id', $user->_id)
+                    ->orWhere('assigned_to', $user->_id);
             })
             ->with('project', 'user')
             ->get()
