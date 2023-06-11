@@ -23,7 +23,7 @@
                 backgroundColor: projectColor,
             }"></div>
             <Icon class="m-3" :icon="publicc ? 'material-symbols:lock-open-right-outline' : 'material-symbols:lock-outline'" v-tooltip="publicc ? 'Public' : 'Private'"/>
-            <div class="pr-3 py-2" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap'}" v-tooltip="props.item.title">
+            <div class="pr-3 py-2 w-[300px]" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap'}" v-tooltip="props.item.title">
                 {{ props.item.title }}
             </div>
         </div>

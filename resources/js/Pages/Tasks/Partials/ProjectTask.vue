@@ -128,8 +128,9 @@ const orderBy = (field) => {
                         <th class="text-start px-1 text-lg flex items-center cursor-pointer"
                             :style="{ color: projectTextColor }"
                              @click="orderBy('title')"
+                             v-tooltip="project[0]?.project?.name"
                         >
-                            <span>
+                            <span class="max-w-[300px]" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                 {{ project[0]?.project?.name }}
                             </span>
                             <Icon icon="iconamoon:arrow-up-2-bold" :class="{
