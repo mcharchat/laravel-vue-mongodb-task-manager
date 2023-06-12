@@ -5,6 +5,7 @@ import { Icon } from '@iconify/vue';
 import TaskTableLine from './TaskTableLine.vue';
 import { stringToColour } from '@/Utils/globalFunctions';
 import { usePage, Link } from '@inertiajs/vue3';
+import eventBus from '@/Utils/eventBus';
 
 const props = defineProps({
     project: {
@@ -104,6 +105,12 @@ const orderBy = (field) => {
             break;
     }
 };
+
+function newTaskModal() {
+    eventBus.$emit('newTaskModal', {
+        task: undefined,
+    });
+}
 
 </script>
 
@@ -248,9 +255,6 @@ const orderBy = (field) => {
                                 }"/>
                             </div>
                         </th>
-                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">
-                            Actions
-                        </th>
                     </tr>
                 </transition>
             </thead>
@@ -274,13 +278,13 @@ const orderBy = (field) => {
                                 borderRight: '2px solid white',
                             }"
                         >
-                            <div class="flex">
-                                <div class="w-[4px]" :style="{
+                            <div class="flex" @click="newTaskModal()">
+                                    <div class="w-[4px]" :style="{
                                     backgroundColor: projectBackgroundColor,
                                 }"></div>
-                                <Link class="cursor-pointer px-3 py-2 grow" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }" :href="route('tasks.create')">
+                                <div class="cursor-pointer px-3 py-2 grow" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }">
                                     + Add
-                                </Link>
+                                </div>
                             </div>
                         </td> 
                     </tr>
@@ -294,13 +298,13 @@ const orderBy = (field) => {
                                 borderRight: '2px solid white',
                             }"
                         >
-                            <div class="flex">
+                            <div class="flex" @click="newTaskModal()">
                                 <div class="w-[4px]" :style="{
                                     backgroundColor: projectBackgroundColor,
                                 }"></div>
-                                <Link class="cursor-pointer px-3 py-2 grow" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }" :href="route('tasks.create')">
+                                <div class="cursor-pointer px-3 py-2 grow" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }">
                                     + Add
-                                </Link>
+                                </div>
                             </div>
                         </td> 
                     </tr>

@@ -42,11 +42,19 @@ class GetTopProjectsUsers
                 ->orderBy('updated_at', 'desc')
                 ->get();
         }
+
+        $allProjects = Project::orderBy('name', 'asc')
+            ->with('user')
+            ->get();
+        $allUsers = User::orderBy('name', 'asc')
+            ->get();
         
         // share the projects with the view in Inertia
         Inertia::share([
             'topProjects' => $topProjects,
             'topUsers' => $topUsers,
+            'allProjects' => $allProjects,
+            'allUsers' => $allUsers,
         ]);
         return $next($request);
     }

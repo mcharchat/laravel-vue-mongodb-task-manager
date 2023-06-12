@@ -23,14 +23,15 @@ class TaskFactory extends Factory
 
         $statusArray = ['Cancelled', 'Not Started', 'In Progress', 'On Hold', 'Completed'];
         $priorityArray = ['None', 'Lowest', 'Low', 'Medium', 'High', 'Highest'] ;
+        $task_progress = $this->faker->numberBetween(0, 100);
 
         return [
             'user_id' => $this->faker->randomElement($userIds),
             'title' => $this->faker->sentence,
             'squad_id' => 'd5ade74a-06d1-11ee-be56-0242ac120002',
             'description' => $this->faker->paragraph,
-            'progress' => $this->faker->numberBetween(0, 100),
-            'completed' => false,
+            'task_progress' => $task_progress,
+            'completed' => $task_progress == 100 ? true : false,
             'priority' => $this->faker->randomElement($priorityArray),
             'status' => $this->faker->randomElement($statusArray),
             'category' => 'Uncategorized',
@@ -38,6 +39,12 @@ class TaskFactory extends Factory
             'team' => $this->faker->randomElements($userIds, $this->faker->numberBetween(0, 10)),
             'project_id' => $this->faker->randomElement($projectIds),
             'assigned_to' => $this->faker->randomElement($userIds),
+            'start_date' => new \MongoDB\BSON\UTCDateTime(
+                $this->faker->dateTimeBetween('-1 month', '+1 month')->getTimestamp() * 1000
+            ),
+            'due_date' => new \MongoDB\BSON\UTCDateTime(
+                $this->faker->dateTimeBetween('-1 month', '+1 month')->getTimestamp() * 1000
+            ),
         ];
     }
 }

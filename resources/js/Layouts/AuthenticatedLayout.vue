@@ -10,6 +10,8 @@ import SearchForm from '@/Layouts/Partials/SearchForm.vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import eventBus from '@/Utils/eventBus';
 import { stringToColour } from '@/Utils/globalFunctions';
+import Modal from '@/Components/Modal.vue';
+import TaskForm from '@/Pages/Tasks/Partials/TaskForm.vue';
 
 //function that verify if screen is mobile
 function isMobile() {
@@ -17,6 +19,7 @@ function isMobile() {
 }
 // ref  if slim navigation is active
 const slimNavigation = ref(isMobile());
+const modalTask = ref(undefined);
 
 onMounted(() => {
     eventBus.$on('topProjectsUpdate', (content) => {
@@ -24,6 +27,14 @@ onMounted(() => {
     });
     eventBus.$on('topUsersUpdate', (content) => {
         topUsers.value = content.value;
+    });
+    eventBus.$on('newTaskModal', (content) => {
+        modalTask.value = content.task;
+        showModal.value = true;
+    });
+    eventBus.$on('updateTaskModal', (content) => {
+        modalTask.value = content.task;
+        showModal.value = true;
     });
 });
 const $page = usePage();
@@ -47,9 +58,19 @@ channel.listen('.user-event', function (data) {
     eventBus.$emit('userUpdate', data);
 });
 
+const showModal = ref(false);
+
 </script>
 
 <template>
+    <Modal 
+        :show="showModal" 
+        @close="showModal = false"
+    >
+        <TaskForm 
+            :task="modalTask"
+        />
+    </Modal>
     <div>
         <div class="flex h-full">
             <!-- Side Menu -->

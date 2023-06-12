@@ -23,7 +23,7 @@ return new class extends Migration
             $table->timestamp('start_date')->nullable();//used
             $table->timestamp('due_date')->nullable();//used
             $table->timestamp('actual_start_date')->nullable();
-            $table->integer('progress')->default(0);//used
+            $table->integer('task_progress')->default(0);//used
             $table->boolean('completed')->default(false);//used
             $table->string('priority')->default('None');//used
             $table->string('status')->default('Not Started');//used

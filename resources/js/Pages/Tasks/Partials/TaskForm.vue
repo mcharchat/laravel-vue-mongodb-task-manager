@@ -1,0 +1,229 @@
+<template>
+    <section>
+        <header>
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Task Details</h2>
+
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                Isert below the task details.
+            </p>
+        </header>
+
+        <form @submit.prevent="form.put(route('tasks.update', task._id))" class="mt-6 space-y-6">
+            <div>
+                <InputLabel for="project_id" value="Project" />
+
+                <SelectInput id="project_id" class="mt-1 block w-full" v-model="form.project_id" required
+                    :options="projectDictionary" :firstDisabled='false'/>
+
+                <InputError class="mt-2" :message="form.errors.project_id" />
+
+            </div>
+
+            <div>
+                <InputLabel for="title" value="Title" />
+
+                <TextInput id="title" type="text" class="mt-1 block w-full" v-model="form.title" required autofocus
+                    autocomplete="title" />
+
+                <InputError class="mt-2" :message="form.errors.title" />
+            </div>
+
+            <div>
+                <InputLabel for="assigned_to" value="Assigned To" />
+
+                <SelectInput id="assigned_to" class="mt-1 block w-full" v-model="form.assigned_to" required
+                    :options="userDictionary" :firstDisabled='false'/>
+
+                <InputError class="mt-2" :message="form.errors.assigned_to" />
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4">
+                <div class="w-full">
+                    <InputLabel for="start_date" value="Start Date" />
+
+                    <TextInput id="start_date" type="date" class="mt-1 block w-full" v-model="form.start_date"
+                        autocomplete="start_date" />
+
+                    <InputError class="mt-2" :message="form.errors.start_date" />
+                </div>
+
+                <div class="w-full">
+                    <InputLabel for="due_date" value="Due Date" />
+
+                    <TextInput id="due_date" type="date" class="mt-1 block w-full" v-model="form.due_date"
+                        autocomplete="due_date" />
+
+                    <InputError class="mt-2" :message="form.errors.due_date" />
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4">
+                <div class="w-full">
+                    <InputLabel for="actual_start_date" value="Actual Start Date" />
+
+                    <TextInput id="actual_start_date" type="date" class="mt-1 block w-full"
+                        v-model="form.actual_start_date" autocomplete="actual_start_date" />
+
+                    <InputError class="mt-2" :message="form.errors.actual_start_date" />
+                </div>
+
+                <div class="w-full">
+                    <InputLabel for="completed_at" value="Completed At" />
+
+                    <TextInput id="completed_at" type="date" class="mt-1 block w-full" v-model="form.completed_at"
+                        autocomplete="completed_at" />
+
+                    <InputError class="mt-2" :message="form.errors.completed_at" />
+                </div>
+            </div>
+
+            <div>
+                <InputLabel for="status" value="Status" />
+
+                <SelectInput id="status" class="mt-1 block w-full" v-model="form.status" required :options="{
+                    'Cancelled': 'Cancelled',
+                    'Completed': 'Completed',
+                    'In Progress': 'In Progress',
+                    'Not Started': 'Not Started',
+                    'On Hold': 'On Hold',
+                }" :firstDisabled='true'/>
+
+                <InputError class="mt-2" :message="form.errors.status" />
+            </div>
+
+            <div>
+                <InputLabel for="priority" value="Priority" />
+
+                <SelectInput id="priority" class="mt-1 block w-full" v-model="form.priority" required :options="{
+                    'None': 'None',
+                    'Lowest': 'Lowest',
+                    'Low': 'Low',
+                    'Medium': 'Medium',
+                    'High': 'High',
+                    'Highest': 'Highest',
+                }" :firstDisabled='true'/>
+
+                <InputError class="mt-2" :message="form.errors.priority" />
+            </div>
+
+            <div>
+                <InputLabel for="task_progress" value="Progress" />
+
+                <TextInput id="task_progress" type="number" class="mt-1 block w-full" v-model="form.task_progress"
+                    autocomplete="task_progress" />
+
+                <InputError class="mt-2" :message="form.errors.task_progress" />
+            </div>
+
+            <div>
+                <InputLabel for="public" value="Public" />
+
+                <SelectInput id="public" class="mt-1 block w-full" v-model="form.public" required :options="{
+                    false: 'No',
+                    true: 'Yes',
+                }" :firstDisabled='true'/>
+
+                <InputError class="mt-2" :message="form.errors.public" />
+            </div>
+
+            <div>
+                <InputLabel for="description" value="Description" />
+
+                <TextAreaInput id="description" rows="10" class="mt-1 block w-full" v-model="form.description" required />
+
+                <InputError class="mt-2" :message="form.errors.description" />
+            </div>
+
+            <div class="flex items-center justify-between gap-4">
+                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
+
+                <Transition enter-from-class="opacity-0" leave-to-class="opacity-0" class="transition ease-in-out">
+                    <p v-if="form.recentlySuccessful" class="text-sm text-gray-600 dark:text-gray-400">Saved.</p>
+                </Transition>
+
+                <Link :href="route('tasks')"
+                    class="inline-flex items-center px-4 py-2 bg-red-800 dark:bg-red-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-red-800 uppercase tracking-widest hover:bg-red-700 dark:hover:bg-white focus:bg-red-700 dark:focus:bg-white active:bg-red-900 dark:active:bg-red-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-red-800 transition ease-in-out duration-150">
+                Cancel</Link>
+            </div>
+        </form>
+    </section>
+</template>
+<script setup>
+import { defineProps, ref } from 'vue';
+import { useForm, Link, usePage } from '@inertiajs/vue3';
+import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import TextInput from '@/Components/TextInput.vue';
+import TextAreaInput from '@/Components/TextAreaInput.vue';
+import SelectInput from '@/Components/SelectInput.vue';
+
+const props = defineProps({
+    task: {
+        type: Object,
+        required: false
+    },
+});
+
+const task = ref(props.task);
+const startDate = ref(new Date(
+    parseInt(props?.task?.start_date?.$date.$numberLong)
+).toLocaleDateString('en-CA'));
+const dueDate = ref(new Date(
+    parseInt(props?.task?.due_date?.$date.$numberLong)
+).toLocaleDateString('en-CA'));
+
+const actualStartDate = ref(new Date(
+    parseInt(props?.task?.actual_start_date?.$date.$numberLong)
+).toLocaleDateString('en-CA'));
+
+const completedAt = ref(new Date(
+    parseInt(props?.task?.completed_at?.$date.$numberLong)
+).toLocaleDateString('en-CA'));
+
+const form = useForm({
+    project_id: task.value?.project_id, // ok
+    title: task.value?.title, // ok
+    start_date: startDate, // ok
+    due_date: dueDate, // ok
+    actual_start_date: actualStartDate, // ok
+    completed_at: completedAt, // ok
+    task_progress: task.value?.task_progress, // ok
+    completed: task.value?.task_progress == 100, // ok
+    priority: task.value?.priority, // ok
+    status: task.value?.status, // ok
+    public: task.value?.public, // ok
+    assigned_to: task.value?.assigned_to, // ok
+    team: task.value?.team,
+    labels: task.value?.labels,
+    category: task.value?.category,
+    reminder_date: task.value?.reminder_date,
+    working_days: task.value?.working_days,
+    planned_effort: task.value?.planned_effort,
+    actual_effort: task.value?.actual_effort,
+    cost: task.value?.cost,
+    description: task.value?.description,
+    checklist: task.value?.checklist,
+});
+
+const projectDictionary = ref(
+    usePage()
+    .props
+    .allProjects
+    .reduce((acc, project) => {
+        acc[project._id] = project.name;
+        return acc;
+    }, {})
+);
+
+const userDictionary = ref(
+    usePage()
+    .props
+    .allUsers
+    .reduce((acc, user) => {
+        acc[user._id] = user.name;
+        return acc;
+    }, {})
+);
+
+</script>

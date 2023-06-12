@@ -18,12 +18,12 @@ import { ref, computed } from 'vue';
 // Props
 const props = defineProps({
     startDate: {
-        type: Date,
-        required: true
+        type: Object,
+        required: false
     },
     dueDate: {
-        type: Date,
-        required: true
+        type: Object,
+        required: false
     },
     projectColor: {
         type: String,
