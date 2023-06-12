@@ -10,6 +10,10 @@ const props = defineProps({
     project: {
         type: Array,
         required: true
+    },
+    selectedTasks: {
+        type: Array,
+        required: true
     }
 });
 const project = ref(props.project);
@@ -260,7 +264,7 @@ const orderBy = (field) => {
             >
                 <tbody v-if="!collapsed" >
                     <tr v-for="item in project" :key="item._id" :style="{backgroundColor: projectBackgroundColor}">
-                        <TaskTableLine :item="{...item}" :projectColor="projectColor" :projectTextColor="projectTextColor"/>
+                        <TaskTableLine :item="{...item}" :projectColor="projectColor" :projectTextColor="projectTextColor" :selectedTasks="selectedTasks"/>
                     </tr>
                     <tr>
                         <td></td>

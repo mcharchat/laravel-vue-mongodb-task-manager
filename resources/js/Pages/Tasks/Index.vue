@@ -18,7 +18,7 @@ const teamProjectTasks = usePage().props.teamProjectTasks;
 
 const activeTab = ref('myTasks');
 
-const selectedTasks = ref(JSON.parse(localStorage.getItem('selectedTasks')));
+const selectedTasks = ref([]);
 const allTasks = [...myTasks, ...assignedTasks, ...teamTasks, ...Object.values(myProjectTasks), ...Object.values(assignedProjectTasks), ...Object.values(teamProjectTasks)].flat().filter((task, index, self) => index === self.findIndex((t) => t._id === task._id));
 
 function displayMenuFunc() {
@@ -33,7 +33,12 @@ const displayMenu = ref(displayMenuFunc());
 
 onMounted(() => {
     eventBus.$on('taskCheckbox', (content) => {
-        selectedTasks.value = JSON.parse(localStorage.getItem('selectedTasks'))
+        //check if content is in selectedTasks if not add it if yes remove it
+        if (selectedTasks.value.includes(content)) {
+            selectedTasks.value = selectedTasks.value.filter((task) => task !== content);
+        } else {
+            selectedTasks.value = [...selectedTasks.value, content];
+        }
         displayMenu.value = displayMenuFunc();
     });
 });
@@ -114,13 +119,13 @@ onMounted(() => {
                     <h2 class="text-lg font-semibold mb-2">Free Tasks</h2>
                     <div class="flex flex-col gap-2">
                         <div class="p-2">
-                            <ProjectTask :project="myTasks"/>
+                            <ProjectTask :project="myTasks" :selectedTasks="selectedTasks"/>
                         </div>
                     </div>
                     <h2 class="text-lg font-semibold mb-2">Project Tasks</h2>
                     <div class="flex flex-col gap-2">
                         <div v-for="(project, project_id) in myProjectTasks" :key="project_id" class="p-2">
-                            <ProjectTask :project="project"/>
+                            <ProjectTask :project="project" :selectedTasks="selectedTasks"/>
                         </div>
                     </div>
                 </div>
@@ -128,13 +133,13 @@ onMounted(() => {
                     <h2 class="text-lg font-semibold mb-2">Free Tasks</h2>
                     <div class="flex flex-col gap-2">
                         <div class="p-2">
-                            <ProjectTask :project="assignedTasks"/>
+                            <ProjectTask :project="assignedTasks" :selectedTasks="selectedTasks"/>
                         </div>
                     </div>
                     <h2 class="text-lg font-semibold mb-2">Project Tasks</h2>
                     <div class="flex flex-col gap-2">
                         <div v-for="(project, project_id) in assignedProjectTasks" :key="project_id" class="p-2">
-                            <ProjectTask :project="project"/>
+                            <ProjectTask :project="project" :selectedTasks="selectedTasks"/>
                         </div>
                     </div>
                 </div>
@@ -142,13 +147,13 @@ onMounted(() => {
                     <h2 class="text-lg font-semibold mb-2">Free Tasks</h2>
                     <div class="flex flex-col gap-2">
                         <div class="p-2">
-                            <ProjectTask :project="teamTasks"/>
+                            <ProjectTask :project="teamTasks" :selectedTasks="selectedTasks"/>
                         </div>
                     </div>
                     <h2 class="text-lg font-semibold mb-2">Project Tasks</h2>
                     <div class="flex flex-col gap-2">
                         <div v-for="(project, project_id) in teamProjectTasks" :key="project_id" class="p-2">
-                            <ProjectTask :project="project"/>
+                            <ProjectTask :project="project" :selectedTasks="selectedTasks"/>
                         </div>
                     </div>
                 </div>

@@ -171,27 +171,21 @@ const props = defineProps({
     projectTextColor: {
         type: String,
         required: true
-    }
+    },
+    selectedTasks: {
+        type: Array,
+        required: true
+    },
 });
 
 const users = usePage().props.users;
-// get value from localStorage item named selectedTasks, and check if current task is in it
-const checkbox = ref(JSON.parse(localStorage.getItem('selectedTasks'))?.includes(props.item._id));
+
+const checkbox = ref(props.selectedTasks.includes(props.item._id));
 
 const publicc = ref(props.item.public);
 
 const toggleCheckbox = () => {
     checkbox.value = !checkbox.value;
-    // add _id to localStorage item named selectedTasks
-    if (checkbox.value) {
-        let selectedTasks = JSON.parse(localStorage.getItem('selectedTasks')) || [];
-        selectedTasks.push(props.item._id);
-        localStorage.setItem('selectedTasks', JSON.stringify(selectedTasks));
-    } else {
-        let selectedTasks = JSON.parse(localStorage.getItem('selectedTasks')) || [];
-        selectedTasks = selectedTasks.filter((task) => task !== props.item._id);
-        localStorage.setItem('selectedTasks', JSON.stringify(selectedTasks));
-    }
     eventBus.$emit('taskCheckbox', props.item._id);
 };
 
