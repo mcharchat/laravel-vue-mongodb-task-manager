@@ -29,7 +29,7 @@ To install and run the Laravel Vue MongoDB Task Manager, follow these steps:
 2. Navigate to the project directory: `cd laravel-vue-mongodb-task-manager`
 3. Install PHP dependencies: `composer install`
 4. Install JavaScript dependencies: `npm install`
-5. Create a `.env` file by duplicating `.env.example` and updating the necessary configuration details, including your MongoDB connection settings.
+5. Create a `.env` file by duplicating `.env.example` and updating the necessary configuration details, including your MongoDB connection settings and Pusher App settings.
 6. Generate an application key: `php artisan key:generate`
 7. Run the database migrations: `php artisan migrate`
 8. Compile the assets: `npm run dev` (for development) or `npm run production` (for production)
