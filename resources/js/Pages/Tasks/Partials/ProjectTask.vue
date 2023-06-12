@@ -4,7 +4,7 @@ import { ref } from 'vue';
 import { Icon } from '@iconify/vue';
 import TaskTableLine from './TaskTableLine.vue';
 import { stringToColour } from '@/Utils/globalFunctions';
-import { usePage } from '@inertiajs/vue3';
+import { usePage, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     project: {
@@ -274,9 +274,9 @@ const orderBy = (field) => {
                                 <div class="w-[4px]" :style="{
                                     backgroundColor: projectBackgroundColor,
                                 }"></div>
-                                <div class="cursor-pointer px-3 py-2 grow" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }">
+                                <Link class="cursor-pointer px-3 py-2 grow" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }" :href="route('tasks.create')">
                                     + Add
-                                </div>
+                                </Link>
                             </div>
                         </td> 
                     </tr>
@@ -294,9 +294,9 @@ const orderBy = (field) => {
                                 <div class="w-[4px]" :style="{
                                     backgroundColor: projectBackgroundColor,
                                 }"></div>
-                                <div class="cursor-pointer px-3 py-2 grow" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }">
+                                <Link class="cursor-pointer px-3 py-2 grow" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }" :href="route('tasks.create')">
                                     + Add
-                                </div>
+                                </Link>
                             </div>
                         </td> 
                     </tr>
