@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserEvent;
 use App\Models\User;
 use App\Models\Task;
 use Illuminate\Auth\Events\Registered;
@@ -158,6 +159,8 @@ class UserController extends Controller
         ]);
         // fires the registered event
         event(new Registered($newUser));
+        // fires the UserEvent
+        event(new UserEvent(auth()->user()->squad_id, $newUser));
         // return back to the previous page
         return redirect()->route('users')->with('success', 'User created.');
     }

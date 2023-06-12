@@ -19,6 +19,8 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
-        "floating-vue": "^2.0.0-beta.20"
+        "floating-vue": "^2.0.0-beta.20",
+        "laravel-echo": "^1.15.1",
+        "pusher-js": "^8.0.2"
     }
 }

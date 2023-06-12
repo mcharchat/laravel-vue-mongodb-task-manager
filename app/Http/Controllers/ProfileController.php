@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserEvent;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -36,6 +37,9 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
+
+        // broadcast the user event with two arguments: the channel that is the squad_id and the user
+        event(new UserEvent($request->user()->squad_id, $request->user()));
 
         return Redirect::route('profile.edit');
     }

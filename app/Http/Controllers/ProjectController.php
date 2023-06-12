@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProjectEvent;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
@@ -63,6 +64,8 @@ class ProjectController extends Controller
         $validated['squad_id'] = auth()->user()->squad_id;
         // create a new project with the validated data
         Project::create($validated);
+        // fire the ProjectEvent event with the squad_id and the validated data
+        event(new ProjectEvent(auth()->user()->squad_id, $validated));
         // return a redirect to the projects index
         return redirect()->route('projects');
     }
@@ -124,6 +127,8 @@ class ProjectController extends Controller
         $validated['user_id'] = auth()->id();
         // update the project with the validated data
         $project->update($validated);
+        // fire the ProjectEvent event with the squad_id and the validated data
+        event(new ProjectEvent(auth()->user()->squad_id, $validated));
         // return a redirect to the projects index
         return redirect()->route('projects');
     }

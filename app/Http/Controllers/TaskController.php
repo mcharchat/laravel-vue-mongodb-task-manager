@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TaskEvent;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
@@ -99,6 +100,8 @@ class TaskController extends Controller
         $validated = $request->validated();
         // create a new task with the validated data
         Task::create($validated);
+        // fire the TaskEvent event with the squad_id and the validated data
+        event(new TaskEvent(auth()->user()->squad_id, $validated));
         // return a redirect to the tasks index
         return redirect()->route('tasks');
     }
@@ -144,6 +147,8 @@ class TaskController extends Controller
         $validated = $request->validated();
         // update the task with the validated data
         $task->update($validated);
+        // fire the TaskEvent event with the squad_id and the validated data
+        event(new TaskEvent(auth()->user()->squad_id, $validated));
         // return a redirect to the tasks index
         return redirect()->route('tasks');
     }

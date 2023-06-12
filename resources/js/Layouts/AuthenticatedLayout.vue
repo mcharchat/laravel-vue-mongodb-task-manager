@@ -32,6 +32,21 @@ const topUsers = ref($page.props.topUsers);
 
 const whiteRoutes = ['tasks', 'projects.show', 'users.show', 'search.show']
 
+const squad_id = $page.props.auth.user.squad_id;
+
+Echo.leaveAllChannels();
+
+var channel = Echo.channel(squad_id);
+channel.listen('.task-event', function (data) {
+    eventBus.$emit('taskUpdate', data);
+});
+channel.listen('.project-event', function (data) {
+    eventBus.$emit('projectUpdate', data);
+});
+channel.listen('.user-event', function (data) {
+    eventBus.$emit('userUpdate', data);
+});
+
 </script>
 
 <template>
