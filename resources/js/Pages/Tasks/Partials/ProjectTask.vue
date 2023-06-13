@@ -151,6 +151,13 @@ function newTaskModal() {
                                 'opacity-100': ordedBy === 'title',
                             }"/>
                         </th>
+                        <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium">
+                            <div class="flex items-center justify-center cursor-pointer">
+                                <span>
+                                    Comments
+                                </span>
+                            </div>
+                        </th>
                         <th v-if="!collapsed && project.length !== 0" class="px-1 text-base font-medium" @click="orderBy('user.name')">
                             <div class="flex items-center justify-center cursor-pointer">
                                 <span>

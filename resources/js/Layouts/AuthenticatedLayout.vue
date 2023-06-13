@@ -12,6 +12,7 @@ import eventBus from '@/Utils/eventBus';
 import { stringToColour } from '@/Utils/globalFunctions';
 import Modal from '@/Components/Modal.vue';
 import TaskForm from '@/Pages/Tasks/Partials/TaskForm.vue';
+import CommentsForm from '@/Pages/Tasks/Partials/CommentsForm.vue';
 
 //function that verify if screen is mobile
 function isMobile() {
@@ -20,6 +21,8 @@ function isMobile() {
 // ref  if slim navigation is active
 const slimNavigation = ref(isMobile());
 const modalTask = ref(undefined);
+const modalComment = ref(undefined);
+const modalType = ref(undefined);
 
 onMounted(() => {
     eventBus.$on('topProjectsUpdate', (content) => {
@@ -30,10 +33,17 @@ onMounted(() => {
     });
     eventBus.$on('newTaskModal', (content) => {
         modalTask.value = content.task;
+        modalType.value = 'task';
         showModal.value = true;
     });
     eventBus.$on('updateTaskModal', (content) => {
         modalTask.value = content.task;
+        modalType.value = 'task';
+        showModal.value = true;
+    });
+    eventBus.$on('commentModal', (content) => {
+        modalComment.value = content.task;
+        modalType.value = 'comment';
         showModal.value = true;
     });
 });
@@ -68,7 +78,12 @@ const showModal = ref(false);
         @close="showModal = false"
     >
         <TaskForm 
+            v-show="modalType == 'task'"
             :task="modalTask"
+        />
+        <CommentsForm 
+            v-show="modalType == 'comment'"
+            :task="modalComment"
         />
     </Modal>
     <div>

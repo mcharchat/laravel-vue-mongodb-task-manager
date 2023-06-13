@@ -34,6 +34,16 @@
             borderRight: '2px solid white',
         }"
     >
+        <div class="flex items-center justify-center cursor-pointer" @click="commentModal()">
+            <Icon class="m-2" icon="mdi:comment-outline" width="18" height="18"/>
+        </div>
+    </td>
+    <td class=" text-sm font-medium text-gray-900 dark:text-gray-100 p-0"
+        :style="{
+            borderBottom: '2px solid white',
+            borderRight: '2px solid white',
+        }"
+    >
         <div class="flex w-[100px] cursor-pointer" @click="updateTaskModal()">
             <div class="px-3 py-2 w-[100px]" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap'}" v-tooltip="props.item.user.name">
                 {{ props.item.user.name }}
@@ -214,5 +224,9 @@ const PriorityDictionary = {
 
 function updateTaskModal() {
     eventBus.$emit('updateTaskModal', {task:props.item});
+}
+
+function commentModal() {
+    eventBus.$emit('commentModal', {task:props.item});
 }
 </script>

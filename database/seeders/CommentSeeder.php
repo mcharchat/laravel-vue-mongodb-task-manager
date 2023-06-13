@@ -14,6 +14,11 @@ class CommentSeeder extends Seeder
      */
     public function run()
     {
-        //
+        // create 5 comments for each user
+        \App\Models\User::all()->each(function ($user) {
+            \App\Models\Comment::factory()->count(5)->create([
+                'user_id' => $user->id,
+            ]);
+        });
     }
 }
