@@ -167,7 +167,7 @@
                 <InputLabel for="task_progress" value="Progress" />
 
                 <TextInput id="task_progress" type="number" class="mt-1 block w-full" v-model="form.task_progress"
-                    autocomplete="task_progress" />
+                    autocomplete="task_progress" min="0" max="100"/>
 
                 <InputError class="mt-2" :message="form.errors.task_progress" />
             </div>
