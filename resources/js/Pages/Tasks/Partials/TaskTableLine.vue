@@ -125,15 +125,15 @@
         }"
     >
         <div v-show="props.item.labels" class="flex justify-center gap-2 px-2 cursor-pointer" @click="updateTaskModal()">
-                <div v-for="(label, index) in props.item.labels" :key="index" 
-                    class="inline-block rounded-full h-[24px] text-white flex items-center justify-center text-xs font-bold px-3 py-1" 
-                    :class="`bg-${label.color}-400`"
-                    v-tooltip="label.name"
-                >
-                    <span>
-                        {{ label.name }}
-                    </span>
-                </div>
+            <div v-for="(label, index) in props.item.labels" :key="index" 
+                class="inline-block rounded-full h-[24px] text-white flex items-center justify-center text-xs font-bold px-3 py-1" 
+                :style="{ backgroundColor: stringToColour(label) }"
+                v-tooltip="label"
+            >
+                <span>
+                    {{ label }}
+                </span>
+            </div>
         </div>
     </td>
 </template>
