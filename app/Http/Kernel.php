@@ -62,6 +62,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'get-top-projects-users' => \App\Http\Middleware\GetTopProjectsUsers::class,
+        'get-all-projects-users-categories-labels' => \App\Http\Middleware\GetAllProjectsUsersCategoriesLabels::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,

@@ -40,7 +40,6 @@ return new class extends Migration
             $table->integer('effort_difference')->nullable();
             $table->integer('cost')->nullable();
             $table->text('description')->nullable();
-            $table->json('checklist')->nullable();
         });
     }
 

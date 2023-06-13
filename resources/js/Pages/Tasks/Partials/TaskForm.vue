@@ -119,14 +119,48 @@
                     :close-on-select="false"
                     :clear-on-select="false"
                     placeholder="Select a team" 
-                    :reduce="option => option.id"  
                     class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full"              
                     :components="{ OpenIndicator }"
-                >
-
-                </vue-select>
+                />
 
                 <InputError class="mt-2" :message="form.errors.team" />
+            </div>
+
+            <div>
+                <InputLabel for="labels" value="Labels" />
+
+                <vue-select
+                    id="labels"
+                    v-model="form.labels"
+                    :options="labelArray"
+                    multiple
+                    searchable
+                    taggable
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    placeholder="Select a label" 
+                    class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full"              
+                    :components="{ OpenIndicator }"
+                />
+
+                <InputError class="mt-2" :message="form.errors.labels" />
+            </div>
+
+            <div>
+                <InputLabel for="category" value="Category" />
+
+                <vue-select
+                    id="category"
+                    v-model="form.category"
+                    :options="categoryArray"
+                    searchable
+                    taggable
+                    placeholder="Select a category" 
+                    class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full"              
+                    :components="{ OpenIndicator }"
+                />
+
+
             </div>
 
             <div>
@@ -150,11 +184,56 @@
             </div>
 
             <div>
+                <InputLabel for="working_days" value="Working Days" />
+
+                <TextInput id="working_days" type="number" class="mt-1 block w-full" v-model="form.working_days"
+                    autocomplete="working_days" />
+
+                <InputError class="mt-2" :message="form.errors.working_days" />
+            </div>
+
+            <div>
+                <InputLabel for="planned_effort" value="Planned Effort (hours)" />
+
+                <TextInput id="planned_effort" type="number" class="mt-1 block w-full" v-model="form.planned_effort"
+                    autocomplete="planned_effort" />
+
+                <InputError class="mt-2" :message="form.errors.planned_effort" />
+            </div>
+
+            <div>
+                <InputLabel for="actual_effort" value="Actual Effort (hours)" />
+
+                <TextInput id="actual_effort" type="number" class="mt-1 block w-full" v-model="form.actual_effort"
+                    autocomplete="actual_effort" />
+
+                <InputError class="mt-2" :message="form.errors.actual_effort" />
+            </div>
+
+            <div>
+                <InputLabel for="cost" value="Cost" />
+
+                <TextInput id="cost" type="number" class="mt-1 block w-full" v-model="form.cost"
+                    autocomplete="cost" />
+
+                <InputError class="mt-2" :message="form.errors.cost" />
+            </div>
+
+            <div>
                 <InputLabel for="description" value="Description" />
 
                 <TextAreaInput id="description" rows="10" class="mt-1 block w-full" v-model="form.description" required />
 
                 <InputError class="mt-2" :message="form.errors.description" />
+            </div>
+
+            <div>
+                <InputLabel for="reminder_date" value="Reminder Date" />
+
+                <TextInput id="reminder_date" type="date" class="mt-1 block w-full" v-model="form.reminder_date"
+                    autocomplete="reminder_date" />
+
+                <InputError class="mt-2" :message="form.errors.reminder_date" />
             </div>
 
             <div class="flex items-center justify-between gap-4">
@@ -180,7 +259,6 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextAreaInput from '@/Components/TextAreaInput.vue';
 import SelectInput from '@/Components/SelectInput.vue';
-import { Icon } from '@iconify/vue';
 
 const props = defineProps({
     task: {
@@ -205,6 +283,10 @@ const completedAt = ref(new Date(
     parseInt(props?.task?.completed_at?.$date.$numberLong)
 ).toLocaleDateString('en-CA'));
 
+const reminderDate = ref(new Date(
+    parseInt(props?.task?.reminder_date?.$date.$numberLong)
+).toLocaleDateString('en-CA'));
+
 const selectedTeam = ref(
     usePage()
         .props
@@ -218,6 +300,18 @@ const selectedTeam = ref(
                 id: user._id,
             }
         })
+);
+
+const labelArray = ref(
+    usePage()
+        .props
+        .allLabels
+);
+
+const categoryArray = ref(
+    usePage()
+        .props
+        .allCategories
 );
 
 const form = useForm({
@@ -234,15 +328,14 @@ const form = useForm({
     public: task.value?.public, // ok
     assigned_to: task.value?.assigned_to, // ok
     team: selectedTeam, // ok
-    labels: task.value?.labels, // multiselect and new
-    category: task.value?.category, // multiselect and new
-    reminder_date: task.value?.reminder_date,
-    working_days: task.value?.working_days,
-    planned_effort: task.value?.planned_effort,
-    actual_effort: task.value?.actual_effort,
-    cost: task.value?.cost,
+    labels: task.value?.labels, // ok
+    category: task.value?.category, // ok
+    working_days: task.value?.working_days, // ok
+    planned_effort: task.value?.planned_effort, // ok
+    actual_effort: task.value?.actual_effort, // ok
+    cost: task.value?.cost, // ok
+    reminder_date: reminderDate, // ok
     description: task.value?.description, // ok
-    checklist: task.value?.checklist, // checklist component that exports an object
 });
 
 const projectDictionary = ref(
@@ -296,7 +389,6 @@ const OpenIndicator = {
         ])
     ])
 }
-
 
 </script>
 <style>

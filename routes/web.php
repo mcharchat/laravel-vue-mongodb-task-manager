@@ -21,7 +21,7 @@ use Inertia\Inertia;
 
 Route::redirect('/', '/login');
 
-Route::middleware(['auth', 'verified', 'get-top-projects-users'])->group(function () {
+Route::middleware(['auth', 'verified', 'get-top-projects-users', 'get-all-projects-users-categories-labels'])->group(function () {
     // route for the dashboard
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
