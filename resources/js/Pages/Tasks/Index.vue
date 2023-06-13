@@ -24,10 +24,6 @@ function displayMenuFunc() {
     return selectedTasks?.value.some((task) => allTasks.some((t) => t._id === task));
 };
 
-function selectedTasksInThisPage() {
-    return selectedTasks?.value.filter((task) => allTasks.some((t) => t._id === task));
-};
-
 const displayMenu = ref(displayMenuFunc());
 
 onMounted(() => {
