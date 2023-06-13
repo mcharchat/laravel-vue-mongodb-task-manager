@@ -8,7 +8,7 @@
             </p>
         </header>
 
-        <form @submit.prevent="task?._id ? form.put(route('tasks.update', task._id)) : form.post(route('tasks.store'))" class="mt-6 space-y-6">
+        <form @submit.prevent="task?._id ? form.put(route('tasks.update', task._id)) : form.post(route('tasks.store')); closeModal()" class="mt-6 space-y-6">
             <div>
                 <InputLabel for="project_id" value="Project" />
 
@@ -388,6 +388,16 @@ const OpenIndicator = {
             })
         ])
     ])
+}
+
+const closeModal = () => {
+    const esc = new KeyboardEvent('keydown', {
+        key: 'Escape',
+        code: 'Escape',
+        keyCode: 27,
+        bubbles: true
+    });
+    document.dispatchEvent(esc);
 }
 
 </script>

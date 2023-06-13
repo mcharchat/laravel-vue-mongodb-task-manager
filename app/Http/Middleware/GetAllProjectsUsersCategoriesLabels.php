@@ -28,11 +28,12 @@ class GetAllProjectsUsersCategoriesLabels
         $allUsers = User::orderBy('name', 'asc')
             ->get();
 
-        $allCategories = Task::all()->pluck('category')->flatten()->unique();
-        $allLabels = Task::all()->pluck('labels')->flatten()->unique();
-        $allLabels = $allLabels->reject(function ($value, $key) {
+        $allCategories = Task::all()->pluck('category')->flatten()->unique()->reject(function ($value, $key) {
             return $value === null;
-        });
+        })->values();
+        $allLabels = Task::all()->pluck('labels')->flatten()->unique()->reject(function ($value, $key) {
+            return $value === null;
+        })->values();
         
         Inertia::share([
             'allProjects' => $allProjects,

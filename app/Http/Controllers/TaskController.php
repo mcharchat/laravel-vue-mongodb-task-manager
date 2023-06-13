@@ -98,6 +98,10 @@ class TaskController extends Controller
     {
         //validate the incoming request using our StoreTaskRequest
         $validated = $request->validated();
+        // set the user_id to the current user id
+        $validated['user_id'] = auth()->id();
+        // add the squad_id to the validated data
+        $validated['squad_id'] = auth()->user()->squad_id;
         // create a new task with the validated data
         Task::create($validated);
         // fire the TaskEvent event with the squad_id and the validated data
