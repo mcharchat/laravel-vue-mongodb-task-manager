@@ -8,11 +8,11 @@
             </p>
         </header>
 
-        <form @submit.prevent="form.put(route('tasks.update', task._id))" class="mt-6 space-y-6">
+        <form @submit.prevent="task?._id ? form.put(route('tasks.update', task._id)) : form.post(route('tasks.store'))" class="mt-6 space-y-6">
             <div>
                 <InputLabel for="project_id" value="Project" />
 
-                <SelectInput id="project_id" class="mt-1 block w-full" v-model="form.project_id" required
+                <SelectInput id="project_id" class="mt-1 block w-full" v-model="form.project_id"
                     :options="projectDictionary" :firstDisabled='false'/>
 
                 <InputError class="mt-2" :message="form.errors.project_id" />
@@ -31,7 +31,7 @@
             <div>
                 <InputLabel for="assigned_to" value="Assigned To" />
 
-                <SelectInput id="assigned_to" class="mt-1 block w-full" v-model="form.assigned_to" required
+                <SelectInput id="assigned_to" class="mt-1 block w-full" v-model="form.assigned_to"
                     :options="userDictionary" :firstDisabled='false'/>
 
                 <InputError class="mt-2" :message="form.errors.assigned_to" />
@@ -80,7 +80,7 @@
             <div>
                 <InputLabel for="status" value="Status" />
 
-                <SelectInput id="status" class="mt-1 block w-full" v-model="form.status" required :options="{
+                <SelectInput id="status" class="mt-1 block w-full" v-model="form.status" :options="{
                     'Cancelled': 'Cancelled',
                     'Completed': 'Completed',
                     'In Progress': 'In Progress',
@@ -94,7 +94,7 @@
             <div>
                 <InputLabel for="priority" value="Priority" />
 
-                <SelectInput id="priority" class="mt-1 block w-full" v-model="form.priority" required :options="{
+                <SelectInput id="priority" class="mt-1 block w-full" v-model="form.priority" :options="{
                     'None': 'None',
                     'Lowest': 'Lowest',
                     'Low': 'Low',
@@ -222,7 +222,7 @@
             <div>
                 <InputLabel for="description" value="Description" />
 
-                <TextAreaInput id="description" rows="10" class="mt-1 block w-full" v-model="form.description" required />
+                <TextAreaInput id="description" rows="10" class="mt-1 block w-full" v-model="form.description"  />
 
                 <InputError class="mt-2" :message="form.errors.description" />
             </div>
@@ -315,27 +315,27 @@ const categoryArray = ref(
 );
 
 const form = useForm({
-    project_id: task.value?.project_id, // ok
-    title: task.value?.title, // ok
-    start_date: startDate, // ok
-    due_date: dueDate, // ok
-    actual_start_date: actualStartDate, // ok
-    completed_at: completedAt, // ok
-    task_progress: task.value?.task_progress, // ok
-    completed: task.value?.task_progress == 100, // ok
-    priority: task.value?.priority, // ok
-    status: task.value?.status, // ok
-    public: task.value?.public, // ok
-    assigned_to: task.value?.assigned_to, // ok
-    team: selectedTeam, // ok
-    labels: task.value?.labels, // ok
-    category: task.value?.category, // ok
-    working_days: task.value?.working_days, // ok
-    planned_effort: task.value?.planned_effort, // ok
-    actual_effort: task.value?.actual_effort, // ok
-    cost: task.value?.cost, // ok
-    reminder_date: reminderDate, // ok
-    description: task.value?.description, // ok
+    project_id: task.value?.project_id,
+    title: task.value?.title,
+    start_date: task.value?.start_date == undefined ? undefined : startDate,
+    due_date: task.value?.due_date == undefined ? undefined : dueDate,
+    actual_start_date: task.value?.actual_start_date == undefined ? undefined : actualStartDate,
+    completed_at: task.value?.completed_at == undefined ? undefined : completedAt,
+    task_progress: task.value?.task_progress,
+    completed: task.value?.task_progress == 100,
+    priority: task.value?.priority,
+    status: task.value?.status,
+    public: task.value?.public,
+    assigned_to: task.value?.assigned_to,
+    team: selectedTeam,
+    labels: task.value?.labels,
+    category: task.value?.category,
+    working_days: task.value?.working_days,
+    planned_effort: task.value?.planned_effort,
+    actual_effort: task.value?.actual_effort,
+    cost: task.value?.cost,
+    reminder_date: task.value?.reminder_date == undefined ? undefined : reminderDate,
+    description: task.value?.description,
 });
 
 const projectDictionary = ref(

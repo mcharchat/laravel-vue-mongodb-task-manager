@@ -86,7 +86,7 @@ const maxWidthClass = computed(() => {
                 >
                     <div
                         v-show="show"
-                        class="bg-white dark:bg-gray-800 rounded-lg overflow-y-auto shadow-xl transform transition-all sm:w-full sm:mx-auto p-8"
+                        class="bg-white dark:bg-gray-800 rounded-lg overflow-y-auto shadow-xl transform transition-all sm:w-full sm:mx-auto p-8 custom-scroll"
                         :class="maxWidthClass"
                     >
                         <slot v-if="show" />
@@ -96,3 +96,22 @@ const maxWidthClass = computed(() => {
         </transition>
     </teleport>
 </template>
+
+<style scoped>
+.custom-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 8px;
+}
+
+.custom-scroll:hover::-webkit-scrollbar-thumb {
+    background-color: #90909090;
+}
+</style>
