@@ -272,22 +272,22 @@ const props = defineProps({
 const task = ref(props.task);
 const startDate = ref(new Date(
     parseInt(props?.task?.start_date?.$date.$numberLong)
-).toLocaleDateString('en-CA'));
+).toLocaleDateString('en-CA', { timeZone: "UTC" }));
 const dueDate = ref(new Date(
     parseInt(props?.task?.due_date?.$date.$numberLong)
-).toLocaleDateString('en-CA'));
+).toLocaleDateString('en-CA', { timeZone: "UTC" }));
 
 const actualStartDate = ref(new Date(
     parseInt(props?.task?.actual_start_date?.$date.$numberLong)
-).toLocaleDateString('en-CA'));
+).toLocaleDateString('en-CA', { timeZone: "UTC" }));
 
 const completedAt = ref(new Date(
     parseInt(props?.task?.completed_at?.$date.$numberLong)
-).toLocaleDateString('en-CA'));
+).toLocaleDateString('en-CA', { timeZone: "UTC" }));
 
 const reminderDate = ref(new Date(
     parseInt(props?.task?.reminder_date?.$date.$numberLong)
-).toLocaleDateString('en-CA'));
+).toLocaleDateString('en-CA', { timeZone: "UTC" }));
 
 const selectedTeam = ref(
     usePage()

@@ -5,8 +5,8 @@
             </div>
         </div>
         <span class="progress-info text-xs absolute">
-            {{ startDate.getDate() }} {{ startDate.toLocaleString('default', { month: 'short' }) }} - {{
-                dueDate.getDate() }} {{ dueDate.toLocaleString('default', { month: 'short' }) }}
+            {{ startDate.toLocaleString('default', { day: '2-digit', timeZone: "UTC" }) }} {{ startDate.toLocaleString('default', { month: 'short', timeZone: "UTC"  }) }} - {{
+                dueDate.toLocaleString('default', { day: '2-digit', timeZone: "UTC" }) }} {{ dueDate.toLocaleString('default', { month: 'short', timeZone: "UTC"  }) }}
         </span>
     </div>
 </template>
