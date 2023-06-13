@@ -130,7 +130,7 @@
                 :style="{ backgroundColor: stringToColour(label) }"
                 v-tooltip="label"
             >
-                <span>
+                <span :style="{ whiteSpace: 'nowrap' }">
                     {{ label }}
                 </span>
             </div>
