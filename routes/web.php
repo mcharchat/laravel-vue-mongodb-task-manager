@@ -56,6 +56,8 @@ Route::middleware(['auth', 'verified', 'get-top-projects-users', 'get-all-projec
     Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
     // route for deleting a task
     Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+    // route for deleting bulk tasks
+    Route::delete('/tasks', [TaskController::class, 'destroyBulk'])->name('tasks.destroy.bulk');
 
     // route for listing users
     Route::get('/users', [UserController::class, 'index'])->name('users');

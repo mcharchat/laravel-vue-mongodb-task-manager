@@ -1,13 +1,12 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
-import { usePage } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import ProjectTask from './Partials/ProjectTask.vue';
 import eventBus from '@/Utils/eventBus';
-import DropdownLink from '@/Components/DropdownLink.vue';
 import Dropdown from '@/Components/Dropdown.vue';
+import axios from 'axios';
 
 const myTasks = usePage().props.myTasks;
 const myProjectTasks = usePage().props.myProjectTasks;
@@ -43,6 +42,14 @@ onMounted(() => {
     });
 });
 
+const deleteBulkTasks = () => {
+    if (confirm('Are you sure you want to delete these tasks?')) {
+        axios.delete(route('tasks.destroy.bulk', {ids: Object.values(selectedTasks.value)}))
+            .then(() => {
+                window.location.reload();
+            })
+    }
+}
 </script>
 
 <template>
@@ -107,8 +114,7 @@ onMounted(() => {
                             </template>
 
                             <template #content>
-                                <DropdownLink href="#"> Profile </DropdownLink>
-                                <DropdownLink href="#"> Log Out </DropdownLink>
+                                <span class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800 transition duration-150 ease-in-out cursor-pointer" @click.prevent="deleteBulkTasks()"> Delete tasks </span>
                             </template>
                         </Dropdown>
                     </div>

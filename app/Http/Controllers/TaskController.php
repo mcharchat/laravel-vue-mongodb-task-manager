@@ -6,6 +6,7 @@ use App\Events\TaskEvent;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use Illuminate\Support\Facades\Redirect;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -170,4 +171,21 @@ class TaskController extends Controller
         // return a redirect to the tasks index
         return redirect()->route('tasks');
     }
+
+    /**
+     * Remove bulk resources from storage.
+     *  
+     * @param  Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroyBulk(Request $request) : RedirectResponse
+    {
+        // get the ids from the request
+        $ids = $request->input('ids');
+        // delete the tasks with the ids
+        Task::whereIn('_id', (array) $ids)->delete();
+        // return a redirect to the tasks index
+        return Redirect::route('tasks', [], 303);;
+    }
+    
 }
