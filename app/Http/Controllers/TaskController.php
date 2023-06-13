@@ -62,9 +62,6 @@ class TaskController extends Controller
             ->with('project', 'user')
             ->get()
             ->groupBy('project_id');
-        // get all the users details grouped by _id
-        $users = User::where('squad_id', auth()->user()->squad_id)
-            ->get()->keyBy('_id');
         
         // return the tasks view with the tasks
         return Inertia::render('Tasks/Index', [
@@ -74,7 +71,6 @@ class TaskController extends Controller
             'assignedProjectTasks' => $assignedProjectTasks,
             'teamTasks' => $teamTasks,
             'teamProjectTasks' => $teamProjectTasks,
-            'users' => $users,
         ]);
     }
 

@@ -87,14 +87,10 @@ class ProjectController extends Controller
                 ->orWhere('team', 'LIKE', '%' . auth()->id() . '%');
             });
         }, 'tasks.user', 'tasks.project']);
-        // get all the users details grouped by _id
-        $users = User::where('squad_id', auth()->user()->squad_id)
-            ->get()
-            ->keyBy('_id');
+
         // return the projects show view with the project
         return Inertia::render('Projects/Show', [
             'project' => $project,
-            'users' => $users,
         ]);
     }
 

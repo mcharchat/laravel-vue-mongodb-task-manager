@@ -22,18 +22,30 @@ class GetAllProjectsUsersCategoriesLabels
      */
     public function handle(Request $request, Closure $next)
     {
-        $allProjects = Project::orderBy('name', 'asc')
+        $allProjects = Project::where('squad_id', auth()->user()->squad_id)
+            ->orderBy('name', 'asc')
             ->with('user')
             ->get();
-        $allUsers = User::orderBy('name', 'asc')
+        $allUsers = User::where('squad_id', auth()->user()->squad_id)
+            ->orderBy('name', 'asc')
             ->get();
 
-        $allCategories = Task::all()->pluck('category')->flatten()->unique()->reject(function ($value, $key) {
-            return $value === null;
-        })->values();
-        $allLabels = Task::all()->pluck('labels')->flatten()->unique()->reject(function ($value, $key) {
-            return $value === null;
-        })->values();
+        $allCategories = Task::where('squad_id', auth()->user()->squad_id)
+            ->get()
+            ->pluck('category')
+            ->flatten()
+            ->unique()
+            ->reject(function ($value, $key) {
+                return $value === null;
+            })->values();
+        $allLabels = Task::where('squad_id', auth()->user()->squad_id)
+            ->get()
+            ->pluck('labels')
+            ->flatten()
+            ->unique()
+            ->reject(function ($value, $key) {
+                return $value === null;
+            })->values();
         
         Inertia::share([
             'allProjects' => $allProjects,

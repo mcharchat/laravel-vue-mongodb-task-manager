@@ -24,7 +24,6 @@ class UserController extends Controller
         // get all users that are not the current user and eager load the tasks
         $users = User::where('squad_id', auth()->user()->squad_id)
             ->where('_id', '!=', auth()->id())
-            ->with('tasks')
             ->get();
         // return the users view with the users
         return Inertia::render('Users/Index', [
@@ -110,10 +109,7 @@ class UserController extends Controller
 
         // get user's projects
         $projects = $user->projects()->get();
-        // get all the users details grouped by _id
-        $users = User::where('squad_id', auth()->user()->squad_id)
-            ->get()->keyBy('_id');        
-
+      
         // return the users show view with the user
         return Inertia::render('Users/Show', [
             'user' => $user,
@@ -123,7 +119,6 @@ class UserController extends Controller
             'assignedProjectTasks' => $assignedProjectTasks,
             'teamTasks' => $teamTasks,
             'teamProjectTasks' => $teamProjectTasks,
-            'users' => $users,
             'projects' => $projects,
         ]);
     }

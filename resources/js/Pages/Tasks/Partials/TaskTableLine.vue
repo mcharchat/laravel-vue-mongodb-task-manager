@@ -166,7 +166,7 @@ const props = defineProps({
     },
 });
 
-const users = usePage().props.users;
+const users = Object.fromEntries(usePage().props.allUsers.map(user => [user._id, user]));
 
 const checkbox = ref(props.selectedTasks.includes(props.item._id));
 
