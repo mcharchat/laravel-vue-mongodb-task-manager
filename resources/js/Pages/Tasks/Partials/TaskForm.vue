@@ -107,6 +107,29 @@
             </div>
 
             <div>
+                <InputLabel for="team" value="Team" />
+
+                <vue-select
+                    id="team"
+                    v-model="form.team"
+                    :options="teamDictionary"
+                    multiple
+                    label="name"
+                    :searchable="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    placeholder="Select a team" 
+                    :reduce="option => option.id"  
+                    class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full"              
+                    :components="{ OpenIndicator }"
+                >
+
+                </vue-select>
+
+                <InputError class="mt-2" :message="form.errors.team" />
+            </div>
+
+            <div>
                 <InputLabel for="task_progress" value="Progress" />
 
                 <TextInput id="task_progress" type="number" class="mt-1 block w-full" v-model="form.task_progress"
@@ -149,7 +172,7 @@
     </section>
 </template>
 <script setup>
-import { defineProps, ref } from 'vue';
+import { defineProps, ref, h } from 'vue';
 import { useForm, Link, usePage } from '@inertiajs/vue3';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
@@ -157,6 +180,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextAreaInput from '@/Components/TextAreaInput.vue';
 import SelectInput from '@/Components/SelectInput.vue';
+import { Icon } from '@iconify/vue';
 
 const props = defineProps({
     task: {
@@ -181,6 +205,21 @@ const completedAt = ref(new Date(
     parseInt(props?.task?.completed_at?.$date.$numberLong)
 ).toLocaleDateString('en-CA'));
 
+const selectedTeam = ref(
+    usePage()
+        .props
+        .allUsers
+        .filter(user => {
+            return task.value?.team?.includes(user._id);
+        })
+        .map(user => {
+            return {
+                name: user.name,
+                id: user._id,
+            }
+        })
+);
+
 const form = useForm({
     project_id: task.value?.project_id, // ok
     title: task.value?.title, // ok
@@ -194,16 +233,16 @@ const form = useForm({
     status: task.value?.status, // ok
     public: task.value?.public, // ok
     assigned_to: task.value?.assigned_to, // ok
-    team: task.value?.team,
-    labels: task.value?.labels,
-    category: task.value?.category,
+    team: selectedTeam, // ok
+    labels: task.value?.labels, // multiselect and new
+    category: task.value?.category, // multiselect and new
     reminder_date: task.value?.reminder_date,
     working_days: task.value?.working_days,
     planned_effort: task.value?.planned_effort,
     actual_effort: task.value?.actual_effort,
     cost: task.value?.cost,
-    description: task.value?.description,
-    checklist: task.value?.checklist,
+    description: task.value?.description, // ok
+    checklist: task.value?.checklist, // checklist component that exports an object
 });
 
 const projectDictionary = ref(
@@ -226,4 +265,55 @@ const userDictionary = ref(
     }, {})
 );
 
+const teamDictionary = ref(
+    usePage()
+    .props
+    .allUsers
+    .map(user => {
+        return {
+            name: user.name,
+            id: user._id,
+        }
+    })
+);
+
+const OpenIndicator = {
+    render: () => h('span', { class: 'vs__open-indicator' }, [
+        h('svg', {
+            xmlns: 'http://www.w3.org/2000/svg',
+            width: '20',
+            height: '20',
+            viewBox: '0 0 48 48'
+        }, [
+            h('path', {
+                fill: 'none',
+                stroke: 'currentColor',
+                'stroke-linecap': 'round',
+                'stroke-linejoin': 'round',
+                'stroke-width': '4',
+                d: 'M36 18L24 30L12 18'
+            })
+        ])
+    ])
+}
+
+
 </script>
+<style>
+.vs__search{
+    margin-top: 8px !important;
+    margin-bottom: 4px !important;
+}
+.vs__selected {
+    min-height: 30.4px !important;
+    border: unset !important;
+}
+.vs__actions {
+    right: 7px !important;
+    position: relative !important;
+}
+.vs__deselect {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+}
+</style>
