@@ -47,9 +47,10 @@ class UserController extends Controller
         $usersTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('user_id', $user->_id)
             ->whereNull('project_id')
-            ->where(function ($query) use ($user) {
-                $query->where('assigned_to', $user->_id)
-                    ->orWhere('team', 'LIKE', '%' . $user->_id . '%');
+            ->where(function ($query) {
+                $query->where('public', true)
+                    ->orWhere('assigned_to', auth()->id())
+                    ->orWhere('team', 'LIKE', '%' . auth()->id() . '%');
             })
             ->with('user', 'comments')
             ->get();
@@ -57,9 +58,10 @@ class UserController extends Controller
         $usersProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('user_id', $user->_id)
             ->whereNotNull('project_id')
-            ->where(function ($query) use($user){
-                $query->where('assigned_to', $user->_id)
-                    ->orWhere('team', 'LIKE', '%' . $user->_id . '%');
+            ->where(function ($query) {
+                $query->where('public', true)
+                    ->orWhere('assigned_to', auth()->id())
+                    ->orWhere('team', 'LIKE', '%' . auth()->id() . '%');
             })
             ->with('project','user', 'comments')
             ->get()
@@ -68,9 +70,10 @@ class UserController extends Controller
         $assignedTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('assigned_to', $user->_id)
             ->whereNull('project_id')
-            ->where(function ($query) use ($user){
-                $query->where('user_id', $user->_id)
-                    ->orWhere('team', 'LIKE', '%' . $user->_id . '%');
+            ->where(function ($query){
+                $query->where('public', true)
+                    ->orWhere('user_id', auth()->id())
+                    ->orWhere('team', 'LIKE', '%' . auth()->id() . '%');
             })
             ->with('user', 'comments')
             ->get();
@@ -78,9 +81,10 @@ class UserController extends Controller
         $assignedProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('assigned_to', $user->_id)
             ->whereNotNull('project_id')
-            ->where(function ($query) use ($user){
-                $query->where('user_id', $user->_id)
-                    ->orWhere('team', 'LIKE', '%' . $user->_id . '%');
+            ->where(function ($query){
+                $query->where('public', true)
+                    ->orWhere('user_id', auth()->id())
+                    ->orWhere('team', 'LIKE', '%' . auth()->id() . '%');
             })
             ->with('project','user', 'comments')
             ->get()
@@ -89,9 +93,10 @@ class UserController extends Controller
         $teamTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('team', 'LIKE', '%' . $user->_id . '%')
             ->whereNull('project_id')
-            ->where(function ($query) use ($user){
-                $query->where('user_id', $user->_id)
-                    ->orWhere('assigned_to', $user->_id);
+            ->where(function ($query){
+                $query->where('public', true)
+                    ->orWhere('user_id', auth()->id())
+                    ->orWhere('assigned_to', auth()->id());
             })
             ->with('user', 'comments')
             ->get();
@@ -99,9 +104,10 @@ class UserController extends Controller
         $teamProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('team', 'LIKE', '%' . $user->_id . '%')
             ->whereNotNull('project_id')
-            ->where(function ($query) use ($user){
-                $query->where('user_id', $user->_id)
-                    ->orWhere('assigned_to', $user->_id);
+            ->where(function ($query){
+                $query->where('public', true)
+                    ->orWhere('user_id', auth()->id())
+                    ->orWhere('assigned_to', auth()->id());
             })
             ->with('project','user', 'comments')
             ->get()
