@@ -51,7 +51,7 @@ class UserController extends Controller
                 $query->where('assigned_to', $user->_id)
                     ->orWhere('team', 'LIKE', '%' . $user->_id . '%');
             })
-            ->with('user')
+            ->with('user', 'comments')
             ->get();
         // get tasks for the selected user that have a project_id, eager load the project and group them by project
         $usersProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
@@ -61,7 +61,7 @@ class UserController extends Controller
                 $query->where('assigned_to', $user->_id)
                     ->orWhere('team', 'LIKE', '%' . $user->_id . '%');
             })
-            ->with('project', 'user')
+            ->with('project','user', 'comments')
             ->get()
             ->groupBy('project_id');
         // get the assigned tasks for the selected user that don't have a project_id
@@ -72,7 +72,7 @@ class UserController extends Controller
                 $query->where('user_id', $user->_id)
                     ->orWhere('team', 'LIKE', '%' . $user->_id . '%');
             })
-            ->with('user')
+            ->with('user', 'comments')
             ->get();
         // get the assigned tasks for the selected user that have a project_id, eager load the project and group them by project
         $assignedProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
@@ -82,7 +82,7 @@ class UserController extends Controller
                 $query->where('user_id', $user->_id)
                     ->orWhere('team', 'LIKE', '%' . $user->_id . '%');
             })
-            ->with('project', 'user')
+            ->with('project','user', 'comments')
             ->get()
             ->groupBy('project_id');
         // get team tasks for the selected user that don't have aproject_id, team is an array of user_ids, so this user_id must be inside this array
@@ -93,7 +93,7 @@ class UserController extends Controller
                 $query->where('user_id', $user->_id)
                     ->orWhere('assigned_to', $user->_id);
             })
-            ->with('user')
+            ->with('user', 'comments')
             ->get();
         // get team tasks for the selected user that have a project_id, eager load the project and group them by project, team is an array of user_ids, so this user_id must be inside this array
         $teamProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
@@ -103,7 +103,7 @@ class UserController extends Controller
                 $query->where('user_id', $user->_id)
                     ->orWhere('assigned_to', $user->_id);
             })
-            ->with('project', 'user')
+            ->with('project','user', 'comments')
             ->get()
             ->groupBy('project_id');
 

@@ -49,7 +49,7 @@ class SearchController extends Controller
                     ->orWhere('assigned_to', auth()->id())
                     ->orWhere('team', 'LIKE', '%' . auth()->id() . '%');
             })
-            ->with('user', 'project')
+            ->with('user','project', 'comments')
             ->get()
             ->groupBy('project_id');
         $allUsers = User::where('squad_id', auth()->user()->squad_id)

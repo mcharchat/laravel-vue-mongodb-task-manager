@@ -27,39 +27,39 @@ class TaskController extends Controller
         $myTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('user_id', auth()->id())
             ->whereNull('project_id')
-            ->with('user')
+            ->with('user', 'comments')
             ->get();
         // get tasks for the current user that have a project_id, eager load the project and group them by project
         $myProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('user_id', auth()->id())
             ->whereNotNull('project_id')
-            ->with('project', 'user')
+            ->with('project', 'user', 'comments')
             ->get()
             ->groupBy('project_id');
         // get the assigned tasks for the current user that don't have aproject_id
         $assignedTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('assigned_to', auth()->id())
             ->whereNull('project_id')
-            ->with('user')
+            ->with('user', 'comments')
             ->get();
         // get the assigned tasks for the current user that have a project_id, eager load the project and group them by project
         $assignedProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('assigned_to', auth()->id())
             ->whereNotNull('project_id')
-            ->with('project', 'user')
+            ->with('project','user', 'comments')
             ->get()
             ->groupBy('project_id');
         // get team tasks for the current user that don't have aproject_id, team is an array of user_ids, so this user_id must be inside this array
         $teamTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('team', 'LIKE', '%' . auth()->id() . '%')
             ->whereNull('project_id')
-            ->with('user')
+            ->with('user', 'comments')
             ->get();
         // get team tasks for the current user that have a project_id, eager load the project and group them by project, team is an array of user_ids, so this user_id must be inside this array
         $teamProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
             ->where('team', 'LIKE', '%' . auth()->id() . '%')
             ->whereNotNull('project_id')
-            ->with('project', 'user')
+            ->with('project','user', 'comments')
             ->get()
             ->groupBy('project_id');
         

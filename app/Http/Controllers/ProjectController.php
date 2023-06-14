@@ -86,7 +86,7 @@ class ProjectController extends Controller
                 ->orWhere('assigned_to', auth()->id())
                 ->orWhere('team', 'LIKE', '%' . auth()->id() . '%');
             });
-        }, 'tasks.user', 'tasks.project']);
+        }, 'tasks.user', 'tasks.project', 'tasks.comments']);
 
         // return the projects show view with the project
         return Inertia::render('Projects/Show', [
