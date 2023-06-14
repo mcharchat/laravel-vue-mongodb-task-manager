@@ -14,6 +14,7 @@ class UserEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $type;
     public $channel;
     public $user;
 
@@ -22,8 +23,9 @@ class UserEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($channel, $user)
+    public function __construct($channel, $user, $type)
     {
+        $this->type = $type;
         $this->channel = $channel;
         $this->user = $user;
     }

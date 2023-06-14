@@ -14,6 +14,7 @@ class ProjectEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $type;
     public $channel;
     public $project;
 
@@ -22,8 +23,9 @@ class ProjectEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($channel, $project)
+    public function __construct($channel, $project, $type)
     {
+        $this->type = $type;
         $this->channel = $channel;
         $this->project = $project;
     }

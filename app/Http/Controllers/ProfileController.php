@@ -39,7 +39,7 @@ class ProfileController extends Controller
         $request->user()->save();
 
         // broadcast the user event with two arguments: the channel that is the squad_id and the user
-        event(new UserEvent($request->user()->squad_id, $request->user()));
+        event(new UserEvent($request->user()->squad_id, $request->user(), 'update'));
 
         return Redirect::route('profile.edit');
     }
@@ -58,6 +58,8 @@ class ProfileController extends Controller
         Auth::logout();
 
         $user->delete();
+
+        event(new UserEvent($user->squad_id, $user, 'delete'));
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

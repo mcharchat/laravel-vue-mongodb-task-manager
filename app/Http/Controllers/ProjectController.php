@@ -65,7 +65,7 @@ class ProjectController extends Controller
         // create a new project with the validated data
         Project::create($validated);
         // fire the ProjectEvent event with the squad_id and the validated data
-        event(new ProjectEvent(auth()->user()->squad_id, $validated));
+        event(new ProjectEvent(auth()->user()->squad_id, $validated, 'create'));
         // return a redirect to the projects index
         return redirect()->route('projects');
     }
@@ -124,7 +124,7 @@ class ProjectController extends Controller
         // update the project with the validated data
         $project->update($validated);
         // fire the ProjectEvent event with the squad_id and the validated data
-        event(new ProjectEvent(auth()->user()->squad_id, $validated));
+        event(new ProjectEvent(auth()->user()->squad_id, $validated, 'update'));
         // return a redirect to the projects index
         return redirect()->route('projects');
     }
@@ -139,6 +139,8 @@ class ProjectController extends Controller
     {
         // delete the project
         $project->delete();
+        // fire the ProjectEvent event with the squad_id and the project id
+        event(new ProjectEvent(auth()->user()->squad_id, $project->id, 'delete'));
         // return a redirect to the projects index
         return redirect()->route('projects');
     }

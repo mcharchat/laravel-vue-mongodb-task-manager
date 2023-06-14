@@ -102,7 +102,7 @@ class TaskController extends Controller
         // create a new task with the validated data
         Task::create($validated);
         // fire the TaskEvent event with the squad_id and the validated data
-        event(new TaskEvent(auth()->user()->squad_id, $validated));
+        event(new TaskEvent(auth()->user()->squad_id, $validated, 'create'));
         // return a redirect to the tasks index
         return redirect()->route('tasks');
     }
@@ -149,7 +149,7 @@ class TaskController extends Controller
         // update the task with the validated data
         $task->update($validated);
         // fire the TaskEvent event with the squad_id and the validated data
-        event(new TaskEvent(auth()->user()->squad_id, $validated));
+        event(new TaskEvent(auth()->user()->squad_id, $validated, 'update'));
         // return a redirect to the tasks index
         return redirect()->route('tasks');
     }
@@ -164,6 +164,8 @@ class TaskController extends Controller
     {
         // delete the task
         $task->delete();
+        // fire the TaskEvent event with the squad_id and the task
+        event(new TaskEvent(auth()->user()->squad_id, $task, 'delete'));
         // return a redirect to the tasks index
         return redirect()->route('tasks');
     }

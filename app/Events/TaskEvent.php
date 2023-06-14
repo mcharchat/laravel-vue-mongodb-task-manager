@@ -14,6 +14,7 @@ class TaskEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $type;
     public $channel;
     public $task;
 
@@ -22,8 +23,9 @@ class TaskEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($channel, $task)
+    public function __construct($channel, $task, $type)
     {
+        $this->type = $type;
         $this->channel = $channel;
         $this->task = $task;
     }
