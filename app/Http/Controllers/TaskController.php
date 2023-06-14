@@ -183,7 +183,7 @@ class TaskController extends Controller
         // delete the tasks with the ids
         Task::whereIn('_id', (array) $ids)->delete();
         // return a redirect to the tasks index
-        return Redirect::route('tasks', [], 303);;
+        return Redirect::route('tasks', [], 303);
     }
     
 }
