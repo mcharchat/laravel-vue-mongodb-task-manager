@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Task;
 
 class StoreCommentRequest extends FormRequest
 {
@@ -18,9 +19,8 @@ class StoreCommentRequest extends FormRequest
         // 2. the user who is assigned to the task
         // 3. one of the team members of the task
         // if the task is public, anyone can comment
-
         $user = $this->user();
-        $task = $this->route('task');
+        $task = Task::find($this->task_id);
         $owner = $task->user_id;
         $assignee = $task->assigned_to ?? null;
         $team = $task->team;

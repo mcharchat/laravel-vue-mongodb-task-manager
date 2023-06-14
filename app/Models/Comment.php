@@ -8,6 +8,12 @@ use Jenssegers\Mongodb\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory;
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
     // every comment belongs to one user
     function user()
     {

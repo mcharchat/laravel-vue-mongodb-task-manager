@@ -5,6 +5,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -81,6 +82,9 @@ Route::middleware(['auth', 'verified', 'get-top-projects-users', 'get-all-projec
     Route::put('/profile/starred-projects', [ProfileController::class, 'updateStarredProjects'])->name('profile.starred-projects.update');
     // route for updating the starred users
     Route::put('/profile/starred-users', [ProfileController::class, 'updateStarredUsers'])->name('profile.starred-users.update');
+
+    // route for posting a comment
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 });
 
 require __DIR__ . '/auth.php';
