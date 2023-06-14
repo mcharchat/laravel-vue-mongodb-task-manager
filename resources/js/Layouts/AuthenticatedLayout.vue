@@ -67,6 +67,12 @@ channel.listen('.project-event', function (data) {
 channel.listen('.user-event', function (data) {
     eventBus.$emit('userUpdate', data);
 });
+channel.listen('.comment-event', function (data) {
+    if (modalType.value == 'comment' && modalComment.value._id == data.message.task_id) {
+        modalComment.value.comments = data.message.comments;
+    }
+    eventBus.$emit('commentUpdate', data);
+});
 
 const showModal = ref(false);
 
@@ -78,12 +84,14 @@ const showModal = ref(false);
         @close="showModal = false"
     >
         <TaskForm 
-            v-show="modalType == 'task'"
+            v-if="modalType == 'task'"
             :task="modalTask"
         />
         <CommentsForm 
-            v-show="modalType == 'comment'"
-            :task="modalComment"
+            v-if="modalType == 'comment'"
+            :taskId="modalComment._id"
+            :taskTitle="modalComment.title"
+            :comments="modalComment.comments"
         />
     </Modal>
     <div>
