@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Events\UserEvent;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Comment;
+use App\Models\Project;
+use App\Models\Task;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -54,6 +57,9 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
+        Task::where('user_id', $user->id)->delete();
+        Project::where('user_id', $user->id)->delete();
+        Comment::where('user_id', $user->id)->delete();
 
         Auth::logout();
 

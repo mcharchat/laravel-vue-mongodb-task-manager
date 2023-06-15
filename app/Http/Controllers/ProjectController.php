@@ -6,6 +6,8 @@ use App\Events\ProjectEvent;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Models\Comment;
+use App\Models\Task;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -141,6 +143,8 @@ class ProjectController extends Controller
         $thisProject = $project->load('user');
         // delete the project
         $project->delete();
+        Task::where('project_id', $project->_id)->delete();
+        Comment::where('project_id', $project->_id)->delete();
         // fire the ProjectEvent event with the squad_id and the project
         event(new ProjectEvent(auth()->user()->squad_id, $thisProject, 'delete'));
         // return a redirect to the projects index

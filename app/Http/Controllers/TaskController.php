@@ -7,6 +7,7 @@ use App\Events\PrivateTaskEvent;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -186,6 +187,7 @@ class TaskController extends Controller
         $taskToDelete = Task::find($task->_id)->toArray();
         // delete the task
         $task->delete();
+        Comment::where('task_id', $task->_id)->delete();
         //if task is public, fire the PublicTaskEvent event with the squad_id and the validated data, else merge user_id, assigned_to and squad_id to one array, remove duplicates and null values and fire the PrivateTaskEvent event with the validated data
         if ($task['public']) {
             event(new PublicTaskEvent(auth()->user()->squad_id, $taskToDelete, 'delete'));
@@ -213,6 +215,7 @@ class TaskController extends Controller
         $ids = $request->input('ids');
         // delete the tasks with the ids
         $tasksQuery = Task::whereIn('_id', (array) $ids);
+        Comment::whereIn('task_id', (array) $ids)->delete();
         $tasks = $tasksQuery->get();
         foreach ($tasks as $key => $task) {
             if ($task['public']) {
