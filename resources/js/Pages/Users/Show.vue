@@ -11,8 +11,7 @@ import Dropdown from '@/Components/Dropdown.vue';
 import { stringToColour } from '@/Utils/globalFunctions';
 import axios from 'axios';
 
-const user = usePage().props.user;
-
+const user = ref(usePage().props.user);
 const usersTasks = usePage().props.usersTasks;
 const usersProjectTasks = usePage().props.usersProjectTasks;
 const assignedTasks = usePage().props.assignedTasks;
@@ -41,6 +40,20 @@ onMounted(() => {
             selectedTasks.value = [...selectedTasks.value, content];
         }
         displayMenu.value = displayMenuFunc();
+    });
+    eventBus.$on('userUpdate', (data) => {
+        if (user.value._id === data.user._id) {
+            switch (data.type) {
+                case 'update':
+                    user.value = data.user;
+                    break;
+                case 'delete':
+                    window.location.href = route('users');
+                    break;
+                default:
+                    break;
+            }
+        }        
     });
 });
 
