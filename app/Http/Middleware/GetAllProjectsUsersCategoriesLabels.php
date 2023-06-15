@@ -25,9 +25,11 @@ class GetAllProjectsUsersCategoriesLabels
         $allProjects = Project::where('squad_id', auth()->user()->squad_id)
             ->orderBy('name', 'asc')
             ->with('user')
+            ->withTrashed()
             ->get();
         $allUsers = User::where('squad_id', auth()->user()->squad_id)
             ->orderBy('name', 'asc')
+            ->withTrashed()
             ->get();
 
         $allCategories = Task::where('squad_id', auth()->user()->squad_id)

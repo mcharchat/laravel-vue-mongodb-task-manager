@@ -4,17 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
 class Project extends Model
 {
-    use HasFactory;
-    // set the fillable fields for the model
-    protected $fillable = [
-        'name',
-        'description',
-        'user_id',
-        'squad_id',
-    ];
+    use HasFactory, SoftDeletes;
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+    
     // every project has many tasks
     public function tasks()
     {
