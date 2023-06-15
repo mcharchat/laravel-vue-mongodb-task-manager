@@ -62,7 +62,7 @@ const toggleCollapse = () => {
                             </div>
                         </ResponsiveNavLink>
                     </li>
-                    <li>
+                    <li key="last">
                         <ResponsiveNavLink :href="route('projects')" :active="route().current('projects')" class="flex items-center" v-tooltip="'All the projects'">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 48 48" :class="{
                                 'transition-all': true,

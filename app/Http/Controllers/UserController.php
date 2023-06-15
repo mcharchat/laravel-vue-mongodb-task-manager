@@ -144,12 +144,17 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Models\User  $user
+     * @param  Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(User $user): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        // stores a new user based on the request at the same squad_id as the current user
+        // search if there is no user with the same email, stores a new user based on the request at the same squad_id as the current user
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:' . User::class,
+        ]);
+
         $newUser = User::create([
             'name' => request('name'),
             'email' => request('email'),
@@ -157,12 +162,12 @@ class UserController extends Controller
             'starred_projects' => [],
             'starred_tasks' => [],
             'squad_id' => auth()->user()->squad_id,
-        ]);
+        ]);        
         // fires the registered event
         event(new Registered($newUser));
         // fires the UserEvent
         event(new UserEvent(auth()->user()->squad_id, $newUser, 'create'));
         // return back to the previous page
-        return redirect()->back(303)->with('success', 'User created.');
+        return redirect()->route('users')->with('success', 'User invited.');
     }
 }

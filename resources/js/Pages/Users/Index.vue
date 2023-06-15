@@ -2,11 +2,26 @@
 // view for users listing
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import UsersTable from './Partials/UsersTable.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
+import { useToast } from "vue-toastification";
+import { defineProps, onMounted } from 'vue';
+
 
 defineProps({
     users: Object,
 });
+onMounted(() => {
+    const  redirectStatus = usePage().props.redirectStatus;
+    const toast = useToast();
+    if (redirectStatus.success) {
+        toast.success(redirectStatus.success);
+    }
+    if (redirectStatus.error) {
+        toast.error(redirectStatus.error);
+    }
+});
+
+
 </script>
 
 <template>

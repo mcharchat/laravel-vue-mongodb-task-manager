@@ -66,7 +66,7 @@ class ProjectController extends Controller
         // fire the ProjectEvent event with the squad_id and the validated data
         event(new ProjectEvent(auth()->user()->squad_id, $validated, 'create'));
         // return a redirect to the projects index
-        return redirect()->back(303)->with('success', 'Project created.');
+        return redirect()->route('projects')->with('success', 'Project created.');
     }
 
     /**
@@ -125,7 +125,7 @@ class ProjectController extends Controller
         // fire the ProjectEvent event with the squad_id and the validated data
         event(new ProjectEvent(auth()->user()->squad_id, $validated, 'update'));
         // return a redirect to the projects index
-        return redirect()->back(303)->with('success', 'Project updated.');
+        return redirect()->route('projects')->with('success', 'Project updated.');
     }
 
     /**
@@ -141,6 +141,6 @@ class ProjectController extends Controller
         // fire the ProjectEvent event with the squad_id and the project id
         event(new ProjectEvent(auth()->user()->squad_id, $project->id, 'delete'));
         // return a redirect to the projects index
-        return redirect()->back(303)->with('success', 'Project deleted.');
+        return redirect()->route('projects')->with('success', 'Project deleted.');
     }
 }
