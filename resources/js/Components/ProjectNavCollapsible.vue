@@ -38,7 +38,7 @@ const toggleCollapse = () => {
                 leave-to-class="transform opacity-0 scale-95"
         >
             <div v-if="isActive" class="pl-3 pr-4">
-                <ul>
+                <TransitionGroup name="list" tag="ul">
                     <li v-for="(project, index) in props.projects" :key="index">
                         <ResponsiveNavLink :href="route('projects.show', project._id)" :active="route().current('projects.show', project._id)" class="flex items-center" v-tooltip="'Project ' + project.name">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 15 15" :class="{
@@ -77,9 +77,19 @@ const toggleCollapse = () => {
                             >All the projects</span>
                         </ResponsiveNavLink>
                     </li>
-                </ul>
+                </TransitionGroup>
             </div>
         </transition>
     </div>
 </template>
+<style scoped>
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+}
+</style>
 

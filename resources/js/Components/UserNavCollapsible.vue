@@ -53,20 +53,22 @@ const toggleCollapse = () => {
                                 'hidden': props.users.length === 0
                             }"
                         >
-                            <NavAvatarLink v-for="(user, index) in props.users" :key="index" :href="route('users.show', user._id)" :active="route().current('users.show', user._id)" v-tooltip="'User '+ user.name">
-                                <div :class="{
-                                    'transition-all inline-block text-white flex items-center justify-center text-xs font-bold rounded-full': true,
-                                    'h-[6.33px] w-[6.33px]': slimNavigation,
-                                    'h-6 w-6': !slimNavigation
-                                }" :style="{ backgroundColor: stringToColour(user.name) }">
-                                    <span :class="{ 
-                                        'transition-all': true,
-                                        'hidden': slimNavigation
-                                    }">
-                                        {{ user.name.charAt(0) }}
-                                    </span>
-                                </div>
-                            </NavAvatarLink>
+                            <TransitionGroup name="list">
+                                <NavAvatarLink v-for="(user, index) in props.users" :key="index" :href="route('users.show', user._id)" :active="route().current('users.show', user._id)" v-tooltip="'User '+ user.name">
+                                    <div :class="{
+                                        'transition-all inline-block text-white flex items-center justify-center text-xs font-bold rounded-full': true,
+                                        'h-[6.33px] w-[6.33px]': slimNavigation,
+                                        'h-6 w-6': !slimNavigation
+                                    }" :style="{ backgroundColor: stringToColour(user.name) }">
+                                        <span :class="{ 
+                                            'transition-all': true,
+                                            'hidden': slimNavigation
+                                        }">
+                                            {{ user.name.charAt(0) }}
+                                        </span>
+                                    </div>
+                                </NavAvatarLink>
+                            </TransitionGroup>
                         </div>
                     </li>
                     <li>
@@ -89,4 +91,14 @@ const toggleCollapse = () => {
         </transition>
     </div>
 </template>
+<style scoped>
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+}
+</style>
 
