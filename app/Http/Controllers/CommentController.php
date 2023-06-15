@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\CommentEvent;
+use App\Events\CommentPublicTaskEvent;
 use App\Models\Comment;
 use App\Models\Task;
 use App\Http\Requests\StoreCommentRequest;
@@ -55,8 +55,8 @@ class CommentController extends Controller
             'comments' => $task->comments,
         ];
 
-        // fire the CommentEvent event with the squad_id and the validated data
-        event(new CommentEvent(auth()->user()->squad_id, $message, 'create'));
+        // fire the CommentPublicTaskEvent event with the squad_id and the validated data
+        event(new CommentPublicTaskEvent(auth()->user()->squad_id, $message, 'create'));
         // return a redirect to the tasks index
         return Redirect::route('tasks', [], 303);
     }

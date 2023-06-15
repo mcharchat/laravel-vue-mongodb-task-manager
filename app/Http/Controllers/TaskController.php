@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\TaskEvent;
+use App\Events\PublicTaskEvent;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
@@ -101,8 +101,8 @@ class TaskController extends Controller
         $validated['squad_id'] = auth()->user()->squad_id;
         // create a new task with the validated data
         Task::create($validated);
-        // fire the TaskEvent event with the squad_id and the validated data
-        event(new TaskEvent(auth()->user()->squad_id, $validated, 'create'));
+        // fire the PublicTaskEvent event with the squad_id and the validated data
+        event(new PublicTaskEvent(auth()->user()->squad_id, $validated, 'create'));
         // return a redirect to the tasks index
         return redirect()->route('tasks');
     }
@@ -148,8 +148,8 @@ class TaskController extends Controller
         $validated = $request->validated();
         // update the task with the validated data
         $task->update($validated);
-        // fire the TaskEvent event with the squad_id and the validated data
-        event(new TaskEvent(auth()->user()->squad_id, $validated, 'update'));
+        // fire the PublicTaskEvent event with the squad_id and the validated data
+        event(new PublicTaskEvent(auth()->user()->squad_id, $validated, 'update'));
         // return a redirect to the tasks index
         return redirect()->route('tasks');
     }
@@ -164,8 +164,8 @@ class TaskController extends Controller
     {
         // delete the task
         $task->delete();
-        // fire the TaskEvent event with the squad_id and the task
-        event(new TaskEvent(auth()->user()->squad_id, $task, 'delete'));
+        // fire the PublicTaskEvent event with the squad_id and the task
+        event(new PublicTaskEvent(auth()->user()->squad_id, $task, 'delete'));
         // return a redirect to the tasks index
         return redirect()->route('tasks');
     }
