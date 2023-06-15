@@ -26,18 +26,18 @@ class ProjectEvent implements ShouldBroadcast
     public function __construct($channel, $project, $type)
     {
         $this->type = $type;
-        $this->channel = $channel;
+        $this->channel = 'squad.' . $channel;
         $this->project = $project;
     }
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return \Illuminate\Broadcasting\PrivateChannel|array
      */
     public function broadcastOn()
     {
-        return new Channel($this->channel);
+        return new PrivateChannel($this->channel);
     }
 
     public function broadcastAs()

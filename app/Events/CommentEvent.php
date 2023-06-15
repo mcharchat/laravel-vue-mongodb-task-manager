@@ -26,18 +26,18 @@ class CommentEvent implements ShouldBroadcast
     public function __construct($channel, $message, $type)
     {
         $this->type = $type;
-        $this->channel = $channel;
+        $this->channel = 'squad.' . $channel;
         $this->message = $message;
     }
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return \Illuminate\Broadcasting\PrivateChannel|array
      */
     public function broadcastOn()
     {
-        return new Channel($this->channel);
+        return new PrivateChannel($this->channel);
     }
 
     public function broadcastAs()
