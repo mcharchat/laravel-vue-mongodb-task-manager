@@ -62,9 +62,10 @@ class ProjectController extends Controller
         // add the squad_id to the validated data
         $validated['squad_id'] = auth()->user()->squad_id;
         // create a new project with the validated data
-        Project::create($validated);
+        $project = Project::create($validated);
+        $project->load('user');
         // fire the ProjectEvent event with the squad_id and the validated data
-        event(new ProjectEvent(auth()->user()->squad_id, $validated, 'create'));
+        event(new ProjectEvent(auth()->user()->squad_id, $project, 'create'));
         // return a redirect to the projects index
         return redirect()->route('projects')->with('success', 'Project created.');
     }
@@ -122,8 +123,9 @@ class ProjectController extends Controller
         $validated['user_id'] = auth()->id();
         // update the project with the validated data
         $project->update($validated);
+        $project->load('user');
         // fire the ProjectEvent event with the squad_id and the validated data
-        event(new ProjectEvent(auth()->user()->squad_id, $validated, 'update'));
+        event(new ProjectEvent(auth()->user()->squad_id, $project, 'update'));
         // return a redirect to the projects index
         return redirect()->route('projects')->with('success', 'Project updated.');
     }
@@ -136,10 +138,11 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project): RedirectResponse
     {
+        $thisProject = $project->load('user');
         // delete the project
         $project->delete();
-        // fire the ProjectEvent event with the squad_id and the project id
-        event(new ProjectEvent(auth()->user()->squad_id, $project->id, 'delete'));
+        // fire the ProjectEvent event with the squad_id and the project
+        event(new ProjectEvent(auth()->user()->squad_id, $thisProject, 'delete'));
         // return a redirect to the projects index
         return redirect()->route('projects')->with('success', 'Project deleted.');
     }

@@ -59,14 +59,31 @@ const user_id = $page.props.auth.user._id;
 Echo.leaveAllChannels();
 
 const channel1 = Echo.private('squad.' + squad_id);
-channel1.listen('.task-event', function (data) {
-    eventBus.$emit('taskUpdate', data);
+channel1.listen('.user-event', function (data) {
+    eventBus.$emit('userUpdate', data);
+    if (data.type == 'update') {
+        let index = topUsers.value.findIndex((user) => user._id == data.user._id);
+        if (index != -1) {
+            topUsers.value[index] = data.user;
+        }
+        topProjects.value.forEach((project) => {
+            if (project.user._id == data.user._id) {
+                project.user = data.user;
+            }
+        });
+    }
 });
 channel1.listen('.project-event', function (data) {
     eventBus.$emit('projectUpdate', data);
+    if (data.type == 'update') {
+        let index = topProjects.value.findIndex((project) => project._id == data.project._id);
+        if (index != -1) {
+            topProjects.value[index] = data.project;
+        }
+    }
 });
-channel1.listen('.user-event', function (data) {
-    eventBus.$emit('userUpdate', data);
+channel1.listen('.task-event', function (data) {
+    eventBus.$emit('taskUpdate', data);
 });
 channel1.listen('.comment-event', function (data) {
     if (modalType.value == 'comment' && modalComment.value._id == data.message.task_id) {
