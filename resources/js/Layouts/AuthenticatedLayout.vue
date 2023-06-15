@@ -58,17 +58,28 @@ const user_id = $page.props.auth.user._id;
 
 Echo.leaveAllChannels();
 
-var channel = Echo.private('squad.' + squad_id);
-channel.listen('.task-event', function (data) {
+const channel1 = Echo.private('squad.' + squad_id);
+channel1.listen('.task-event', function (data) {
     eventBus.$emit('taskUpdate', data);
 });
-channel.listen('.project-event', function (data) {
+channel1.listen('.project-event', function (data) {
     eventBus.$emit('projectUpdate', data);
 });
-channel.listen('.user-event', function (data) {
+channel1.listen('.user-event', function (data) {
     eventBus.$emit('userUpdate', data);
 });
-channel.listen('.comment-event', function (data) {
+channel1.listen('.comment-event', function (data) {
+    if (modalType.value == 'comment' && modalComment.value._id == data.message.task_id) {
+        modalComment.value.comments = data.message.comments;
+    }
+    eventBus.$emit('commentUpdate', data);
+});
+
+const channel2 = Echo.private('user.' + user_id);
+channel2.listen('.task-event', function (data) {
+    eventBus.$emit('taskUpdate', data);
+});
+channel2.listen('.comment-event', function (data) {
     if (modalType.value == 'comment' && modalComment.value._id == data.message.task_id) {
         modalComment.value.comments = data.message.comments;
     }

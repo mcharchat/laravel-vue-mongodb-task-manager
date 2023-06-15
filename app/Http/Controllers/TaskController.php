@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\PublicTaskEvent;
+use App\Events\PrivateTaskEvent;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
@@ -101,10 +102,19 @@ class TaskController extends Controller
         $validated['squad_id'] = auth()->user()->squad_id;
         // create a new task with the validated data
         Task::create($validated);
-        // fire the PublicTaskEvent event with the squad_id and the validated data
-        event(new PublicTaskEvent(auth()->user()->squad_id, $validated, 'create'));
-        // return a redirect to the tasks index
-        return redirect()->route('tasks');
+        //if task is public, fire the PublicTaskEvent event with the squad_id and the validated data, else merge user_id, assigned_to and squad_id to one array, remove duplicates and null values and fire the PrivateTaskEvent event with the validated data
+        if ($validated['public']) {
+            event(new PublicTaskEvent(auth()->user()->squad_id, $validated, 'create'));
+        } else {
+            $participants_ids = collect(array_merge([$validated['user_id']], [$validated['assigned_to'] ?? null], $validated['team'] ?? [null]))
+                ->unique()
+                ->filter(function ($value) {
+                    return !is_null($value);
+                });
+            event(new PrivateTaskEvent($participants_ids, $validated, 'create'));
+        }
+        // return a redirect to the last page
+        return redirect()->back(303)->with('success', 'Task created.');
     }
 
     /**
@@ -148,10 +158,20 @@ class TaskController extends Controller
         $validated = $request->validated();
         // update the task with the validated data
         $task->update($validated);
-        // fire the PublicTaskEvent event with the squad_id and the validated data
-        event(new PublicTaskEvent(auth()->user()->squad_id, $validated, 'update'));
-        // return a redirect to the tasks index
-        return redirect()->route('tasks');
+        $updatedTask = Task::find($task->_id);
+        //if task is public, fire the PublicTaskEvent event with the squad_id and the validated data, else merge user_id, assigned_to and squad_id to one array, remove duplicates and null values and fire the PrivateTaskEvent event with the validated data
+        if ($validated['public']) {
+            event(new PublicTaskEvent(auth()->user()->squad_id, $validated, 'update'));
+        } else {
+            $participants_ids = collect(array_merge([$updatedTask->user_id], [$updatedTask->assigned_to ?? null], $updatedTask->team ?? [null]))
+                ->unique()
+                ->filter(function ($value) {
+                    return !is_null($value);
+                });
+            event(new PrivateTaskEvent($participants_ids, $updatedTask, 'update'));
+        }
+        // return a redirect to the last page
+        return redirect()->back(303)->with('success', 'Task updated.');
     }
 
     /**
@@ -162,12 +182,23 @@ class TaskController extends Controller
      */
     public function destroy(Task $task) : RedirectResponse
     {
+        // get the task
+        $taskToDelete = Task::find($task->_id)->toArray();
         // delete the task
         $task->delete();
-        // fire the PublicTaskEvent event with the squad_id and the task
-        event(new PublicTaskEvent(auth()->user()->squad_id, $task, 'delete'));
-        // return a redirect to the tasks index
-        return redirect()->route('tasks');
+        //if task is public, fire the PublicTaskEvent event with the squad_id and the validated data, else merge user_id, assigned_to and squad_id to one array, remove duplicates and null values and fire the PrivateTaskEvent event with the validated data
+        if ($task['public']) {
+            event(new PublicTaskEvent(auth()->user()->squad_id, $taskToDelete, 'delete'));
+        } else {
+            $participants_ids = collect(array_merge([$taskToDelete['user_id']], [$taskToDelete['assigned_to'] ?? null], $taskToDelete['team'] ?? [null]))
+            ->unique()
+                ->filter(function ($value) {
+                    return !is_null($value);
+                });
+            event(new PrivateTaskEvent($participants_ids, $taskToDelete, 'delete'));
+        }
+        // return a redirect to the last page
+        return redirect()->back(303)->with('success', 'Task deleted successfully.');
     }
 
     /**
@@ -181,9 +212,23 @@ class TaskController extends Controller
         // get the ids from the request
         $ids = $request->input('ids');
         // delete the tasks with the ids
-        Task::whereIn('_id', (array) $ids)->delete();
-        // return a redirect to the tasks index
-        return Redirect::route('tasks', [], 303);
+        $tasksQuery = Task::whereIn('_id', (array) $ids);
+        $tasks = $tasksQuery->get();
+        foreach ($tasks as $key => $task) {
+            if ($task['public']) {
+                event(new PublicTaskEvent(auth()->user()->squad_id, $task, 'delete'));
+            } else {
+                $participants_ids = collect(array_merge([$task['user_id']], [$task['assigned_to'] ?? null], $task['team'] ?? [null]))
+                ->unique()
+                ->filter(function ($value) {
+                    return !is_null($value);
+                });
+                event(new PrivateTaskEvent($participants_ids, $task, 'delete'));
+            }
+        }
+        $tasksQuery->delete();
+        // return a redirect to the last page
+        return redirect()->back(303)->with('success', 'Task deleted successfully.');
     }
     
 }

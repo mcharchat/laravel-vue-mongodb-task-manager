@@ -15,7 +15,7 @@ class ProjectEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $type;
-    public $channel;
+    public $squad_id;
     public $project;
 
     /**
@@ -23,10 +23,10 @@ class ProjectEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($channel, $project, $type)
+    public function __construct($squad_id, $project, $type)
     {
         $this->type = $type;
-        $this->channel = 'squad.' . $channel;
+        $this->squad_id = 'squad.' . $squad_id;
         $this->project = $project;
     }
 
@@ -37,7 +37,7 @@ class ProjectEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel($this->channel);
+        return new PrivateChannel($this->squad_id);
     }
 
     public function broadcastAs()

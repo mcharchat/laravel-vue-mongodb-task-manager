@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\CommentPublicTaskEvent;
+use App\Events\CommentPrivateTaskEvent;
 use App\Models\Comment;
 use App\Models\Task;
 use App\Http\Requests\StoreCommentRequest;
@@ -55,8 +56,17 @@ class CommentController extends Controller
             'comments' => $task->comments,
         ];
 
-        // fire the CommentPublicTaskEvent event with the squad_id and the validated data
-        event(new CommentPublicTaskEvent(auth()->user()->squad_id, $message, 'create'));
+        //if task is public, fire the CommentPublicTaskEvent event with the squad_id and the validated data, else merge user_id, assigned_to and squad_id to one array, remove duplicates and null values and fire the CommentPrivateTaskEvent event with validated data 
+        if ($task->public) {
+            event(new CommentPublicTaskEvent(auth()->user()->squad_id, $message, 'create'));
+        } else {
+            $participants_ids = collect(array_merge([$task->user_id], [$task->assigned_to], $task->team))
+                ->unique()
+                ->filter(function ($value) {
+                    return !is_null($value);
+                });
+            event(new CommentPrivateTaskEvent($participants_ids, $message, 'create'));
+        }
         // return a redirect to the tasks index
         return Redirect::route('tasks', [], 303);
     }

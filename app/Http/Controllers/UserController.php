@@ -163,6 +163,6 @@ class UserController extends Controller
         // fires the UserEvent
         event(new UserEvent(auth()->user()->squad_id, $newUser, 'create'));
         // return back to the previous page
-        return redirect()->route('users')->with('success', 'User created.');
+        return redirect()->back(303)->with('success', 'User created.');
     }
 }

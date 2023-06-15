@@ -10,12 +10,12 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CommentEvent implements ShouldBroadcast
+class CommentPublicTaskEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $type;
-    public $channel;
+    public $squad_id;
     public $message;
 
     /**
@@ -23,10 +23,10 @@ class CommentEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($channel, $message, $type)
+    public function __construct($squad_id, $message, $type)
     {
         $this->type = $type;
-        $this->channel = 'squad.' . $channel;
+        $this->squad_id = 'squad.' . $squad_id;
         $this->message = $message;
     }
 
@@ -37,7 +37,7 @@ class CommentEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel($this->channel);
+        return new PrivateChannel($this->squad_id);
     }
 
     public function broadcastAs()

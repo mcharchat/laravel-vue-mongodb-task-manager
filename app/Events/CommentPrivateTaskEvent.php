@@ -10,24 +10,28 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PublicTaskEvent implements ShouldBroadcast
+class CommentPrivateTaskEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $type;
-    public $squad_id;
-    public $task;
+    public $participants_ids;
+    public $message;
+    public $channels;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($squad_id, $task, $type)
+    public function __construct($participants_ids, $message, $type)
     {
         $this->type = $type;
-        $this->squad_id = 'squad.' . $squad_id;
-        $this->task = $task;
+        $this->participants_ids = $participants_ids;
+        $this->channels = $participants_ids->map(function ($participantId) {
+            return new PrivateChannel('user.' . $participantId);
+        })->toArray();
+        $this->message = $message;
     }
 
     /**
@@ -37,11 +41,12 @@ class PublicTaskEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel($this->squad_id);
+        // broadcast to every private channel in the $this->channels array
+        return $this->channels;
     }
 
     public function broadcastAs()
     {
-        return 'task-event';
+        return 'comment-event';
     }
 }

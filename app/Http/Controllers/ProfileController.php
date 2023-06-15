@@ -41,7 +41,7 @@ class ProfileController extends Controller
         // broadcast the user event with two arguments: the channel that is the squad_id and the user
         event(new UserEvent($request->user()->squad_id, $request->user(), 'update'));
 
-        return Redirect::route('profile.edit');
+        return redirect()->back(303)->with('success', 'Profile updated.');
     }
 
     /**
