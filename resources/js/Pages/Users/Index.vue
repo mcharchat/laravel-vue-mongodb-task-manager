@@ -4,12 +4,15 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import UsersTable from './Partials/UsersTable.vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import { useToast } from "vue-toastification";
-import { defineProps, onMounted } from 'vue';
+import { defineProps, onMounted, ref } from 'vue';
+import eventBus from '@/Utils/eventBus';
 
 
-defineProps({
+const props = defineProps({
     users: Object,
 });
+const users = ref(props.users);
+
 onMounted(() => {
     const  redirectStatus = usePage().props.redirectStatus;
     const toast = useToast();
@@ -19,6 +22,26 @@ onMounted(() => {
     if (redirectStatus.error) {
         toast.error(redirectStatus.error);
     }
+    eventBus.$on('userUpdate', (data) => {
+        switch (data.type) {
+            case 'update':
+                users.value = users.value.map((user) => {
+                    if (user.id === data.user.id) {
+                        return data.user;
+                    }
+                    return user;
+                });
+                break;
+            case 'delete':
+                users.value = users.value.filter((user) => user.id !== data.user.id);
+                break;
+            case 'create':
+                users.value = [...users.value, data.user];
+                break;
+            default:
+                break;
+        }
+    });
 });
 
 
