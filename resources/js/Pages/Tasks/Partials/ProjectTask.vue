@@ -274,9 +274,11 @@ function newTaskModal() {
                 leave-to-class="transform opacity-0 scale-95"
             >
                 <tbody v-if="!collapsed" >
-                    <tr v-for="item in project" :key="item._id" :style="{backgroundColor: projectBackgroundColor}">
-                        <TaskTableLine :item="{...item}" :projectColor="projectColor" :projectTextColor="projectTextColor" :selectedTasks="selectedTasks"/>
-                    </tr>
+                    <TransitionGroup name="list">
+                        <tr v-for="item in project" :key="item._id" :style="{backgroundColor: projectBackgroundColor}">
+                            <TaskTableLine :item="{...item}" :projectColor="projectColor" :projectTextColor="projectTextColor" :selectedTasks="selectedTasks"/>
+                        </tr>
+                    </TransitionGroup>
                     <tr>
                         <td></td>
                         <td colspan="100%" class=" text-sm font-medium text-gray-900 dark:text-gray-100 p-0"
@@ -339,4 +341,14 @@ function newTaskModal() {
 .custom-scroll:hover::-webkit-scrollbar-thumb {
     background-color: #90909090;
 }
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+}
+
 </style>
