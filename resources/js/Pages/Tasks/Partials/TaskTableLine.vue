@@ -35,7 +35,12 @@
         }"
     >
         <div class="flex items-center justify-center cursor-pointer" @click="commentModal()">
-            <Icon class="m-2" icon="mdi:comment-outline" width="18" height="18"/>
+            <div class="relative">
+                <div v-if="props.item.comments.length > 0"  class="w-[14px] h-[14px] aspect-square rounded-full bg-red-500 flex justify-center items-center text-white text-[8px] absolute top-0.5 right-0.5" >
+                    {{ props.item.comments.length < 10 ? props.item.comments.length : '9+' }}
+                </div>
+                <Icon class="m-2" icon="mdi:comment-outline" width="18" height="18"/>
+            </div>
         </div>
     </td>
     <td class=" text-sm font-medium text-gray-900 dark:text-gray-100 p-0"
