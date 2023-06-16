@@ -57,8 +57,8 @@
         }"
     >
         <div class="flex w-[100px] cursor-pointer" @click="updateTaskModal()">
-            <div class="px-3 py-2 w-[100px]" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }" v-tooltip="users[props.item.assigned_to]?.name ?? 'Unassigned'">
-                {{ users[props.item.assigned_to]?.name ?? 'Unassigned' }}
+            <div class="px-3 py-2 w-[100px]" :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }" v-tooltip="props.users[props.item.assigned_to]?.name ?? 'Unassigned'">
+                {{ props.users[props.item.assigned_to]?.name ?? 'Unassigned' }}
             </div>
         </div>
     </td>
@@ -123,8 +123,8 @@
         }"
     >
         <div v-show="props.item.team" class="flex justify-center gap-2 px-2 cursor-pointer" @click="updateTaskModal()">
-                <div v-for="user_id in props.item.team" :key="user_id" class="inline-block rounded-full h-[24px] w-[24px] text-white flex items-center justify-center text-sm font-bold" :style="{ backgroundColor: stringToColour(users[user_id]?.name) }" v-tooltip="users[user_id]?.name">
-                    {{ users[user_id]?.name.charAt(0) }}
+                <div v-for="user_id in props.item.team" :key="user_id" class="inline-block rounded-full h-[24px] w-[24px] text-white flex items-center justify-center text-sm font-bold" :style="{ backgroundColor: stringToColour(props.users[user_id]?.name) }" v-tooltip="props.users[user_id]?.name">
+                    {{ props.users[user_id]?.name.charAt(0) }}
                 </div>
         </div>
     </td>
@@ -153,7 +153,6 @@ import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
 import Timeline from '@/Components/Timeline.vue';
 import PercCompleted from '@/Components/PercCompleted.vue';
-import { usePage, Link } from '@inertiajs/vue3';
 import { stringToColour } from '@/Utils/globalFunctions';
 import eventBus from '@/Utils/eventBus';
 
@@ -174,9 +173,11 @@ const props = defineProps({
         type: Array,
         required: true
     },
+    users: {
+        type: Object,
+        required: true
+    },
 });
-
-const users = Object.fromEntries(usePage().props.allUsers.map(user => [user._id, user]));
 
 const checkbox = ref(props.selectedTasks.includes(props.item._id));
 

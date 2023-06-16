@@ -15,7 +15,7 @@
         </header>
         <div class="h-80 overflow-y-auto custom-scroll space-y-4 py-4">
             <CommentBox v-for="(comment, key) in props.comments" :key="key"
-                :user-name="userDictionary[comment.user_id]"
+                :user-name="userDictionary[comment.user_id].name"
                 :text="comment.body"
                 :timestamp="comment.created_at"
                 :is-left="comment.user_id !== user._id"
@@ -56,6 +56,7 @@ import { useForm, Link, usePage } from '@inertiajs/vue3';
 import TextAreaInput from '@/Components/TextAreaInput.vue';
 import InputError from '@/Components/InputError.vue';
 import CommentBox from '@/Components/CommentBox.vue';
+import eventBus from '@/Utils/eventBus';
 
 const scrollBottom = ref(null)
 const props = defineProps({
@@ -81,16 +82,7 @@ const form = useForm({
     task_id: taskId.value,
     body: comment.value,
 });
-
-const userDictionary = ref(
-    usePage()
-    .props
-    .allUsers
-    .reduce((acc, user) => {
-        acc[user._id] = user.name;
-        return acc;
-    }, {})
-);
+const userDictionary = ref(Object.fromEntries(usePage().props.allUsers.map(user => [user._id, user])));
 
 const user = ref(
     usePage()
@@ -117,7 +109,17 @@ const scrollToBottom = () => {
     }, 300);
 }
 onMounted(() => {
-        scrollToBottom();
+    scrollToBottom();
+    eventBus.$on('userUpdate', (data) => {
+        switch (data.type) {
+            case 'update':
+            case 'create':
+                userDictionary.value[data.user._id] = data.user;
+                break;
+            default:
+                break;
+        }
+    });
 })
 watch(() => props.comments, () => {
     scrollToBottom();

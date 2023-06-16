@@ -4,12 +4,17 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import ProjectsTable from './Partials/ProjectsTable.vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import { useToast } from "vue-toastification";
-import { defineProps, onMounted } from 'vue';
+import { defineProps, onMounted, ref } from 'vue';
+import eventBus from '@/Utils/eventBus';
 
-defineProps({
+const props = defineProps({
     myProjects: Object,
     projects: Object,
 });
+
+const myProjects = ref(props.myProjects);
+const projects = ref(props.projects);
+
 onMounted(() => {
     const redirectStatus = usePage().props.redirectStatus;
     const toast = useToast();
@@ -19,6 +24,28 @@ onMounted(() => {
     if (redirectStatus.error) {
         toast.error(redirectStatus.error);
     }
+    eventBus.$on('userUpdate', (data) => {
+        switch (data.type) {
+            case 'update':
+                myProjects.value.forEach((project, index) => {
+                    if (project.user_id === data.user._id) {
+                        myProjects.value[index].user = data.user;
+                    }
+                });
+                projects.value.forEach((project, index) => {
+                    if (project.user_id === data.user._id) {
+                        projects.value[index].user = data.user;
+                    }
+                });
+                break;
+            case 'delete':
+                myProjects.value = myProjects.value.filter((project) => project.user_id !== data.user._id);
+                projects.value = projects.value.filter((project) => project.user_id !== data.user._id);
+                break;
+            default:
+                break;
+        }
+    });
 });
 
 </script>

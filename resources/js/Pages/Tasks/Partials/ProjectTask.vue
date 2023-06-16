@@ -1,6 +1,6 @@
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import TaskTableLine from './TaskTableLine.vue';
 import { stringToColour } from '@/Utils/globalFunctions';
@@ -33,8 +33,7 @@ const toggleCollapse = () => {
 const ordedBy = ref();
 const orderDirection = ref();
 
-const users = usePage().props.users;
-
+const usersDictionary = ref(Object.fromEntries(usePage().props.allUsers.map(user => [user._id, user])));
 const statusDictionary = {
     'Cancelled': 0,
     'Not Started': 1,
@@ -64,9 +63,9 @@ const orderBy = (field) => {
         case 'assigned_to':
             project.value.sort((a, b) => {
                 if (orderDirection.value === 'asc') {
-                    return users[a[field]]?.name > users[b[field]]?.name ? 1 : -1;
+                    return usersDictionary.value[a[field]]?.name > usersDictionary.value[b[field]]?.name ? 1 : -1;
                 }
-                return users[a[field]]?.name < users[b[field]]?.name ? 1 : -1;
+                return usersDictionary.value[a[field]]?.name < usersDictionary.value[b[field]]?.name ? 1 : -1;
             });
             break;
         case 'status':
@@ -112,6 +111,26 @@ function newTaskModal() {
     });
 }
 
+onMounted(() => {
+    eventBus.$on('userUpdate', (data) => {
+        switch (data.type) {
+            case 'update':
+            case 'create':
+                usersDictionary.value[data.user._id] = data.user;
+                project.value.forEach((item) => {
+                    if (item.user._id === data.user._id) {
+                        item.user = data.user;
+                    }
+                });
+                break;
+            case 'delete':
+                project.value = project.value.filter((item) => item.user._id !== data.user._id).filter((item) => item.project?.user_id !== data.user._id);
+                break;
+            default:
+                break;
+        }
+    });
+})
 </script>
 
 <template>
@@ -276,7 +295,7 @@ function newTaskModal() {
                 <tbody v-if="!collapsed" >
                     <TransitionGroup name="list">
                         <tr v-for="item in project" :key="item._id" :style="{backgroundColor: projectBackgroundColor}">
-                            <TaskTableLine :item="{...item}" :projectColor="projectColor" :projectTextColor="projectTextColor" :selectedTasks="selectedTasks"/>
+                            <TaskTableLine :item="{...item}" :projectColor="projectColor" :projectTextColor="projectTextColor" :selectedTasks="selectedTasks" :users="usersDictionary"/>
                         </tr>
                     </TransitionGroup>
                     <tr>
