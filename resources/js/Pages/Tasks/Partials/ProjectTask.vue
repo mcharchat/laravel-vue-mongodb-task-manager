@@ -130,6 +130,19 @@ onMounted(() => {
                 break;
         }
     });
+    eventBus.$on('commentUpdate', (data) => {
+        switch (data.type) {
+            case 'create':
+                project.value.forEach((item) => {
+                    if (item._id === data.message.task_id) {
+                        item.comments = data.message.comments;
+                    }
+                });
+                break;
+            default:
+                break;
+        }
+    });
 })
 </script>
 
