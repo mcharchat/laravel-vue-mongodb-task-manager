@@ -68,7 +68,7 @@ class CommentController extends Controller
             event(new CommentPrivateTaskEvent($participants_ids, $message, 'create'));
         }
         // return a redirect to the tasks index
-        return Redirect::route('tasks', [], 303);
+        return redirect()->back(303)->with('success', 'Comment made successfully.');
     }
 
     /**
