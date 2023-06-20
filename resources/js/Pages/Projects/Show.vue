@@ -10,12 +10,12 @@ import eventBus from '@/Utils/eventBus';
 import Dropdown from '@/Components/Dropdown.vue';
 import axios from 'axios';
 
-const project = usePage().props.project;
+const project = ref(usePage().props.project);
 
 const activeTab = ref('projectTasks');
 
 const selectedTasks = ref([]);
-const allTasks = [...project.tasks].flat().filter((task, index, self) => index === self.findIndex((t) => t._id === task._id));
+const allTasks = [...project.value.tasks].flat().filter((task, index, self) => index === self.findIndex((t) => t._id === task._id));
 
 function displayMenuFunc() {
     return selectedTasks?.value.some((task) => allTasks.some((t) => t._id === task));
@@ -32,6 +32,26 @@ onMounted(() => {
             selectedTasks.value = [...selectedTasks.value, content];
         }
         displayMenu.value = displayMenuFunc();
+    });
+    eventBus.$on('projectUpdate', (data) => {
+        switch (data.type) {
+            case 'update':
+                if (project.value._id === data.project._id) {
+                    project.value.name = data.project.name;
+                    project.value.description = data.project.description;
+                    Object.keys(project.value.tasks).forEach((key) => {
+                        if (project.value.tasks[key].project) {
+                            project.value.tasks[key].project.name = data.project.name;
+                        }
+                    });
+                }  
+                break;
+            case 'delete':
+                window.location.href = route('projects');
+                break;
+            default:
+                break;
+        }
     });
 });
 

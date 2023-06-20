@@ -8,17 +8,17 @@ import eventBus from '@/Utils/eventBus';
 import Dropdown from '@/Components/Dropdown.vue';
 import axios from 'axios';
 
-const myTasks = usePage().props.myTasks;
-const myProjectTasks = usePage().props.myProjectTasks;
-const assignedTasks = usePage().props.assignedTasks;
-const assignedProjectTasks = usePage().props.assignedProjectTasks;
-const teamTasks = usePage().props.teamTasks;
-const teamProjectTasks = usePage().props.teamProjectTasks;
+const myTasks = ref(usePage().props.myTasks);
+const myProjectTasks = ref(usePage().props.myProjectTasks);
+const assignedTasks = ref(usePage().props.assignedTasks);
+const assignedProjectTasks = ref(usePage().props.assignedProjectTasks);
+const teamTasks = ref(usePage().props.teamTasks);
+const teamProjectTasks = ref(usePage().props.teamProjectTasks);
 
 const activeTab = ref('myTasks');
 
 const selectedTasks = ref([]);
-const allTasks = [...myTasks, ...assignedTasks, ...teamTasks, ...Object.values(myProjectTasks), ...Object.values(assignedProjectTasks), ...Object.values(teamProjectTasks)].flat().filter((task, index, self) => index === self.findIndex((t) => t._id === task._id));
+const allTasks = [...myTasks.value, ...assignedTasks.value, ...teamTasks.value, ...Object.values(myProjectTasks.value), ...Object.values(assignedProjectTasks.value), ...Object.values(teamProjectTasks.value)].flat().filter((task, index, self) => index === self.findIndex((t) => t._id === task._id));
 
 function displayMenuFunc() {
     return selectedTasks?.value.some((task) => allTasks.some((t) => t._id === task));
@@ -35,6 +35,37 @@ onMounted(() => {
             selectedTasks.value = [...selectedTasks.value, content];
         }
         displayMenu.value = displayMenuFunc();
+    });
+    eventBus.$on('projectUpdate', (data) => {
+        switch (data.type) {
+            case 'update':
+                Object.values(myProjectTasks.value).forEach((project) => {
+                    project.forEach((task) => {
+                        if (task.project_id === data.project._id) {
+                            task.project = data.project;
+                        }
+                    });
+                });
+                Object.values(assignedProjectTasks.value).forEach((project) => {
+                    project.forEach((task) => {
+                        if (task.project_id === data.project._id) {
+                            task.project = data.project;
+                        }
+                    });
+                });
+                Object.values(teamProjectTasks.value).forEach((project) => {
+                    project.forEach((task) => {
+                        if (task.project_id === data.project._id) {
+                            task.project = data.project;
+                        }
+                    });
+                });
+                break;
+            case 'delete':
+                break;
+            default:
+                break;
+        }
     });
 });
 

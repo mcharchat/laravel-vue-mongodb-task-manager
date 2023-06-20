@@ -11,14 +11,14 @@ import { stringToColour } from '@/Utils/globalFunctions';
 import axios from 'axios';
 
 const searchedUsers = ref(usePage().props.searchedUsers);
-const searchedProjects = usePage().props.searchedProjects;
-const searchedTasks = usePage().props.searchedTasks;
+const searchedProjects = ref(usePage().props.searchedProjects);
+const searchedTasks = ref(usePage().props.searchedTasks);
 const activeTab = ref('searchedTerm');
 const params = new URLSearchParams(window.location.search)
 const searchedTerm = params.get('search')
 
 const selectedTasks = ref([]);
-const allTasks = [...Object.values(searchedTasks)].flat().filter((task, index, self) => index === self.findIndex((t) => t._id === task._id));
+const allTasks = [...Object.values(searchedTasks.value)].flat().filter((task, index, self) => index === self.findIndex((t) => t._id === task._id));
 
 function displayMenuFunc() {
     return selectedTasks?.value.some((task) => allTasks.some((t) => t._id === task));
@@ -52,6 +52,39 @@ onMounted(() => {
                 });
             case 'delete':
                 searchedUsers.value = searchedUsers.value.filter((user) => user._id !== data.user._id);
+                break;
+        }
+    });
+    eventBus.$on('projectUpdate', (data) => {
+        switch (data.type) {
+            case 'create':
+                if (data.project.name.toLowerCase().includes(searchedTerm.toLowerCase()) || data.project.description.toLowerCase().includes(searchedTerm.toLowerCase())) {
+                    searchedProjects.value[data.project._id] = data.project;
+                }                    
+                break;
+            case 'update':
+                // map all the searched projects, if the project id is in the searched projects then update the project in the searched projects
+                searchedProjects.value = Object.values(searchedProjects.value).map((project) => {
+                    if (project._id === data.project._id) {
+                        project.name = data.project.name;
+                        project.description = data.project.description;
+                    }
+                    return project;
+                });
+                Object.values(searchedTasks.value).forEach((project) => {
+                    project.forEach((task) => {
+                        if (task.project_id === data.project._id) {
+                            task.project = data.project;
+                        }
+                    });
+                });
+
+
+                break;
+            case 'delete':
+                searchedProjects.value = searchedProjects.value.filter((project) => project._id !== data.project._id);
+                break;
+            default:
                 break;
         }
     });

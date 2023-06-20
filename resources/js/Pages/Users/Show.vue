@@ -12,18 +12,18 @@ import { stringToColour } from '@/Utils/globalFunctions';
 import axios from 'axios';
 
 const user = ref(usePage().props.user);
-const usersTasks = usePage().props.usersTasks;
-const usersProjectTasks = usePage().props.usersProjectTasks;
-const assignedTasks = usePage().props.assignedTasks;
-const assignedProjectTasks = usePage().props.assignedProjectTasks;
-const teamTasks = usePage().props.teamTasks;
-const teamProjectTasks = usePage().props.teamProjectTasks;
-const projects = usePage().props.projects;
+const usersTasks = ref(usePage().props.usersTasks);
+const usersProjectTasks = ref(usePage().props.usersProjectTasks);
+const assignedTasks = ref(usePage().props.assignedTasks);
+const assignedProjectTasks = ref(usePage().props.assignedProjectTasks);
+const teamTasks = ref(usePage().props.teamTasks);
+const teamProjectTasks = ref(usePage().props.teamProjectTasks);
+const projects = ref(usePage().props.projects);
 
 const activeTab = ref('projects');
 
 const selectedTasks = ref([]);
-const allTasks = [...usersTasks, ...assignedTasks, ...teamTasks, ...Object.values(usersProjectTasks), ...Object.values(assignedProjectTasks), ...Object.values(teamProjectTasks)].flat().filter((task, index, self) => index === self.findIndex((t) => t._id === task._id));
+const allTasks = [...usersTasks.value, ...assignedTasks.value, ...teamTasks.value, ...Object.values(usersProjectTasks.value), ...Object.values(assignedProjectTasks.value), ...Object.values(teamProjectTasks.value)].flat().filter((task, index, self) => index === self.findIndex((t) => t._id === task._id));
 
 function displayMenuFunc() {
     return selectedTasks?.value.some((task) => allTasks.some((t) => t._id === task));
@@ -54,6 +54,44 @@ onMounted(() => {
                     break;
             }
         }        
+    });
+    eventBus.$on('projectUpdate', (data) => {
+        if (projects.value.some((project) => project._id === data.project._id)) {
+            switch (data.type) {
+                case 'update':
+                    projects.value[projects.value.findIndex((project) => project._id === data.project._id)] = data.project;
+                    Object.values(usersProjectTasks.value).forEach((project) => {
+                        project.forEach((task) => {
+                            if (task.project_id === data.project._id) {
+                                task.project = data.project;
+                            }
+                        });
+                    });
+                    Object.values(assignedProjectTasks.value).forEach((project) => {
+                        project.forEach((task) => {
+                            if (task.project_id === data.project._id) {
+                                task.project = data.project;
+                            }
+                        });
+                    }); 
+                    Object.values(teamProjectTasks.value).forEach((project) => {
+                        project.forEach((task) => {
+                            if (task.project_id === data.project._id) {
+                                task.project = data.project;
+                            }
+                        });
+                    });
+                    break;
+                case 'delete':
+                    projects.value.splice(projects.value.findIndex((project) => project._id === data.project._id), 1);
+                    break;
+                default:
+                    break;
+            }
+        } 
+        if (data.type === 'create' && data.project.user_id === user.value._id) {
+            projects.value.push(data.project);
+        }
     });
 });
 
@@ -195,7 +233,7 @@ const deleteBulkTasks = () => {
                     <div class="flex flex-wrap gap-6 mb-2">
                         <h3 v-if="projects.length == 0" class="text-md font-bold grow text-center">No matching projects.</h3>
                         <div v-for="project in projects" :key="project._id" v-tooltip="project.name">
-                            <Link class="inline-block border-4 rounded-full border-white text-white flex items-center justify-center text-lg font-bold cursor-pointer  dark:text-gray-800 hover:text-gray-100 dark:hover:text-gray-600 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out" :style="{ 'aspectRatio': '1/1', 'width': '48px', 'backgroundColor': stringToColour(project.name) }" :href="route('projects.show', project._id)">
+                            <Link class="inline-block border-4 rounded-full border-white text-white flex items-center justify-center text-lg font-bold cursor-pointer  dark:text-gray-800 hover:text-gray-100 dark:hover:text-gray-600 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition-all duration-150 ease-in-out" :style="{ 'aspectRatio': '1/1', 'width': '48px', 'backgroundColor': stringToColour(project.name) }" :href="route('projects.show', project._id)">
                                 {{ project.name.charAt(0) }}
                             </Link>
                         </div>

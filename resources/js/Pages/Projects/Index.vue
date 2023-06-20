@@ -46,6 +46,31 @@ onMounted(() => {
                 break;
         }
     });
+    eventBus.$on('projectUpdate', (data) => {
+        switch (data.type) {
+            case 'update':
+                myProjects.value.forEach((project, index) => {
+                    if (project._id === data.project._id) {
+                        myProjects.value[index] = data.project;
+                    }
+                });
+                projects.value.forEach((project, index) => {
+                    if (project._id === data.project._id) {
+                        projects.value[index] = data.project;
+                    }
+                });       
+                break;         
+            case 'create':
+                projects.value = [...projects.value, data.project];
+                break;
+            case 'delete':
+                myProjects.value = myProjects.value.filter((project) => project._id !== data.project._id);
+                projects.value = projects.value.filter((project) => project._id !== data.project._id);
+                break;
+            default:
+                break;
+        }
+    })
 });
 
 </script>

@@ -22,9 +22,10 @@ const project = ref(props.project);
 
 const collapsed = ref(false);
 const projectName = (project.value[0]?.project != null ? project.value[0]?.project?.name : 'default');
-const projectColor = stringToColour(projectName);
-const projectBackgroundColor = projectColor + '1a';
-const projectTextColor = projectColor + 'e6';
+const projectColor = ref(stringToColour(projectName));
+
+const projectBackgroundColor = ref(projectColor.value + '1a');
+const projectTextColor = ref(projectColor.value + 'e6');
 
 const toggleCollapse = () => {
     collapsed.value = !collapsed.value;
@@ -141,6 +142,14 @@ onMounted(() => {
                 break;
             default:
                 break;
+        }
+    });
+    eventBus.$on('projectUpdate', (data) => {
+        if  ((data.project._id === project.value[0]?.project?._id) && (data.type === 'update')) {
+            project.value.name = data.project.name;
+            projectColor.value = stringToColour(data.project.name);
+            projectBackgroundColor.value = projectColor.value + '1a';
+            projectTextColor.value = projectColor.value + 'e6';
         }
     });
 })
