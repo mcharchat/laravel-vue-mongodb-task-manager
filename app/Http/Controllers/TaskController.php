@@ -160,6 +160,8 @@ class TaskController extends Controller
         // update the task with the validated data
         $task->update($validated);
         $updatedTask = Task::find($task->_id);
+        //load comments to the updated task
+        $updatedTask->load('comments', 'user', 'project');
         //if task is public, fire the PublicTaskEvent event with the squad_id and the validated data, else merge user_id, assigned_to and squad_id to one array, remove duplicates and null values and fire the PrivateTaskEvent event with the validated data
         if ($validated['public']) {
             event(new PublicTaskEvent(auth()->user()->squad_id, $validated, 'update'));

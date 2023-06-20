@@ -12,7 +12,7 @@
 
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 
 // Props
 const props = defineProps({
@@ -42,6 +42,13 @@ const progressPercentage = computed(() => {
 
 const progressColor = computed(() => {
     return projectColor.value;
+});
+
+watch(() => props.progress, () => {
+    progress.value = props.progress;
+});
+watch(() => props.projectColor, () => {
+    projectColor.value = props.projectColor;
 });
 </script>
 

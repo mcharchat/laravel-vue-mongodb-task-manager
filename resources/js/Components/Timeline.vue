@@ -13,7 +13,7 @@
 
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 
 // Props
 const props = defineProps({
@@ -81,6 +81,23 @@ const progressColor = computed(() => {
         return 'rgb(250 204 21)';
     }
     return projectColor.value;
+});
+
+watch(() => props.startDate, (value) => {
+    startDate.value = new Date(
+        parseInt(value.$date.$numberLong)
+    );
+});
+watch(() => props.dueDate, (value) => {
+    dueDate.value = new Date(
+        parseInt(value.$date.$numberLong)
+    );
+});
+watch(() => props.status, (value) => {
+    status.value = value;
+});
+watch(() => props.projectColor, (value) => {
+    projectColor.value = value;
 });
 </script>
 

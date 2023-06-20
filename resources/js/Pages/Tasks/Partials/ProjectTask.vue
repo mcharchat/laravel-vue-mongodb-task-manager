@@ -152,6 +152,33 @@ onMounted(() => {
             projectTextColor.value = projectColor.value + 'e6';
         }
     });
+    eventBus.$on('taskUpdate', (data) => {
+        switch (data.type) {
+            case 'update':
+                if (data.task.project_id === project.value[0]?.project?._id) {
+                    project.value  = project.value.map((item) => {
+                        if (item._id === data.task._id) {
+                            return data.task;
+                        }
+                        return item;
+                    });
+                }
+                break;
+            case 'create':
+                if (data.task.project_id === project.value[0]?.project?._id) {
+                     project.value.push(data.task);
+                }
+                break;
+            case 'delete':
+                if (data.task.project_id === project.value[0]?.project?._id) {
+                    project.value = project.value.filter((item) => item._id !== data.task._id);
+                }
+                break;
+            default:
+                break;
+        }
+
+    });
 })
 </script>
 
