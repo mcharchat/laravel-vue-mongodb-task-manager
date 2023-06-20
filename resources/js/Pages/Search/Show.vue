@@ -10,7 +10,7 @@ import ProjectTask from '../Tasks/Partials/ProjectTask.vue';
 import { stringToColour } from '@/Utils/globalFunctions';
 import axios from 'axios';
 
-const searchedUsers = usePage().props.searchedUsers;
+const searchedUsers = ref(usePage().props.searchedUsers);
 const searchedProjects = usePage().props.searchedProjects;
 const searchedTasks = usePage().props.searchedTasks;
 const activeTab = ref('searchedTerm');
@@ -35,6 +35,25 @@ onMounted(() => {
             selectedTasks.value = [...selectedTasks.value, content];
         }
         displayMenu.value = displayMenuFunc();
+    });
+    eventBus.$on('userUpdate', (data) => {
+        switch (data.type) {
+            case 'create':
+                if (data.user.name.toLowerCase().includes(searchedTerm.toLowerCase()) || data.user.email.toLowerCase().includes(searchedTerm.toLowerCase())) {
+                    searchedUsers.value = [...searchedUsers.value, data.user];
+                }                    
+                break;
+            case 'update':
+                searchedUsers.value = Object.values(searchedUsers.value).map((user) => {
+                    if (user._id === data.user._id) {
+                        user = data.user;
+                    }
+                    return user;
+                });
+            case 'delete':
+                searchedUsers.value = searchedUsers.value.filter((user) => user._id !== data.user._id);
+                break;
+        }
     });
 });
 
