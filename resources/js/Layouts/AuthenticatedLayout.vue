@@ -119,7 +119,7 @@ channel1.listen('.comment-event', function (data) {
                 draggable: true,
                 draggablePercent: 0.6,
                 showCloseButtonOnHover: true,
-                hideProgressBar: true,
+                hideProgressBar: false,
                 closeButton: "button",
                 icon: true,
                 rtl: false
@@ -145,6 +145,7 @@ channel2.listen('.comment-event', function (data) {
                     message: 'You have a new comment on task "' + data.message.task_title + '" click here to see it',
                     func: () => {
                         modalComment.value = data.message;
+                        modalComment.value._id = data.message.task_id;
                         modalCommentTaskId.value = data.message.task_id;
                         modalCommentTaskTitle.value = data.message.task_title;
                         modalType.value = 'comment';
@@ -161,7 +162,7 @@ channel2.listen('.comment-event', function (data) {
                 draggable: true,
                 draggablePercent: 0.6,
                 showCloseButtonOnHover: true,
-                hideProgressBar: true,
+                hideProgressBar: false,
                 closeButton: "button",
                 icon: true,
                 rtl: false

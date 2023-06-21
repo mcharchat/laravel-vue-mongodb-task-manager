@@ -6,6 +6,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -24,9 +25,7 @@ Route::redirect('/', '/login');
 
 Route::middleware(['auth', 'verified', 'get-top-projects-users', 'get-all-projects-users-categories-labels'])->group(function () {
     // route for the dashboard
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // route for listing projects
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects');
