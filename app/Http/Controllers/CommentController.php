@@ -53,6 +53,8 @@ class CommentController extends Controller
         $task = Task::find($validated['task_id'])->load('comments');
         $message = [
             'task_id' => $validated['task_id'], 
+            'task_title' => $task->title,
+            'user_id' => auth()->id(),
             'comments' => $task->comments,
         ];
 

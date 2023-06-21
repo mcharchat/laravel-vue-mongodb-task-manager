@@ -13,6 +13,8 @@ import { stringToColour } from '@/Utils/globalFunctions';
 import Modal from '@/Components/Modal.vue';
 import TaskForm from '@/Pages/Tasks/Partials/TaskForm.vue';
 import CommentsForm from '@/Pages/Tasks/Partials/CommentsForm.vue';
+import { useToast } from 'vue-toastification';
+import ClickableToast from '@/Components/ClickableToast.vue';
 
 //function that verify if screen is mobile
 function isMobile() {
@@ -23,7 +25,10 @@ const slimNavigation = ref(isMobile());
 const modalTask = ref(undefined);
 const modalProject = ref(undefined);
 const modalComment = ref(undefined);
+const modalCommentTaskId = ref(undefined);
+const modalCommentTaskTitle = ref(undefined);
 const modalType = ref(undefined);
+const toast = useToast();
 
 onMounted(() => {
     eventBus.$on('topProjectsUpdate', (content) => {
@@ -45,6 +50,8 @@ onMounted(() => {
     });
     eventBus.$on('commentModal', (content) => {
         modalComment.value = content.task;
+        modalCommentTaskId.value = content.task._id;
+        modalCommentTaskTitle.value = content.task.title;
         modalType.value = 'comment';
         showModal.value = true;
     });
@@ -88,6 +95,37 @@ channel1.listen('.task-event', function (data) {
     eventBus.$emit('taskUpdate', data);
 });
 channel1.listen('.comment-event', function (data) {
+    if (data.message.user_id != user_id){
+        toast.info(
+            {
+                component: ClickableToast, 
+                props: {
+                    message: 'You have a new comment on task "' + data.message.task_title + '" click here to see it',
+                    func: () => {
+                        modalComment.value = data.message;
+                        modalCommentTaskId.value = data.message.task_id;
+                        modalCommentTaskTitle.value = data.message.task_title;
+                        modalType.value = 'comment';
+                        showModal.value = true;
+                    },
+                },
+            },
+            {
+                position: "bottom-left",
+                timeout: 10000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: true,
+                hideProgressBar: true,
+                closeButton: "button",
+                icon: true,
+                rtl: false
+            }
+        );
+    }
     if (modalType.value == 'comment' && modalComment.value._id == data.message.task_id) {
         modalComment.value.comments = data.message.comments;
     }
@@ -99,6 +137,37 @@ channel2.listen('.task-event', function (data) {
     eventBus.$emit('taskUpdate', data);
 });
 channel2.listen('.comment-event', function (data) {
+    if (data.message.user_id != user_id) {
+        toast.info(
+            {
+                component: ClickableToast,
+                props: {
+                    message: 'You have a new comment on task "' + data.message.task_title + '" click here to see it',
+                    func: () => {
+                        modalComment.value = data.message;
+                        modalCommentTaskId.value = data.message.task_id;
+                        modalCommentTaskTitle.value = data.message.task_title;
+                        modalType.value = 'comment';
+                        showModal.value = true;
+                    },
+                },
+            },
+            {
+                position: "bottom-left",
+                timeout: 10000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: true,
+                hideProgressBar: true,
+                closeButton: "button",
+                icon: true,
+                rtl: false
+            }
+        );
+    }
     if (modalType.value == 'comment' && modalComment.value._id == data.message.task_id) {
         modalComment.value.comments = data.message.comments;
     }
@@ -121,8 +190,8 @@ const showModal = ref(false);
         />
         <CommentsForm 
             v-if="modalType == 'comment'"
-            :taskId="modalComment._id"
-            :taskTitle="modalComment.title"
+            :taskId="modalCommentTaskId"
+            :taskTitle="modalCommentTaskTitle"
             :comments="modalComment.comments"
         />
     </Modal>

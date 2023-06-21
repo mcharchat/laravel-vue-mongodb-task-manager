@@ -1,7 +1,9 @@
 <template>
     <section>
         <header class="flex justify-between items-start">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Comments for "{{ taskTitle }}"</h2>
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Comments for "<a :href="route('search.show', {'search': taskTitle})" v-tooltip="'Click here to see the task'">
+                {{ taskTitle }}
+                </a>"</h2>
             <button @click="closeModal()" class="text-gray-500 hover:text-blue-700 dark:text-gray-400 dark:hover:text-blue-300">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
