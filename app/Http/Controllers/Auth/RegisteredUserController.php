@@ -36,6 +36,8 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'squad_id' => 'nullable|uuid',
+            'terms' => 'required|accepted',
         ]);
 
         $user = User::create([
@@ -44,7 +46,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'starred_projects' => [],
             'starred_users' => [],
-            'squad_id' => Str::uuid()->toString(),
+            'squad_id' => $request->squad_id ?? Str::uuid()->toString(),
         ]);
 
         event(new Registered($user));

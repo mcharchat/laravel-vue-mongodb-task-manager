@@ -4,7 +4,9 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import Checkbox from '@/Components/Checkbox.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
 const form = useForm({
     name: '',
@@ -12,6 +14,7 @@ const form = useForm({
     password: '',
     password_confirmation: '',
     terms: false,
+    squad_id: '',
 });
 
 const submit = () => {
@@ -19,6 +22,8 @@ const submit = () => {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
 };
+
+const iHaveSquad = ref(false);
 </script>
 
 <template>
@@ -85,6 +90,35 @@ const submit = () => {
                 />
 
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
+            </div>
+
+            <div class="mt-4">
+                <span class="block font-medium text-sm text-gray-700 dark:text-gray-300 cursor-pointer" v-if="!iHaveSquad" @click="() => iHaveSquad = !iHaveSquad">
+                    I belong to a squad
+                </span>
+                <div v-else>
+                    <InputLabel for="squad_id" value="Squad ID" />
+
+                    <TextInput
+                        id="squad_id"
+                        type="text"
+                        class="mt-1 block w-full"
+                        v-model="form.squad_id"
+                        autocomplete="squad_id"
+                    />
+
+                    <InputError class="mt-2" :message="form.errors.squad_id" />
+                </div>
+            </div>            
+
+            <div class="block mt-4">
+                <label class="flex items-center">
+                    <Checkbox name="terms" v-model:checked="form.terms" />
+                    <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                        I agree to the <a href="#" class="underline">terms of service</a>.
+                    </span>
+                </label>
+                <InputError class="mt-2" :message="form.errors.terms" />
             </div>
 
             <div class="flex items-center justify-between mt-4">
