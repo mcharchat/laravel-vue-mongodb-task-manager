@@ -164,18 +164,21 @@ onMounted(() => {
     eventBus.$on('taskUpdate', (data) => {
         switch (data.type) {
             case 'update':
-                if (data.task.project_id === project.value[0]?.project?._id) {
+                if ((data.task.project_id === project.value[0]?.project?._id) || (data.task.project_id === props.projectId)) {
                     project.value  = project.value.map((item) => {
                         if (item._id === data.task._id) {
                             return data.task;
                         }
                         return item;
                     });
+                    if (!project.value.find((item) => item._id === data.task._id)) {
+                        project.value.push(data.task);
+                    }
                 }
                 break;
             case 'create':
-                if (data.task.project_id === project.value[0]?.project?._id) {
-                     project.value.push(data.task);
+                if ((data.task.project_id === project.value[0]?.project?._id) || (data.task.project_id === props.projectId)) {
+                    project.value.push(data.task);
                 }
                 break;
             case 'delete':

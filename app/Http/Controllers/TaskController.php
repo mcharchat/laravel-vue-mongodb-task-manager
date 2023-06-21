@@ -102,17 +102,18 @@ class TaskController extends Controller
         // add the squad_id to the validated data
         $validated['squad_id'] = auth()->user()->squad_id;
         // create a new task with the validated data
-        Task::create($validated);
+        $createdTask = Task::create($validated);
+        $createdTask->load('user', 'comments', 'project');
         //if task is public, fire the PublicTaskEvent event with the squad_id and the validated data, else merge user_id, assigned_to and squad_id to one array, remove duplicates and null values and fire the PrivateTaskEvent event with the validated data
         if ($validated['public']) {
-            event(new PublicTaskEvent(auth()->user()->squad_id, $validated, 'create'));
+            event(new PublicTaskEvent(auth()->user()->squad_id, $createdTask, 'create'));
         } else {
             $participants_ids = collect(array_merge([$validated['user_id']], [$validated['assigned_to'] ?? null], $validated['team'] ?? [null]))
                 ->unique()
                 ->filter(function ($value) {
                     return !is_null($value);
                 });
-            event(new PrivateTaskEvent($participants_ids, $validated, 'create'));
+            event(new PrivateTaskEvent($participants_ids, $createdTask, 'create'));
         }
         // return a redirect to the last page
         return redirect()->back(303)->with('success', 'Task created.');
