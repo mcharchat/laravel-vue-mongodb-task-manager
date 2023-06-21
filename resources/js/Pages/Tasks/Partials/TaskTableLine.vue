@@ -67,7 +67,7 @@
             </div>
         </div>
     </td>
-    <td class=" text-sm font-medium text-white dark:text-white p-0"
+    <td class=" text-sm font-medium text-white dark:text-white p-0 transition-all"
         :class="statusColorDictionary[props.item.status]"
         :style="{
             borderBottom: '2px solid white',
