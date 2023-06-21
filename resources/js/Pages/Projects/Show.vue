@@ -117,7 +117,7 @@ const deleteBulkTasks = () => {
                     <h2 class="text-lg font-semibold mb-2">Tasks</h2>
                     <div class="flex flex-col gap-2">
                         <div class="p-2">
-                            <ProjectTask :project="project.tasks" :selectedTasks="selectedTasks"/>
+                            <ProjectTask :project="project.tasks" :selectedTasks="selectedTasks" :projectName="project.name" :projectId="project._id"/>
                         </div>
                     </div>
                 </div>

@@ -267,9 +267,14 @@ const props = defineProps({
         type: Object,
         required: false
     },
+    project: {
+        type: String,
+        required: false
+    },
 });
 
 const task = ref(props.task);
+const project = ref(props.project ? props.project : task.value?.project_id);
 const startDate = ref(new Date(
     parseInt(props?.task?.start_date?.$date.$numberLong)
 ).toLocaleDateString('en-CA', { timeZone: "UTC" }));
@@ -317,7 +322,7 @@ const categoryArray = ref(
 );
 
 const form = useForm({
-    project_id: task.value?.project_id,
+    project_id: project.value,
     title: task.value?.title,
     start_date: task.value?.start_date == undefined ? undefined : startDate,
     due_date: task.value?.due_date == undefined ? undefined : dueDate,

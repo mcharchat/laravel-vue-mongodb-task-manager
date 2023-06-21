@@ -15,13 +15,21 @@ const props = defineProps({
     selectedTasks: {
         type: Array,
         required: true
-    }
+    },
+    projectName: {
+        type: String,
+        required: false
+    },
+    projectId: {
+        type: String,
+        required: false
+    },
 });
 const project = ref(props.project);
 
 
 const collapsed = ref(false);
-const projectName = (project.value[0]?.project != null ? project.value[0]?.project?.name : 'default');
+const projectName = props.projectName ?? (project.value[0]?.project != null ? project.value[0]?.project?.name : '');
 const projectColor = ref(stringToColour(projectName));
 
 const projectBackgroundColor = ref(projectColor.value + '1a');
@@ -109,6 +117,7 @@ const orderBy = (field) => {
 function newTaskModal() {
     eventBus.$emit('newTaskModal', {
         task: undefined,
+        project: props.projectId ?? project.value[0]?.project?._id,
     });
 }
 
@@ -207,10 +216,10 @@ onMounted(() => {
                         <th class="text-start px-1 text-lg flex items-center cursor-pointer"
                             :style="{ color: projectTextColor }"
                              @click="orderBy('title')"
-                             v-tooltip="project[0]?.project?.name"
+                             v-tooltip="projectName"
                         >
                             <span class="max-w-[300px]" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                {{ project[0]?.project?.name }}
+                                {{ projectName }}
                             </span>
                             <Icon icon="iconamoon:arrow-up-2-bold" :class="{
                                 'transition-all mx-1': true,

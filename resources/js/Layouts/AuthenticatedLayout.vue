@@ -21,6 +21,7 @@ function isMobile() {
 // ref  if slim navigation is active
 const slimNavigation = ref(isMobile());
 const modalTask = ref(undefined);
+const modalProject = ref(undefined);
 const modalComment = ref(undefined);
 const modalType = ref(undefined);
 
@@ -33,6 +34,7 @@ onMounted(() => {
     });
     eventBus.$on('newTaskModal', (content) => {
         modalTask.value = content.task;
+        modalProject.value = content.project;
         modalType.value = 'task';
         showModal.value = true;
     });
@@ -115,6 +117,7 @@ const showModal = ref(false);
         <TaskForm 
             v-if="modalType == 'task'"
             :task="modalTask"
+            :project="modalProject"
         />
         <CommentsForm 
             v-if="modalType == 'comment'"
