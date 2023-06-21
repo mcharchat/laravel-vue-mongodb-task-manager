@@ -61,7 +61,7 @@ const toggleCollapse = () => {
                                         'h-6 w-6': !slimNavigation
                                     }" :style="{ backgroundColor: stringToColour(user.name) }">
                                         <span :class="{ 
-                                            'transition-all': true,
+                                            'transition-all uppercase': true,
                                             'hidden': slimNavigation
                                         }">
                                             {{ user.name.charAt(0) }}

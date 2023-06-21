@@ -120,7 +120,7 @@ function toggleStarred(project) {
                                         </Dropdown>
                                     </div>
                                 </div>
-                                <div class="inline-block rounded-full h-8 w-8 text-white flex items-center justify-center text-md font-bold" :style="{backgroundColor: stringToColour(project.user.name)}" v-tooltip="project.user.name">
+                                <div class="inline-block rounded-full h-8 w-8 text-white flex items-center justify-center text-md font-bold uppercase" :style="{backgroundColor: stringToColour(project.user.name)}" v-tooltip="project.user.name">
                                     {{ project.user.name.charAt(0) }}
                                 </div>
                             </div>
@@ -183,7 +183,7 @@ function toggleStarred(project) {
                                         </Dropdown>
                                     </div>
                                 </div>
-                                <div class="inline-block rounded-full h-8 w-8 text-white flex items-center justify-center text-md font-bold" :style="{ backgroundColor: stringToColour(project.user.name) }" v-tooltip="project.user.name">
+                                <div class="inline-block rounded-full h-8 w-8 text-white flex items-center justify-center text-md font-bold uppercase" :style="{ backgroundColor: stringToColour(project.user.name) }" v-tooltip="project.user.name">
                                     {{ project.user.name.charAt(0) }}
                                 </div>
                             </div>

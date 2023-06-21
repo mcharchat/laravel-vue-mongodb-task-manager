@@ -53,7 +53,7 @@ const toggleCollapse = () => {
                             :style="{ 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }"
                             >{{ project.name.length > 20 ? project.name.slice(0, 20) + '...': project.name }}</span>
                             <div class="flex grow justify-end">
-                                <div :class="{'inline-block rounded-md h-5 w-5 text-white flex items-center justify-center text-xs font-bold': true,
+                                <div :class="{'inline-block rounded-md h-5 w-5 text-white flex items-center justify-center text-xs font-bold uppercase': true,
                                     'hidden': slimNavigation,
                                     'transition-all': true
                                 }" :style="{ backgroundColor: stringToColour(project.user.name) }">

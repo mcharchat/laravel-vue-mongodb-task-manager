@@ -128,7 +128,7 @@
         }"
     >
         <div v-show="props.item.team" class="flex justify-center gap-2 px-2 cursor-pointer" @click="updateTaskModal()">
-                <div v-for="user_id in props.item.team" :key="user_id" class="inline-block rounded-full h-[24px] w-[24px] text-white flex items-center justify-center text-sm font-bold" :style="{ backgroundColor: stringToColour(props.users[user_id]?.name) }" v-tooltip="props.users[user_id]?.name">
+                <div v-for="user_id in props.item.team" :key="user_id" class="inline-block rounded-full h-[24px] w-[24px] text-white flex items-center justify-center text-sm font-bold uppercase" :style="{ backgroundColor: stringToColour(props.users[user_id]?.name) }" v-tooltip="props.users[user_id]?.name">
                     {{ props.users[user_id]?.name.charAt(0) }}
                 </div>
         </div>

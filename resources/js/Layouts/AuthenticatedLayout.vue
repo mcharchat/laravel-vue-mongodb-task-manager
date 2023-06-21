@@ -206,7 +206,7 @@ const showModal = ref(false);
                                 <Dropdown align="bla" width="48">
                                     <template #trigger>
                                         <div class="cursor-pointer flex flex-row items-center justify-center space-x-4 p-2 border-t-2">
-                                            <div class="inline-block rounded-full h-8 w-8 text-white flex items-center justify-center text-xl font-bold" :style="{ backgroundColor: stringToColour($page.props.auth.user.name) }">
+                                            <div class="inline-block rounded-full h-8 w-8 text-white flex items-center justify-center text-xl font-bold uppercase" :style="{ backgroundColor: stringToColour($page.props.auth.user.name) }">
                                                 {{ $page.props.auth.user.name.charAt(0) }}
                                             </div>
                                             <div :class="{

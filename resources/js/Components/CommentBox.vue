@@ -1,7 +1,7 @@
 <template>
   <div class="flex" :class="dialogBoxClasses">
     <div class="flex items-center" :class="dialogBoxClasses">
-      <div class="inline-block rounded-full h-[24px] w-[24px] text-white flex items-center justify-center text-sm font-bold" :style="{ backgroundColor: stringToColour(props.userName) }" v-tooltip="props.userName">
+      <div class="inline-block rounded-full h-[24px] w-[24px] text-white flex items-center justify-center text-sm font-bold uppercase" :style="{ backgroundColor: stringToColour(props.userName) }" v-tooltip="props.userName">
         {{ props.userName.charAt(0) }}
       </div>
       <div class="bg-gray-200 py-2 px-4 mx-2 rounded-lg sm:max-w-xs max-w-[10rem]">
