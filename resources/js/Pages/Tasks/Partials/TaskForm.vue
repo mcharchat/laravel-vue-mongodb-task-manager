@@ -1,4 +1,17 @@
-<template>
+/**
+ * TaskForm component for creating and editing tasks.
+ * 
+ * @component
+ * 
+ * @prop {Object} task - The task object to edit. Optional.
+ * @prop {String} project - The project ID for the task. Optional.
+ * 
+ * @emits {Object} form - The form data object when submitted.
+ * 
+ * @example
+ * <TaskForm :task="task" :project="project" />
+ */
+ <template>
     <section>
         <header>
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Task Details</h2>

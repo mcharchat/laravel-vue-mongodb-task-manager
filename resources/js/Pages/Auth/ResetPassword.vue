@@ -1,3 +1,20 @@
+<!--
+    Component: ResetPassword
+    Description: Component for resetting password for a user.
+    Props:
+        - email: string (optional) - email address of the user
+        - token: string (optional) - token to verify user's identity
+    Setup:
+        - imports GuestLayout, InputError, InputLabel, PrimaryButton, TextInput, Head, useForm from respective packages and files.
+        - defines props with email and token as optional strings.
+        - defines form with token, email, password and password_confirmation.
+        - defines submit function to send form data to the server.
+    Template:
+        - renders GuestLayout as parent component.
+        - renders a form with email, password and password_confirmation fields.
+        - displays error messages if any.
+        - renders a button to submit the form.
+-->
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';

@@ -1,3 +1,25 @@
+<!--
+The Login component is responsible for rendering the login form for the user to enter their email and password to authenticate. It also provides the option to remember the user's login session. The component receives the following props:
+- canRegister: a boolean indicating whether the user can register a new account.
+- canResetPassword: a boolean indicating whether the user can reset their password.
+- status: a string containing a success message to be displayed after a successful login.
+
+The component imports the following child components:
+- Checkbox: a custom checkbox component.
+- GuestLayout: a layout component for guest users.
+- InputError: a component to display form input errors.
+- InputLabel: a component to display form input labels.
+- PrimaryButton: a custom button component.
+- TextInput: a custom text input component.
+
+The component uses the following composition API functions:
+- defineProps: to define the component props.
+- useForm: to create a form object to handle form submission.
+- Head: to set the page title.
+- Link: to create links to other pages.
+
+The component template contains a form with two input fields for email and password, a checkbox for remembering the user's login session, and buttons to submit the form, register a new account, or reset the password. The form submission is handled by the submit function, which sends a POST request to the login route with the form data. The form processing state is handled by the form object, which disables the form buttons while the form is being processed.
+-->
 <script setup>
 import Checkbox from '@/Components/Checkbox.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';

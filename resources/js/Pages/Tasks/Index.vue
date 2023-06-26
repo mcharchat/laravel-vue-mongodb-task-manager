@@ -1,3 +1,16 @@
+<!--
+This component displays a tabbed interface for managing tasks. It includes three tabs: "My Tasks", "Assigned Tasks", and "Team Tasks". Each tab displays a list of free tasks and project tasks. The component also includes a dropdown menu for bulk task deletion. 
+
+Props:
+- None
+
+Events:
+- None
+
+Usage:
+- This component is used in the TasksIndex page.
+
+-->
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, usePage } from '@inertiajs/vue3';

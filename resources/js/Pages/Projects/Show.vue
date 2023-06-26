@@ -1,3 +1,20 @@
+<!--
+    COMPONENT: Show
+    DESCRIPTION: This component displays the details of a project, including its name, description, and tasks. It also allows the user to delete multiple tasks at once.
+    PROPS:
+        - project: The project object containing the project's details and tasks.
+    DATA:
+        - activeTab: The currently active tab (either 'projectTasks' or 'other').
+        - selectedTasks: An array of selected tasks to be deleted.
+        - allTasks: An array of all tasks in the project.
+        - displayMenu: A boolean indicating whether or not to display the dropdown menu.
+    METHODS:
+        - displayMenuFunc(): A function that returns a boolean indicating whether or not to display the dropdown menu.
+        - deleteBulkTasks(): A function that deletes the selected tasks.
+    EVENTS:
+        - taskCheckbox: An event that is emitted when a task checkbox is clicked.
+        - projectUpdate: An event that is emitted when the project is updated or deleted.
+-->
 <script setup>
 //view for one project showing (tasks) 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';

@@ -1,3 +1,6 @@
+<!--
+    DESCRIPTION: This file contains the code for the task creation page. It imports the AuthenticatedLayout component and Head component from external files. The page displays a header with the title "Task" and a content section with the text "Your task! create". The content section is wrapped in an AuthenticatedLayout component, which ensures that only authenticated users can access the page.
+-->
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';

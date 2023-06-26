@@ -1,3 +1,6 @@
+<!--
+    Description: This component is responsible for rendering a form that allows the user to update their profile information and email address. It receives two props: mustVerifyEmail (Boolean) and status (String). It uses several components such as InputError, InputLabel, PrimaryButton, TextInput, and Link from InertiaJS. It also uses the useForm and usePage hooks from InertiaJS to handle form submission and retrieve the authenticated user's information. The form is submitted via a PATCH request to the 'profile.update' route.
+-->
 <script setup>
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';

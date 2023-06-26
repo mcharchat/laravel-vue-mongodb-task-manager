@@ -1,3 +1,7 @@
+<!--
+  DESCRIPTION: This component is responsible for rendering a search form that allows users to search for tasks, projects or users.
+-->
+
 <script setup>
 import TextInput from '@/Components/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';

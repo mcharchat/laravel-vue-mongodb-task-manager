@@ -1,3 +1,10 @@
+<!--
+    This component is responsible for displaying the tasks and projects of a user.
+    It contains tabs for different types of tasks (free, assigned, team) and a tab for projects.
+    The tasks are displayed using the ProjectTask component.
+    The projects are displayed using the Link component.
+    The component also includes a dropdown menu for bulk task deletion.
+-->
 <script setup>
 //view for one user showing (tasks) 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';

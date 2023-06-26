@@ -1,3 +1,6 @@
+<!--
+    Description: This component displays a list of tasks grouped by project in a collapsible accordion.
+-->
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';

@@ -1,4 +1,31 @@
 
+<!--
+The following code represents the template and style of a Vue component that displays a table of tasks for a project. The component receives the following props:
+- project: an array of tasks to be displayed in the table
+- projectColor: a string representing the color of the project
+- projectTextColor: a string representing the text color of the project
+- selectedTasks: an array of selected tasks
+- usersDictionary: an object containing user information
+
+The component displays a table with columns for task name, due date, priority, team, and labels. The table can be sorted by clicking on the column headers. The component also includes a button to add a new task to the project.
+
+The component uses Vue transitions to animate the appearance and disappearance of table rows.
+
+The component also includes a custom scrollbar style.
+
+Props:
+- project: Array of tasks to be displayed in the table
+- projectColor: String representing the color of the project
+- projectTextColor: String representing the text color of the project
+- selectedTasks: Array of selected tasks
+- usersDictionary: Object containing user information
+
+Emits:
+- new-task: Event emitted when the user clicks the "Add" button to create a new task
+
+Example Usage:
+<ProjectTask :project="tasks" projectColor="#FF0000" projectTextColor="#FFFFFF" :selectedTasks="selectedTasks" :usersDictionary="users" @new-task="createTask"/>
+-->
 <script setup>
 import { ref, onMounted } from 'vue';
 import { Icon } from '@iconify/vue';

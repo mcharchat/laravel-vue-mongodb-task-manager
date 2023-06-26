@@ -1,3 +1,25 @@
+<!--
+The AuthenticatedLayout.vue file is a Vue.js component that represents the layout of the authenticated pages of the application. It contains a navigation bar, a settings dropdown, an overlay, and the main content of the page.
+
+Props:
+- None
+
+Slots:
+- header: the content of the header section of the page.
+
+Events:
+- None
+
+Usage:
+<AuthenticatedLayout>
+    <template #header>
+        <h1>Page Title</h1>
+    </template>
+    <div>
+        Page Content
+    </div>
+</AuthenticatedLayout>
+-->
 <script setup>
 import { ref, onMounted } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';

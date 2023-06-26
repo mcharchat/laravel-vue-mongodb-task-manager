@@ -1,3 +1,16 @@
+<!--
+The Register component is responsible for rendering the registration form for new users. It imports several components such as GuestLayout, InputError, InputLabel, PrimaryButton, TextInput, and Checkbox. It also imports Head and Link from InertiaJS/vue3. 
+
+The component uses the useForm method from InertiaJS/vue3 to create a reactive form object with fields for name, email, password, password_confirmation, terms, and squad_id. 
+
+The component also defines a submit method that sends a POST request to the server to register the user. 
+
+The iHaveSquad variable is a reactive reference to a boolean value that is used to toggle the display of the squad_id input field.
+
+The template contains a form element that binds to the submit method. It contains several input fields for name, email, password, password_confirmation, and squad_id (if the user belongs to a squad). It also contains a checkbox for agreeing to the terms of service.
+
+The template also contains links to the login page and a register button that is disabled while the form is processing.
+-->
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';

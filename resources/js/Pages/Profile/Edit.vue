@@ -1,3 +1,6 @@
+<!--
+    DESCRIPTION: This component is responsible for rendering the user's profile edit page. It imports several forms to update the user's profile information, password, squad, and delete the user's account. It also renders the AuthenticatedLayout component and sets the page title to "Profile" using the Head component from Inertia.js.
+-->
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DeleteUserForm from './Partials/DeleteUserForm.vue';

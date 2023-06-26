@@ -1,3 +1,6 @@
+<!--
+    DESCRIPTION: This component is responsible for rendering a form to create a new user. It imports InputError, InputLabel, PrimaryButton, TextInput, Link, useForm, and usePage from Inertiajs/vue3. It defines props and form using defineProps and useForm respectively. The form has two fields, name and email, and it is submitted to the route 'users.store' when the user clicks the Invite button. The form also displays validation errors if any. The Cancel button redirects the user to the 'users' page. 
+-->
 <script setup>
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';

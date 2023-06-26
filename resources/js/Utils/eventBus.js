@@ -1,3 +1,17 @@
+/**
+ * A simple event bus implementation for Vue.js.
+ * @namespace eventBus
+ * @property {Object} events - An object containing all the registered events and their callbacks.
+ * @function $on - Registers a callback for a given event.
+ * @param {string} event - The name of the event to register the callback for.
+ * @param {Function} callback - The callback function to be executed when the event is emitted.
+ * @function $off - Unregisters a callback for a given event.
+ * @param {string} event - The name of the event to unregister the callback for.
+ * @param {Function} callback - The callback function to be unregistered.
+ * @function $emit - Emits an event and executes all the registered callbacks.
+ * @param {string} event - The name of the event to emit.
+ * @param {...*} args - Any number of arguments to be passed to the registered callbacks.
+ */
 import { ref } from 'vue';
 
 const eventBus = {

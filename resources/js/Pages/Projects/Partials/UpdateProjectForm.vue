@@ -1,3 +1,7 @@
+<!--
+    FILEPATH: c:\xampp\htdocs\portfolio\laravel-vue-mongodb-task-manager\resources\js\Pages\Projects\Partials\UpdateProjectForm.vue
+    DESCRIPTION: This component is responsible for rendering a form to update a project's details. It imports several components such as InputError, InputLabel, PrimaryButton, TextInput, TextAreaInput, Link, useForm, and usePage from InertiaJS. It receives a project object as a prop and uses it to pre-fill the form fields. When the form is submitted, it calls the 'put' method of the useForm hook to update the project via a PUT request to the 'projects.update' route. It also displays a success message when the form is successfully submitted. The form can be cancelled by clicking the 'Cancel' button which redirects to the 'projects' route.
+-->
 <script setup>
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';

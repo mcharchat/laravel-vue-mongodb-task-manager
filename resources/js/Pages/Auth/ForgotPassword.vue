@@ -1,3 +1,28 @@
+<!--
+The ForgotPassword component is responsible for rendering the forgot password form. It imports GuestLayout, InputError, InputLabel, PrimaryButton, TextInput, Head, and useForm from various files. It defines a prop called status which is a string. It also defines a form object using the useForm function and a submit function that sends a post request to the password.email route. 
+
+The template contains a GuestLayout component, a Head component with the title "Forgot Password", a message explaining how to reset the password, a form with an email input field, and a button to submit the form. If there is a status message, it will be displayed in a green color. 
+
+Props:
+- status: A string that represents the status message.
+
+Data:
+- form: An object that contains the email field.
+
+Methods:
+- submit(): A function that sends a post request to the password.email route.
+
+Events:
+- submit: The form submit event.
+
+Child Components:
+- GuestLayout: A layout component for guest users.
+- Head: A component for setting the page title.
+- InputError: A component for displaying input errors.
+- InputLabel: A component for displaying input labels.
+- PrimaryButton: A component for displaying primary buttons.
+- TextInput: A component for displaying text input fields.
+-->
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';

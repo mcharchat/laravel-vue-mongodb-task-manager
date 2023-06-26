@@ -1,3 +1,6 @@
+<!--
+    DESCRIPTION: This file contains the view for creating a new user. It imports the AuthenticatedLayout component, Head component from Inertia.js, and NewUserForm component. The Head component sets the title of the page to "Users". The AuthenticatedLayout component provides the layout for the page. The NewUserForm component is used to render the form for creating a new user.
+-->
 <script setup>
 // view for new users
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';

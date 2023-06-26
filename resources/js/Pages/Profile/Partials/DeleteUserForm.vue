@@ -1,3 +1,6 @@
+<!--
+    Description: This component is responsible for rendering the delete user form in the user's profile page. It allows the user to delete their account by entering their password and confirming the deletion. The component uses Inertia.js to handle form submission and modal display.
+-->
 <script setup>
 import DangerButton from '@/Components/DangerButton.vue';
 import InputError from '@/Components/InputError.vue';

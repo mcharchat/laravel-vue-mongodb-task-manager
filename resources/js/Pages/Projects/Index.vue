@@ -1,3 +1,29 @@
+<!--
+The following code defines a Vue.js component for displaying a list of projects. 
+
+Props:
+- myProjects: an object representing the projects created by the authenticated user.
+- projects: an object representing all the projects.
+
+Computed properties:
+- None.
+
+Data:
+- myProjects: a reactive reference to the myProjects prop.
+- projects: a reactive reference to the projects prop.
+
+Events:
+- userUpdate: an event that is triggered when a user is updated or deleted.
+- projectUpdate: an event that is triggered when a project is created, updated or deleted.
+
+Methods:
+- None.
+
+Template:
+- AuthenticatedLayout: a custom layout component that displays the authenticated user's navigation bar and content.
+- ProjectsTable: a custom component that displays a table of projects.
+
+-->
 <script setup>
 // view for projects listing
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';

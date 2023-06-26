@@ -1,3 +1,22 @@
+<!--
+This component represents a table of all projects. It displays the name of each project, the user who created it, and allows the user to perform actions such as showing, editing, and deleting the project. The component also includes a search bar to filter projects by name. The component uses the following props:
+
+- filteredProjects: an array of projects to display in the table
+- user: the currently logged in user
+- toggleStarred: a function to toggle whether a project is starred by the user
+
+The component uses the following custom components:
+
+- InputLabel: a label for an input field
+- TextInput: a text input field
+- Dropdown: a dropdown menu
+- DropdownLink: a link within a dropdown menu
+
+The component uses the following CSS classes:
+
+- .list-enter-active, .list-leave-active: classes for the enter and leave transitions of the project list
+- .list-enter-from, .list-leave-to: classes for the starting and ending states of the enter and leave transitions of the project list
+-->
 <script setup>
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';

@@ -1,3 +1,6 @@
+<!--
+    DESCRIPTION: This component is responsible for rendering a form that allows the user to update their password. It imports several components such as InputError, InputLabel, PrimaryButton, and TextInput. It also imports the useForm function from InertiaJS and the ref function from Vue. The form data is initialized with the current_password, password, and password_confirmation fields. The updatePassword function is responsible for submitting the form data to the server using the put method. If the submission is successful, the form is reset and a success message is displayed. If there are errors, the form is not reset and the focus is set on the first input field with an error. The form is submitted when the Save button is clicked.
+-->
 <script setup>
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';

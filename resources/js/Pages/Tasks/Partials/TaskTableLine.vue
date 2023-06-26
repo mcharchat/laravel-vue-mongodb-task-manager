@@ -1,3 +1,25 @@
+<!--
+The following code represents a Vue component that displays a single row of a task table. It receives the following props:
+- item: an object representing the task to be displayed
+- projectColor: a string representing the color of the project associated with the task
+- projectTextColor: a string representing the text color of the project associated with the task
+- selectedTasks: an array of strings representing the IDs of the selected tasks
+- users: an object containing information about the users associated with the task
+
+The component displays the following information about the task:
+- Task name
+- Task status
+- Timeline component displaying the start and due dates of the task
+- Percentage completed
+- Priority level
+- Team members associated with the task
+- Labels associated with the task
+
+The component also emits the following events:
+- taskCheckbox: emitted when the user clicks on the priority level checkbox
+- updateTaskModal: emitted when the user clicks on the task name or timeline component
+- commentModal: emitted when the user clicks on the comment icon
+-->
 <template>
     <td style="background-color: white;"
     :style="{

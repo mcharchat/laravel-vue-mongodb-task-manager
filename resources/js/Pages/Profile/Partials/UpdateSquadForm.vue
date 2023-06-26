@@ -1,3 +1,13 @@
+<!--
+    DESCRIPTION: This component displays the user's squad information and allows them to update their squad ID.
+    PROPS:
+        - None
+    DATA:
+        - user: The authenticated user object.
+        - form: The form object used to update the user's squad ID.
+    METHODS:
+        - None
+-->
 <script setup>
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';

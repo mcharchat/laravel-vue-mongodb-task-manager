@@ -1,3 +1,6 @@
+<!--
+This component displays a table of all users. It includes a search bar to filter users by name, a star icon to toggle user favorites, and a button to invite new users. Each user is displayed in a card with their name and an "Actions" dropdown menu that links to their profile page. If there are no matching users, a message is displayed with a link to invite a new user.
+-->
 <script setup>
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';

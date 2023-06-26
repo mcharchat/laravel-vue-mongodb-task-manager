@@ -1,3 +1,6 @@
+<!--
+    Description: This component is responsible for rendering the confirm password page for the user to confirm their password before accessing a secure area of the application.
+-->
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';

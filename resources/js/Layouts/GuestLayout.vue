@@ -1,3 +1,7 @@
+<!--
+DESCRIPTION: This Vue component represents the layout for the guest user. It displays the application logo and a container for the content of the page.
+USAGE: This component is used as a layout for pages that are accessible to guest users.
+-->
 <script setup>
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { Link } from '@inertiajs/vue3';

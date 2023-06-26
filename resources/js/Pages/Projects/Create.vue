@@ -1,3 +1,6 @@
+<!--
+    DESCRIPTION: This file contains the view for creating a new project. It imports the AuthenticatedLayout component, Head component from Inertia.js, and NewProjectForm component. The AuthenticatedLayout component provides the layout for the page, while the Head component sets the title of the page. The NewProjectForm component is used to render the form for creating a new project.
+-->
 <script setup>
 // view for new projects
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';

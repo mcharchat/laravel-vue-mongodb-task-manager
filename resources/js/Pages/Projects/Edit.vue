@@ -1,3 +1,6 @@
+<!--
+    DESCRIPTION: This file contains the view for editing project details. It imports the AuthenticatedLayout component, Head component from InertiaJS, usePage hook from InertiaJS, and UpdateProjectForm component. It receives the project object as a prop from the server and passes it to the UpdateProjectForm component. The page title is set to "Projects".
+-->
 <script setup>
 // view for editing projects details
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';

@@ -1,8 +1,21 @@
+<!--
+The Index.vue component is the main dashboard page of the application. It displays a summary of the user's tasks, assigned tasks, and team tasks. 
+
+Props:
+- status: A string representing the status of the tasks to be displayed.
+
+Usage:
+<Index :status="'completed'" />
+
+Dependencies:
+- AuthenticatedLayout.vue: A layout component for authenticated pages.
+- TaskSummary.vue: A component for displaying a summary of tasks.
+- @inertiajs/vue3: A package for using Inertia.js with Vue 3.
+-->
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import TaskSummary from '@/Pages/Dashboard/Partials/TaskSummary.vue';
 import { Head, usePage } from '@inertiajs/vue3';
-import { Icon } from '@iconify/vue';
 
 const props = defineProps({
     status: String,

@@ -1,3 +1,6 @@
+<!--
+    DESCRIPTION: This component represents a form for creating a new project. It contains input fields for the project name and description, and a save and cancel button.
+-->
 <script setup>
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';

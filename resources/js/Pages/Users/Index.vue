@@ -1,3 +1,6 @@
+<!--
+    DESCRIPTION: This file contains the view for users listing. It imports AuthenticatedLayout, UsersTable, Head, usePage, useToast, defineProps, onMounted, ref, and eventBus from various sources. It defines props and users as reactive variables using defineProps and ref respectively. It also listens to the userUpdate event emitted by eventBus and updates the users variable accordingly. Finally, it renders the UsersTable component inside the AuthenticatedLayout component.
+-->
 <script setup>
 // view for users listing
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';

@@ -1,3 +1,34 @@
+<!--
+This component is responsible for displaying the search results for users, projects, and tasks. It receives the following props:
+- searchedUsers: an array of users that match the search term.
+- searchedProjects: an array of projects that match the search term.
+- searchedTasks: an object containing arrays of tasks for each project that match the search term.
+- searchedTerm: the search term entered by the user.
+- route: a function that generates a URL for a given route name and parameters.
+- stringToColour: a function that generates a color based on a given string.
+
+The component consists of two tabs: "Searched term" and "Filters". The "Searched term" tab displays the search results for users, projects, and tasks. The "Filters" tab allows the user to filter the search results by various criteria.
+
+The component uses the following sub-components:
+- AuthenticatedLayout: a layout component that displays the authenticated user's navigation bar and sidebar.
+- Dropdown: a component that displays a dropdown menu.
+- Icon: a component that displays an icon.
+- Link: a component that displays a link.
+
+The component emits the following events:
+- deleteBulkTasks: an event that is emitted when the user clicks the "Delete tasks" option in the task context menu.
+
+Example usage:
+<SearchShow
+    :searchedUsers="searchedUsers"
+    :searchedProjects="searchedProjects"
+    :searchedTasks="searchedTasks"
+    :searchedTerm="searchedTerm"
+    :route="route"
+    :stringToColour="stringToColour"
+    @deleteBulkTasks="deleteBulkTasks"
+/>
+-->
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';

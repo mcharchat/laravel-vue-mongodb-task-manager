@@ -1,3 +1,20 @@
+<!--
+The CommentsForm component displays a form for adding comments to a task. It receives the following props:
+- taskId: the ID of the task being commented on
+- taskTitle: the title of the task being commented on
+- comments: an array of comments to display
+
+The component uses the following child components:
+- TextAreaInput: a custom text area input component
+- InputError: a component for displaying form input errors
+- CommentBox: a component for displaying individual comments
+
+The component sets up a form using the useForm function from the @inertiajs/vue3 package. It also sets up a userDictionary object to map user IDs to user objects for displaying user names in the CommentBox component.
+
+The component listens for updates to the comments prop and scrolls to the bottom of the comment section when new comments are added.
+
+The component emits a 'userUpdate' event on the eventBus when a user is updated or created.
+-->
 <template>
     <section>
         <header class="flex justify-between items-start">

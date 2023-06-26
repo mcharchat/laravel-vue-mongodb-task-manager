@@ -1,3 +1,6 @@
+<!--
+    DESCRIPTION: This file contains the code for the edit task page. It imports the AuthenticatedLayout component and Head component from InertiaJS. The page displays a header with the title "Task" and a content section with the text "Your task! edit". The layout is wrapped in an AuthenticatedLayout component.
+-->
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';

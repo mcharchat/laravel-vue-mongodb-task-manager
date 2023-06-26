@@ -1,3 +1,13 @@
+<!--
+    DESCRIPTION: This component is responsible for displaying the email verification page to the user. It allows the user to resend the verification email and logout from the application.
+    USAGE:
+    - The component is used in the authentication flow of the application.
+    - It requires the 'status' prop to be passed to it, which can have two values: 'verification-link-sent' and 'verified'.
+    - The component uses the 'GuestLayout' component to render the page layout.
+    - It uses the 'PrimaryButton' component to render the 'Resend Verification Email' button.
+    - It uses the 'Head' component to set the page title.
+    - It uses the 'Link' component to render the 'Log Out' button.
+-->
 <script setup>
 import { computed } from 'vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
