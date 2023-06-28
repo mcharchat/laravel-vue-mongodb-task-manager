@@ -17,7 +17,7 @@ The Laravel Vue MongoDB Task Manager is a web application designed to help you e
 - **Project Organization**: Group tasks into projects for better organization and management.
 - **Collaboration**: Collaborate with team members by assigning tasks and adding comments.
 - **User Authentication**: Secure user authentication to protect your data.
-- **User Authorization**: Public tasks can be seen for everyone, private tasks can be seen/edited only by the team.
+- **User Authorization**: Public tasks can be seen/edited by everyone, private tasks can be seen/edited only by the team, the owner or the assignee.
 - **Real-time Updates and Comunication**: Experience real-time updates and comments using web sockets (Pusher) to ensure everyone stays up to date with the latest changes. Users will get a toast when someone commented on a task that they belong to it.
 - **Searching and Sorting**: Quickly find tasks using advanced searching and sorting options.
 - **Dashboard**: A complete and interactive dashboard to keep up with your tasks.
