@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\RemindJob;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 
@@ -17,3 +18,9 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
+Artisan::command('remind', function () {
+    $this->comment('Remind command executed');
+    // run the job
+    dispatch(new RemindJob());
+})->purpose('Remind users of their tasks');
