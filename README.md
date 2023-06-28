@@ -5,6 +5,7 @@ The Laravel Vue MongoDB Task Manager is a web application designed to help you e
 ## Table of Contents
 
 - [Project Features](#project-features)
+- [Project Pictures](#project-pictures)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
@@ -15,11 +16,31 @@ The Laravel Vue MongoDB Task Manager is a web application designed to help you e
 - **Task Management**: Easily create, update, and delete tasks. Assign due dates, set priorities, and track progress.
 - **Project Organization**: Group tasks into projects for better organization and management.
 - **Collaboration**: Collaborate with team members by assigning tasks and adding comments.
-- **User Authentication**: Secure user authentication and authorization to protect your data.
-- **Real-time Updates**: Experience real-time updates using web sockets (Pusher) to ensure everyone stays up to date with the latest changes.
+- **User Authentication**: Secure user authentication to protect your data.
+- **User Authorization**: Public tasks can be seen for everyone, private tasks can be seen/edited only by the team.
+- **Real-time Updates and Comunication**: Experience real-time updates and comments using web sockets (Pusher) to ensure everyone stays up to date with the latest changes. Users will get a toast when someone commented on a task that they belong to it.
 - **Searching and Sorting**: Quickly find tasks using advanced searching and sorting options.
-- **Reminders**: Set reminders for important tasks to stay on top of your schedule, and reive e-mails.
+- **Dashboard**: A complete and interactive dashboard to keep up with your tasks.
 - **Responsive Design**: Access and manage your tasks from any device, whether it's a desktop computer, tablet, or smartphone.
+
+## Project Pictures
+![Dashboard](./resources/images/dashboard.png)
+
+![Tasks](./resources/images/tasks.png)
+
+![Projects](./resources/images/projects.png)
+
+![Users](./resources/images/users.png)
+
+![Search](./resources/images/search.png)
+
+![Project](./resources/images/project.png)
+
+![User](./resources/images/user.png)
+
+![EditTask](./resources/images/editTask.png)
+
+![Comments](./resources/images/comments.png)
 
 ## Installation
 
@@ -38,7 +59,7 @@ Make sure to review the official Laravel and Vue.js documentation for detailed i
 
 ## Usage
 
-Once the installation process is complete, open the application in your web browser. You will be prompted to create a new account or log in if you already have one. After logging in, you can start creating projects, adding tasks, and managing your workflow efficiently.
+Once the installation process is complete, open the application in your web browser. You will be prompted to create a new account or log in if you already have one. After logging in, you can start creating projects, adding tasks, and managing your workflow efficiently. Users are grouped by Squads, any user from the Squad can invite a new user. You can join a specific Squad if you have their Id.
 
 ## Contributing
 
@@ -61,5 +82,5 @@ For any inquiries or questions, you can reach out to me on [LinkedIn](https://ww
 
 ## Acknowledgments
 
-Special thanks to the Laravel, Vue.js, Pusher and MongoDB communities for their fantastic tools and resources that made this project possible.
+Special thanks to the Laravel, Vite, Vue.js, Axios, Pusher, MongoDB, Tailwind, Iconify, ChartJs and Html2canvas communities for their fantastic tools and resources that made this project possible.
 
