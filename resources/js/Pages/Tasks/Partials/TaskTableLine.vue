@@ -137,9 +137,7 @@ The component also emits the following events:
             <Icon 
                 :icon="PriorityDictionary[props.item.priority]?.icon" 
                 class="mx-1"
-                :class="PriorityDictionary[props.item.priority]?.color"
-                @click="toggleCheckbox" 
-                
+                :class="PriorityDictionary[props.item.priority]?.color"               
             />
         </div>
     </td>
