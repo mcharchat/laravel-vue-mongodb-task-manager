@@ -5,7 +5,7 @@ The Laravel Vue MongoDB Task Manager is a web application designed to help you e
 ## Table of Contents
 
 - [Project Features](#project-features)
-- [Project Screenshots](#project-screenshot)
+- [Project Screenshots](#project-screenshots)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
