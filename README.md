@@ -20,6 +20,7 @@ The Laravel Vue MongoDB Task Manager is a web application designed to help you e
 - **User Authorization**: Public tasks can be seen/edited by everyone, private tasks can be seen/edited only by the team, the owner or the assignee.
 - **Real-time Updates and Comunication**: Experience real-time updates and comments using web sockets (Pusher) to ensure everyone stays up to date with the latest changes. Users will get a toast when someone commented on a task that they belong to it.
 - **Searching and Sorting**: Quickly find tasks using advanced searching and sorting options.
+- **Reminders**: Set reminders for tasks assignees. Tasks reminders will be sent to the assignee's email everyday at 9AM.
 - **Dashboard**: A complete and interactive dashboard to keep up with your tasks.
 - **Responsive Design**: Access and manage your tasks from any device, whether it's a desktop computer, tablet, or smartphone.
 
@@ -53,8 +54,9 @@ To install and run the Laravel Vue MongoDB Task Manager, follow these steps:
 5. Create a `.env` file by duplicating `.env.example` and updating the necessary configuration details, including your MongoDB connection settings and Pusher App settings.
 6. Generate an application key: `php artisan key:generate`
 7. Run the database migrations: `php artisan migrate`
-8. Compile the assets: `npm run dev` (for development) or `npm run build` (for production)
-9. Start the development server: `php artisan serve`
+8. Set the scheduler on your server: `* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1` for Linux or `* * * * * cd /path-to-your-project && php artisan schedule:run > NUL` for Windows
+9. Compile the assets: `npm run dev` (for development) or `npm run build` (for production)
+10. Start the development server: `php artisan serve`
 
 Make sure to review the official Laravel and Vue.js documentation for detailed information on system requirements and additional configuration options.
 
