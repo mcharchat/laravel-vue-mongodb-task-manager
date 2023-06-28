@@ -56,6 +56,7 @@ To install and run the Laravel Vue MongoDB Task Manager, follow these steps:
 8. Compile the assets: `npm run dev` (for development) or `npm run build` (for production)
 9. Start the development server: `php artisan serve`
 Make sure to review the official Laravel and Vue.js documentation for detailed information on system requirements and additional configuration options.
+This project comes with factories and seeds, if you want to test it rou can run it fresh `php artisan migrate:fresh --seed` or `php artisan db:seed`.
 
 ## Usage
 
