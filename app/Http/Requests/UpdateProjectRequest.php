@@ -32,4 +32,12 @@ class UpdateProjectRequest extends FormRequest
             'description' => 'required|min:3|max:500',
         ];
     }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'user_id' => auth()->id(),
+            'squad_id' => auth()->user()->squad_id,
+        ]);
+    }
 }

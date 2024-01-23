@@ -102,4 +102,20 @@ class Task extends Model
                 ->forTeam('or');
         });
     }
+
+    // local scope to query public tasks
+    public function scopePublic(Builder $query, string $type)
+    {
+        if ($type == 'and')
+            return $query->where('public', true);
+        return $query->orWhere('public', true);
+    }
+
+    // local scope to query private tasks
+    public function scopePrivate(Builder $query, string $type)
+    {
+        if ($type == 'and')
+            return $query->where('public', false);
+        return $query->orWhere('public', false);
+    }
 }

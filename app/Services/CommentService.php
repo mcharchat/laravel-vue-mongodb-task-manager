@@ -6,7 +6,7 @@ use App\Events\CommentPrivateTaskEvent;
 
 class CommentService 
 {
-    public function store(array $validated) : void
+    public function store(array $validated) : bool
     {
         // create a new task with the validated data
         $comment = Comment::create($validated);
@@ -26,5 +26,6 @@ class CommentService
             $taskService = resolve(TaskService::class);
             broadcast(new CommentPrivateTaskEvent($taskService->getTaskParticipantsIds($task), $message, 'create'));
         }
+        return true;
     }
 }
