@@ -52,4 +52,42 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
+    // global scope to query each user with its squad, unless is for authentication routes
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope('squad', function ($builder) {
+            if (request()->routeIs('login') || request()->routeIs('register') || request()->routeIs('password.request') || request()->routeIs('password.reset')) {
+                $builder;
+            }
+            $builder->where('squad_id', auth()->user()->squad_id);
+        });
+    }
+
+    // local scope to exclude the authenticated user from the query
+    /**
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeExcludeAuthUser(Builder $query)
+    {
+        return $query->where('_id', '!=', auth()->id());
+    }
+
+    // local scope to query for user by email or name
+    /**
+     * @param Builder $query
+     * @param string $searchTerm
+     * @return Builder
+     */
+    public function scopeSearch(Builder $query, string $searchTerm)
+    {
+        return $query->where(function ($query) use ($searchTerm) {
+            $query->where('name', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('email', 'LIKE', '%' . $searchTerm . '%');
+        });
+    }
+
+
 }

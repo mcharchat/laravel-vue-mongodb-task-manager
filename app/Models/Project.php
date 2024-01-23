@@ -69,4 +69,18 @@ class Project extends Model
             return $query->where('user_id', auth()->id());
         return $query->orWhere('user_id', auth()->id());
     }
+
+    // local scope to search for projects that match the search term
+    /**
+     * @param Builder $query
+     * @param string $searchTerm
+     * @return Builder
+     */
+    public function scopeSearch(Builder $query, string $searchTerm)
+    {
+        return $query->where(function ($query) use ($searchTerm){
+            $query->where('name', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
+        });
+    }
 }

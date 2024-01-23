@@ -118,4 +118,18 @@ class Task extends Model
             return $query->where('public', false);
         return $query->orWhere('public', false);
     }
+
+    // local scope to search for tasks that match the search term
+    /**
+     * @param Builder $query
+     * @param string $searchTerm
+     * @return Builder
+     */
+    public function scopeSearch(Builder $query, string $searchTerm)
+    {
+        return $query->where(function ($query) use ($searchTerm){
+            $query->where('title', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
+        });
+    }
 }
