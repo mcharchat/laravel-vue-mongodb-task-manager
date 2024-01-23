@@ -42,7 +42,7 @@ class ProfileController extends Controller
         $request->user()->save();
 
         // broadcast the user event with two arguments: the channel that is the squad_id and the user
-        event(new UserEvent($request->user()->squad_id, $request->user(), 'update'));
+        broadcast(new UserEvent($request->user()->squad_id, $request->user(), 'update'));
 
         return redirect()->back(303)->with('success', 'Profile updated.');
     }
@@ -57,15 +57,15 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
-        Task::where('user_id', $user->id)->delete();
-        Project::where('user_id', $user->id)->delete();
-        Comment::where('user_id', $user->id)->delete();
+        Task::fromUser('and')->delete();
+        Project::fromUser('and')->delete();
+        Comment::fromUser('and')->delete();
 
         Auth::logout();
 
         $user->delete();
 
-        event(new UserEvent($user->squad_id, $user, 'delete'));
+        broadcast(new UserEvent($user->squad_id, $user, 'delete'));
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
