@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\CommentPublicTaskEvent;
-use App\Events\CommentPrivateTaskEvent;
+
 use App\Models\Comment;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;

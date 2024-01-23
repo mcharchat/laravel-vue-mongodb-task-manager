@@ -1,6 +1,8 @@
 <?php
 namespace App\Services;
 
+use App\Events\CommentPublicTaskEvent;
+use App\Events\CommentPrivateTaskEvent;
 
 class CommentService 
 {
