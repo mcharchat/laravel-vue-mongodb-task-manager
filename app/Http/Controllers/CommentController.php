@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Events\CommentPublicTaskEvent;
 use App\Events\CommentPrivateTaskEvent;
 use App\Models\Comment;
-use App\Models\Task;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use Illuminate\Http\RedirectResponse;
@@ -37,37 +36,30 @@ class CommentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreCommentRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreCommentRequest $request) : RedirectResponse
     {
         //validate the incoming request using our StoreCommentRequest
         $validated = $request->validated();
-        // set the user_id to the current user id
-        $validated['user_id'] = auth()->id();
-        // add the squad_id to the validated data
-        $validated['squad_id'] = auth()->user()->squad_id;
         // create a new task with the validated data
-        Comment::create($validated);
+        $comment = Comment::create($validated);
         // get the task that the comment belongs to, with all of its comments
-        $task = Task::find($validated['task_id'])->load('comments');
+        $task = $comment->task()->with('comments')->first();
         $message = [
-            'task_id' => $validated['task_id'], 
+            'task_id' => $task->id, 
             'task_title' => $task->title,
-            'user_id' => auth()->id(),
+            'user_id' => $task->user_id,
             'comments' => $task->comments,
         ];
-
         //if task is public, fire the CommentPublicTaskEvent event with the squad_id and the validated data, else merge user_id, assigned_to and squad_id to one array, remove duplicates and null values and fire the CommentPrivateTaskEvent event with validated data 
         if ($task->public) {
-            event(new CommentPublicTaskEvent(auth()->user()->squad_id, $message, 'create'));
+            broadcast(new CommentPublicTaskEvent($task->squad_id, $message, 'create'));
         } else {
-            $participants_ids = collect(array_merge([$task->user_id], [$task->assigned_to], $task->team))
-                ->unique()
-                ->filter(function ($value) {
-                    return !is_null($value);
-                });
-            event(new CommentPrivateTaskEvent($participants_ids, $message, 'create'));
+            $participants_ids = collect($task->team)->merge([$task->user_id, $task->assigned_to])->unique()->filter(function ($value) {
+                return !is_null($value);
+            });
+            broadcast(new CommentPrivateTaskEvent($participants_ids, $message, 'create'));
         }
         // return a redirect to the tasks index
         return redirect()->back(303)->with('success', 'Comment made successfully.');
