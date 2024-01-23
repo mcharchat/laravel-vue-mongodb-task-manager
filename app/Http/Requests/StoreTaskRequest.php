@@ -89,6 +89,10 @@ class StoreTaskRequest extends FormRequest
                 'working_days' => (int) $this->working_days,
             ]);
         }
+        $this->merge([
+            'user_id' => auth()->id(),
+            'squad_id' => auth()->user()->squad_id,
+        ]);
     }
 
     /**

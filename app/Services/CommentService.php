@@ -1,12 +1,15 @@
 <?php
+
 namespace App\Services;
 
 use App\Events\CommentPublicTaskEvent;
 use App\Events\CommentPrivateTaskEvent;
+use App\Models\Comment;
+use Illuminate\Broadcasting\PendingBroadcast;
 
-class CommentService 
+class CommentService
 {
-    public function store(array $validated) : bool
+    public function store(array $validated): PendingBroadcast
     {
         // create a new task with the validated data
         $comment = Comment::create($validated);
@@ -20,12 +23,11 @@ class CommentService
         ];
         //if task is public, fire the CommentPublicTaskEvent event with the squad_id and the validated data, else merge user_id, assigned_to and squad_id to one array, remove duplicates and null values and fire the CommentPrivateTaskEvent event with validated data 
         if ($task->public) {
-            broadcast(new CommentPublicTaskEvent($task->squad_id, $message, 'create'));
+            return broadcast(new CommentPublicTaskEvent($task->squad_id, $message, 'create'));
         } else {
             /** @var TaskService $taskService */
             $taskService = resolve(TaskService::class);
-            broadcast(new CommentPrivateTaskEvent($taskService->getTaskParticipantsIds($task), $message, 'create'));
+            returnbroadcast(new CommentPrivateTaskEvent($taskService->getTaskParticipantsIds($task), $message, 'create'));
         }
-        return true;
     }
 }

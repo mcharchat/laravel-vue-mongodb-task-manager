@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ProjectEvent;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
-use App\Models\Comment;
-use App\Models\Task;
 use App\Services\ProjectService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
