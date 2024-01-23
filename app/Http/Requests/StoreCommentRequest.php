@@ -7,6 +7,13 @@ use App\Models\Task;
 
 class StoreCommentRequest extends FormRequest
 {
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'user_id' => auth()->id(),
+            'squad_id' => auth()->user()->squad_id,
+        ]);
+    }
     /**
      * Determine if the user is authorized to make this request.
      *
