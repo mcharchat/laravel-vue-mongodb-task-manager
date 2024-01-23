@@ -40,8 +40,7 @@ class UserController extends Controller
         // 2. the task has to be owned by the current user
         // 3. the task has to be assigned to a team that the current user is a member of
         // get tasks for the selected user that don't have a project_id
-        $usersTasks = Task::where('squad_id', auth()->user()->squad_id)
-            ->where('user_id', $user->_id)
+        $usersTasks = Task::where('user_id', $user->_id)
             ->whereNull('project_id')
             ->where(function ($query) {
                 $query->where('public', true)
@@ -51,8 +50,7 @@ class UserController extends Controller
             ->with('user', 'comments')
             ->get();
         // get tasks for the selected user that have a project_id, eager load the project and group them by project
-        $usersProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
-            ->where('user_id', $user->_id)
+        $usersProjectTasks = Task::where('user_id', $user->_id)
             ->whereNotNull('project_id')
             ->where(function ($query) {
                 $query->where('public', true)
@@ -63,8 +61,7 @@ class UserController extends Controller
             ->get()
             ->groupBy('project_id');
         // get the assigned tasks for the selected user that don't have a project_id
-        $assignedTasks = Task::where('squad_id', auth()->user()->squad_id)
-            ->where('assigned_to', $user->_id)
+        $assignedTasks = Task::where('assigned_to', $user->_id)
             ->whereNull('project_id')
             ->where(function ($query){
                 $query->where('public', true)
@@ -74,8 +71,7 @@ class UserController extends Controller
             ->with('user', 'comments')
             ->get();
         // get the assigned tasks for the selected user that have a project_id, eager load the project and group them by project
-        $assignedProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
-            ->where('assigned_to', $user->_id)
+        $assignedProjectTasks = Task::where('assigned_to', $user->_id)
             ->whereNotNull('project_id')
             ->where(function ($query){
                 $query->where('public', true)
@@ -86,8 +82,7 @@ class UserController extends Controller
             ->get()
             ->groupBy('project_id');
         // get team tasks for the selected user that don't have aproject_id, team is an array of user_ids, so this user_id must be inside this array
-        $teamTasks = Task::where('squad_id', auth()->user()->squad_id)
-            ->where('team', 'LIKE', '%' . $user->_id . '%')
+        $teamTasks = Task::where('team', 'LIKE', '%' . $user->_id . '%')
             ->whereNull('project_id')
             ->where(function ($query){
                 $query->where('public', true)
@@ -97,8 +92,7 @@ class UserController extends Controller
             ->with('user', 'comments')
             ->get();
         // get team tasks for the selected user that have a project_id, eager load the project and group them by project, team is an array of user_ids, so this user_id must be inside this array
-        $teamProjectTasks = Task::where('squad_id', auth()->user()->squad_id)
-            ->where('team', 'LIKE', '%' . $user->_id . '%')
+        $teamProjectTasks = Task::where('team', 'LIKE', '%' . $user->_id . '%')
             ->whereNotNull('project_id')
             ->where(function ($query){
                 $query->where('public', true)
