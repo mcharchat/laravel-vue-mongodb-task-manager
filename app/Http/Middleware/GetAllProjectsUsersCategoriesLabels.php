@@ -22,38 +22,29 @@ class GetAllProjectsUsersCategoriesLabels
      */
     public function handle(Request $request, Closure $next)
     {
-        $allProjects = Project::where('squad_id', auth()->user()->squad_id)
-            ->orderBy('name', 'asc')
-            ->with('user')
-            ->withTrashed()
-            ->get();
-        $allUsers = User::where('squad_id', auth()->user()->squad_id)
-            ->orderBy('name', 'asc')
-            ->withTrashed()
-            ->get();
-
-        $allCategories = Task::where('squad_id', auth()->user()->squad_id)
-            ->get()
-            ->pluck('category')
-            ->flatten()
-            ->unique()
-            ->reject(function ($value, $key) {
-                return $value === null;
-            })->values();
-        $allLabels = Task::where('squad_id', auth()->user()->squad_id)
-            ->get()
-            ->pluck('labels')
-            ->flatten()
-            ->unique()
-            ->reject(function ($value, $key) {
-                return $value === null;
-            })->values();
-        
         Inertia::share([
-            'allProjects' => $allProjects,
-            'allUsers' => $allUsers,
-            'allCategories' => $allCategories,
-            'allLabels' => $allLabels,
+            'allProjects'   =>  Project::orderBy('name', 'asc')
+                                ->with('user')
+                                ->withTrashed()
+                                ->get(),
+            'allUsers'      =>  User::where('squad_id', auth()->user()->squad_id)
+                                ->orderBy('name', 'asc')
+                                ->withTrashed()
+                                ->get(),
+            'allCategories' =>  Task::get()
+                                ->pluck('category')
+                                ->flatten()
+                                ->unique()
+                                ->reject(function ($value, $key) {
+                                    return $value === null;
+                                })->values(),
+            'allLabels'     =>  Task::get()
+                                ->pluck('labels')
+                                ->flatten()
+                                ->unique()
+                                ->reject(function ($value, $key) {
+                                    return $value === null;
+                                })->values(),
         ]);
         return $next($request);
     }
