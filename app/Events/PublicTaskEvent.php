@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Task;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -14,16 +15,19 @@ class PublicTaskEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $type;
-    public $squad_id;
-    public $task;
+    private string $type;
+    private string $squad_id;
+    private Task $task;
 
     /**
      * Create a new event instance.
+     * @param string $squad_id
+     * @param Task $task
+     * @param string $type
      *
      * @return void
      */
-    public function __construct($squad_id, $task, $type)
+    public function __construct(string $squad_id, Task $task, string $type)
     {
         $this->type = $type;
         $this->squad_id = 'squad.' . $squad_id;
@@ -40,6 +44,11 @@ class PublicTaskEvent implements ShouldBroadcast
         return new PrivateChannel($this->squad_id);
     }
 
+    /**
+     * The event's broadcast name.
+     * 
+     * @return string
+     */
     public function broadcastAs()
     {
         return 'task-event';

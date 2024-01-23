@@ -14,16 +14,18 @@ class CommentPublicTaskEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $type;
-    public $squad_id;
-    public $message;
+    private string $type;
+    private string $squad_id;
+    private string $message;
 
     /**
      * Create a new event instance.
-     *
+     * @param string $squad_id
+     * @param string $message
+     * @param string $type
      * @return void
      */
-    public function __construct($squad_id, $message, $type)
+    public function __construct(string $squad_id, string $message, string $type)
     {
         $this->type = $type;
         $this->squad_id = 'squad.' . $squad_id;
@@ -40,6 +42,11 @@ class CommentPublicTaskEvent implements ShouldBroadcast
         return new PrivateChannel($this->squad_id);
     }
 
+    /**
+     * The event's broadcast name.
+     * 
+     * @return string
+     */
     public function broadcastAs()
     {
         return 'comment-event';

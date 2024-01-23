@@ -9,22 +9,26 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
+
 
 class CommentPrivateTaskEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $type;
-    public $participants_ids;
-    public $message;
-    public $channels;
+    private string $type;
+    private Collection $participants_ids;
+    private String $message;
+    private array $channels;
 
     /**
      * Create a new event instance.
-     *
+     * @param Collection $participants_ids
+     * @param string $message
+     * @param string $type
      * @return void
      */
-    public function __construct($participants_ids, $message, $type)
+    public function __construct(Collection $participants_ids, string $message, string $type)
     {
         $this->type = $type;
         $this->participants_ids = $participants_ids;
@@ -45,6 +49,11 @@ class CommentPrivateTaskEvent implements ShouldBroadcast
         return $this->channels;
     }
 
+    /**
+     * The event's broadcast name.
+     * 
+     * @return string
+     */
     public function broadcastAs()
     {
         return 'comment-event';

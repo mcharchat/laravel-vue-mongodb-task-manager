@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -14,16 +15,19 @@ class UserEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $type;
-    public $squad_id;
-    public $user;
+    private string $type;
+    private string $squad_id;
+    private User $user;
 
     /**
      * Create a new event instance.
+     * @param string $squad_id
+     * @param User $user
+     * @param string $type
      *
      * @return void
      */
-    public function __construct($squad_id, $user, $type)
+    public function __construct(string $squad_id, User $user, string $type)
     {
         $this->type = $type;
         $this->squad_id = 'squad.' . $squad_id;
@@ -40,6 +44,11 @@ class UserEvent implements ShouldBroadcast
         return new PrivateChannel($this->squad_id);
     }
 
+    /**
+     * The event's broadcast name.
+     * 
+     * @return string
+     */
     public function broadcastAs()
     {
         return 'user-event';
