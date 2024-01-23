@@ -16,16 +16,16 @@ class CommentPublicTaskEvent implements ShouldBroadcast
 
     private string $type;
     private string $squad_id;
-    private string $message;
+    private array $message;
 
     /**
      * Create a new event instance.
      * @param string $squad_id
-     * @param string $message
+     * @param array $message
      * @param string $type
      * @return void
      */
-    public function __construct(string $squad_id, string $message, string $type)
+    public function __construct(string $squad_id, array $message, string $type)
     {
         $this->type = $type;
         $this->squad_id = 'squad.' . $squad_id;

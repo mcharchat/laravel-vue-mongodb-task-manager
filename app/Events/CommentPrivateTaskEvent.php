@@ -18,17 +18,17 @@ class CommentPrivateTaskEvent implements ShouldBroadcast
 
     private string $type;
     private Collection $participants_ids;
-    private String $message;
+    private array $message;
     private array $channels;
 
     /**
      * Create a new event instance.
      * @param Collection $participants_ids
-     * @param string $message
+     * @param array $message
      * @param string $type
      * @return void
      */
-    public function __construct(Collection $participants_ids, string $message, string $type)
+    public function __construct(Collection $participants_ids, array $message, string $type)
     {
         $this->type = $type;
         $this->participants_ids = $participants_ids;
