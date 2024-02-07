@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Jenssegers\Mongodb\Eloquent\Model;
-use Jenssegers\Mongodb\Eloquent\SoftDeletes;
+use MongoDB\Laravel\Eloquent\Model;
+use MongoDB\Laravel\Eloquent\SoftDeletes;
 
 class Task extends Model
 {
@@ -127,7 +127,7 @@ class Task extends Model
      */
     public function scopeSearch(Builder $query, string $searchTerm)
     {
-        return $query->where(function ($query) use ($searchTerm){
+        return $query->where(function ($query) use ($searchTerm) {
             $query->where('title', 'LIKE', '%' . $searchTerm . '%')
                 ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
         });

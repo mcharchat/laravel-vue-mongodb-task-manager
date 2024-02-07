@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Jenssegers\Mongodb\Eloquent\Model;
-use Jenssegers\Mongodb\Eloquent\SoftDeletes;
+use MongoDB\Laravel\Eloquent\Model;
+use MongoDB\Laravel\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
@@ -16,7 +16,7 @@ class Comment extends Model
      * @var array
      */
     protected $guarded = [];
-    
+
     // every comment belongs to one user
     function user()
     {
@@ -82,5 +82,4 @@ class Comment extends Model
             return $query->where('task_id', auth()->id());
         return $query->orWhere('task_id', auth()->id());
     }
-
 }
