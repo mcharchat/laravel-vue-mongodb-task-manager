@@ -15,7 +15,7 @@ class Project extends Model
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = ['_id'];
 
     // every project has many tasks
     public function tasks()
@@ -33,7 +33,8 @@ class Project extends Model
     {
         parent::boot();
         static::addGlobalScope('squad', function (Builder $builder) {
-            $builder->where('squad_id', auth()->user()->squad_id);
+            if (auth()->user())
+                $builder->where('squad_id', auth()->user()->squad_id);
         });
     }
 

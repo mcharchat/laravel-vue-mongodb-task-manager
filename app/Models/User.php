@@ -17,7 +17,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = ['_id'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -61,7 +61,8 @@ class User extends Authenticatable
             if (request()->routeIs('login') || request()->routeIs('register') || request()->routeIs('password.request') || request()->routeIs('password.reset')) {
                 $builder;
             }
-            $builder->where('squad_id', auth()->user()->squad_id);
+            if (auth()->user())
+                $builder->where('squad_id', auth()->user()->squad_id);
         });
     }
 
