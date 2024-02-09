@@ -8,6 +8,7 @@ use MongoDB\Laravel\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use MongoDB\Laravel\Eloquent\SoftDeletes;
+use MongoDB\Laravel\Eloquent\Builder;
 
 class User extends Authenticatable
 {
@@ -57,13 +58,13 @@ class User extends Authenticatable
     protected static function boot()
     {
         parent::boot();
-        static::addGlobalScope('squad', function ($builder) {
-            if (request()->routeIs('login') || request()->routeIs('register') || request()->routeIs('password.request') || request()->routeIs('password.reset')) {
-                $builder;
-            }
-            if (auth()->user())
-                $builder->where('squad_id', auth()->user()->squad_id);
-        });
+        // static::addGlobalScope('squad', function ($builder) {
+        //     if (request()->routeIs('login') || request()->routeIs('register') || request()->routeIs('password.request') || request()->routeIs('password.reset')) {
+        //         $builder;
+        //     } else {
+        //         $builder->where('squad_id', auth()->user()->squad_id);
+        //     }
+        // });
     }
 
     // local scope to exclude the authenticated user from the query

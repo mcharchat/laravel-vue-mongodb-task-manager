@@ -27,7 +27,7 @@ class CommentService
         } else {
             /** @var TaskService $taskService */
             $taskService = resolve(TaskService::class);
-            returnbroadcast(new CommentPrivateTaskEvent($taskService->getTaskParticipantsIds($task), $message, 'create'));
+            return broadcast(new CommentPrivateTaskEvent($taskService->getTaskParticipantsIds($task), $message, 'create'));
         }
     }
 }

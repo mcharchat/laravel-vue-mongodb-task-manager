@@ -210,6 +210,7 @@ const getDataAlongTimeDataSet = (tasksArray) => {
         const nextDate = new Date(date.getTime() + oneWeek);
         const tasksCompleted = tasksArray.filter(
             (task) => {
+                console.log("🚀 ~ getDataAlongTimeDataSet ~ task.completed_at:", task)
                 return new Date(parseInt(task.completed_at.$date.$numberLong)) >= date && new Date(parseInt(task.completed_at.$date.$numberLong)) < nextDate
             }
         );
