@@ -53,4 +53,17 @@ class UserEvent implements ShouldBroadcast
     {
         return 'user-event';
     }
+
+    /**
+     * The event's broadcast data.
+     * 
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return [
+            'type' => $this->type,
+            'user' => $this->user
+        ];
+    }
 }

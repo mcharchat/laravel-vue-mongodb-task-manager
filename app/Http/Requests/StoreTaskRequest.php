@@ -124,6 +124,8 @@ class StoreTaskRequest extends FormRequest
             'cost' => 'nullable|integer',
             'reminder_date' => 'nullable',
             'description' => 'nullable|string',
+            'user_id' => 'required',
+            'squad_id' => 'required',
         ];
     }
 }

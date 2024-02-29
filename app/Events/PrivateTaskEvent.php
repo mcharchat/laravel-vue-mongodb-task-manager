@@ -59,4 +59,17 @@ class PrivateTaskEvent implements ShouldBroadcast
     {
         return 'task-event';
     }
+
+    /**
+     * The event's broadcast data.
+     * 
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return [
+            'task' => $this->task,
+            'type' => $this->type,
+        ];
+    }
 }

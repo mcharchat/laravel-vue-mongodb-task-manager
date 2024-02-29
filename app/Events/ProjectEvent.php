@@ -53,4 +53,17 @@ class ProjectEvent implements ShouldBroadcast
     {
         return 'project-event';
     }
+
+    /**
+     * The event's broadcast data.
+     * 
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return [
+            'type' => $this->type,
+            'project' => $this->project
+        ];
+    }
 }

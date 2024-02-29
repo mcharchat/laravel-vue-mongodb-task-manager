@@ -51,4 +51,16 @@ class CommentPublicTaskEvent implements ShouldBroadcast
     {
         return 'comment-event';
     }
+
+    /**
+     * The event's broadcast data.
+     * 
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return [
+            'message' => $this->message,
+        ];
+    }
 }

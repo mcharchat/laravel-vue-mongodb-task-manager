@@ -26,6 +26,8 @@ class StoreProjectRequest extends FormRequest
         return [
             'name' => 'required|min:3|max:255',
             'description' => 'required|min:3|max:500',
+            'user_id' => 'required',
+            'squad_id' => 'required',
         ];
     }
 

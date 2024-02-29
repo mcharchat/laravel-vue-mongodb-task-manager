@@ -33,12 +33,12 @@ class TaskService
     {
         // update the task with the validated data
         $task->update($validated);
-        $updatedTask = Task::find($task->_id);
-        $updatedTask->load('comments', 'user', 'project');
+        $task->refresh();
+        $task->load('comments', 'user', 'project');
         //if task is public, fire the PublicTaskEvent event with the squad_id and the validated data, else merge user_id, assigned_to and squad_id to one array, remove duplicates and null values and fire the PrivateTaskEvent event with the validated data
-        if ($updatedTask->public)
-            return broadcast(new PublicTaskEvent($updatedTask->squad_id, $updatedTask, 'update'));
-        return broadcast(new PrivateTaskEvent($this->getTaskParticipantsIds($updatedTask), $updatedTask, 'update'));
+        if ($task->public)
+            return broadcast(new PublicTaskEvent($task->squad_id, $task, 'update'));
+        return broadcast(new PrivateTaskEvent($this->getTaskParticipantsIds($task), $task, 'update'));
     }
 
     public function destroy(Task $task): PendingBroadcast

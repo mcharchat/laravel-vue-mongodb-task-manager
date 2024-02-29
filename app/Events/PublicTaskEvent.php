@@ -53,4 +53,17 @@ class PublicTaskEvent implements ShouldBroadcast
     {
         return 'task-event';
     }
+
+    /**
+     * The event's broadcast data.
+     * 
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return [
+            'type' => $this->type,
+            'task' => $this->task,
+        ];
+    }
 }

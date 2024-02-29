@@ -46,7 +46,9 @@ class StoreCommentRequest extends FormRequest
     {
         return [
             'task_id' => 'required|exists:tasks,_id',
-            'body' => 'required|string'
+            'body' => 'required|string',
+            'user_id' => 'required',
+            'squad_id' => 'required',
         ];
     }
 }
